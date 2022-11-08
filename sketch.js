@@ -1,11 +1,13 @@
-let card;
+let card, metaData, bg;
 /**
  * function that loads content before showing site
  */
 function preload() {
     // Top-left corner of the img is at (0, 0)
     // Width and height are the img's original width and height
-    card = new Card(loadImage('img/default/cards.png'));
+    card = new Card(loadImage('img/default/cards/1.png'));
+    metaData = loadJSON('img/default/meta.json');
+    bg = loadImage('img/default/backgrounds/defaultBG.webp');
 }
 
 /**
@@ -16,18 +18,15 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 
     // grey Background
-    background(51);
-
-    card.display(0, 0);
+    background(bg);
+    card.display(50, 50, 250, 389.6, color(255, 204, 0));
+    console.log(metaData["textures"]);
+    console.log("width: " + metaData.textures.cards.width);
+    console.log("height: " + metaData.textures.cards.height);
 }
 
 function draw() {
-    if (mouseIsPressed) {
-        fill(0);
-    } else {
-        fill(255);
-    }
-    ellipse(mouseX, mouseY, 80, 80);
+
 }
 
 /**
