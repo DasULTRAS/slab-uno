@@ -1,0 +1,11 @@
+{
+  "textures" : {
+    "name" : "default",
+    "description": "default SLAB Uno Textures",
+    "cards" : {
+      "height" : 128,
+      "width": 82
+    },
+    "version": 0
+  }
+}
