@@ -1,6 +1,6 @@
 # SLAB-UNO
 
-An UNO that aims to be an browser based multiplayer GAME.
+An UNO that aims to be a browser based multiplayer GAME.
 
 ## Milestones
 
