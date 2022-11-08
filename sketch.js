@@ -1,11 +1,13 @@
-let cards;
-
+let card, metaData, bg;
 /**
  * function that loads content before showing site
  */
 function preload() {
-    // load image data
-    cards = loadImage('img/default/cards.png');
+    // Top-left corner of the img is at (0, 0)
+    // Width and height are the img's original width and height
+    card = new Card(loadImage('img/default/cards/1.png'));
+    metaData = loadJSON('img/default/meta.json');
+    bg = loadImage('img/default/backgrounds/defaultBG.webp');
 }
 
 /**
@@ -16,24 +18,15 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
 
     // grey Background
-    background(51);
-
-    // Top-left corner of the img is at (0, 0)
-    // Width and height are the img's original width and height
-    let card_height = 134;
-    let card_width = 85;
-    image(cards, 0,0, 86*2,128*2, 0,0, card_width,card_height);
-    image(cards, 187,187, 86*2,128*2, card_width*8,card_height*3, card_width,card_height);
-    image(cards, 187*2,187*2, 86*2,128*2, card_width*10,card_height*4, card_width,card_height);
+    background(bg);
+    card.display(50, 50, 250, 389.6, color(255, 204, 0));
+    console.log(metaData["textures"]);
+    console.log("width: " + metaData.textures.cards.width);
+    console.log("height: " + metaData.textures.cards.height);
 }
 
 function draw() {
-    if (mouseIsPressed) {
-        fill(0);
-    } else {
-        fill(255);
-    }
-    ellipse(mouseX, mouseY, 80, 80);
+
 }
 
 /**
