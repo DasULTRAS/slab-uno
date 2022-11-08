@@ -1,10 +1,11 @@
-let cards;
-
+let card;
 /**
  * function that loads content before showing site
  */
 function preload() {
-    cards = loadImage('img/default/cards.png');
+    // Top-left corner of the img is at (0, 0)
+    // Width and height are the img's original width and height
+    card = new Card(loadImage('img/default/cards.png'));
 }
 
 /**
@@ -17,9 +18,7 @@ function setup() {
     // grey Background
     background(51);
 
-    // Top-left corner of the img is at (0, 0)
-    // Width and height are the img's original width and height
-    image(cards, 0,0, windowWidth,windowHeight, 0,0, 86,128);
+    card.display(0, 0);
 }
 
 function draw() {
