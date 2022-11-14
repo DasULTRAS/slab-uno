@@ -1,4 +1,6 @@
-let card, metaData, bg;
+let cardImg, bg;
+let deck, hand;
+let button;
 /**
  * function that loads content before showing site
  * while this function is loading div 'p5_loading' will be shown
@@ -7,8 +9,7 @@ let card, metaData, bg;
 function preload() {
     // Top-left corner of the img is at (0, 0)
     // Width and height are the img's original width and height
-    card = new Card(loadImage('img/default/cards/1.png'));
-    metaData = loadJSON('img/default/meta.json');
+    cardImg = loadImage('img/default/UNO_cards_deck.svg');
     bg = loadImage('img/default/backgrounds/defaultBG.webp');
 }
 
@@ -19,18 +20,27 @@ function setup() {
     // creates a working ground
     createCanvas(windowWidth, windowHeight);
 
-    // grey Background
+    // Image background
     background(bg);
 
     /* TESTS */
-    card.display(50, 50, 250, 389.6, color(255, 204, 0));
-    console.log(metaData["textures"]);
-    console.log("width: " + metaData.textures.cards.width);
-    console.log("height: " + metaData.textures.cards.height);
+    deck = new Deck(cardImg);
+    deck.shuffel();
+    hand = new Hand();
+    button = createButton("Click me");
+    button.position(0, 0);
+    button.mousePressed(getCard);
+}
+
+function getCard() {
+    let card = deck.getFirstCard();
+    if (card) {
+        hand.cards.push(card);
+    }
 }
 
 function draw() {
-
+    hand.display(50, 50);
 }
 
 /**
