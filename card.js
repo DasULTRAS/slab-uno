@@ -9,8 +9,8 @@ class Card {
         this.img = img;
         this.cNum = cNum;
         this.color = color;
-        this.sCardWidth = 241.5;
-        this.sCardHeight = 361.5;
+        this.sCardWidth = this.img.width/14;
+        this.sCardHeight = this.img.height/8;
     }
 
     /**

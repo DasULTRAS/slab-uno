@@ -7,6 +7,7 @@ let button;
  * https://github.com/processing/p5.js/wiki/p5.js-overview#loading-screen
  */
 function preload() {
+    console.log("preload...");
     // Top-left corner of the img is at (0, 0)
     // Width and height are the img's original width and height
     cardImg = loadImage('img/default/UNO_cards_deck.svg');
@@ -17,11 +18,10 @@ function preload() {
  * setup that loads on start
  */
 function setup() {
-    // creates a working ground
-    createCanvas(windowWidth, windowHeight);
+    console.log("setup...");
 
-    // Image background
-    background(bg);
+    // default background initialisation etc.
+    windowResized();
 
     /* TESTS */
     deck = new Deck(cardImg);
@@ -40,6 +40,7 @@ function getCard() {
 }
 
 function draw() {
+    console.log("draw...");
     hand.display(50, 50);
 }
 
@@ -47,5 +48,11 @@ function draw() {
  * Is called if window will resized
  */
 function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
+    console.log("windowResized...");
+
+    // creates a working ground
+    createCanvas(windowWidth, windowHeight);
+
+    // Image background
+    background(bg);
 }
