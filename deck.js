@@ -14,7 +14,7 @@ class Deck {
     }
 
     /**
-     * Shuffel the deck with the "fisher-Yatee algorith"
+     * Shuffle the deck with the "fisher-Yatee algorith"
      */
     shuffel() {
         //Fisher-Yates algorith
