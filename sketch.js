@@ -20,16 +20,25 @@ function preload() {
 function setup() {
     console.log("setup...");
 
+    frameRate(29);
+
+    // creates a working ground
+    createCanvas(windowWidth, windowHeight);
+
     // default background initialisation etc.
     windowResized();
 
-    /* TESTS */
+    /* Deck laden */
     deck = new Deck(cardImg);
     deck.shuffel();
     hand = new Hand();
     button = createButton("Click me");
     button.position(0, 0);
     button.mousePressed(getCard);
+
+    /* Tests */
+    svg_xml = loadXML('img/default/UNO_cards_deck.svg')
+    console.log("dd")
 }
 
 function getCard() {
@@ -50,9 +59,7 @@ function draw() {
 function windowResized() {
     console.log("windowResized...");
 
-    // creates a working ground
-    createCanvas(windowWidth, windowHeight);
-
+    resizeCanvas(windowWidth, windowHeight);
     // Image background
     background(bg);
 }
