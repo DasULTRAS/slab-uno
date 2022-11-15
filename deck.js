@@ -65,7 +65,7 @@ class Deck {
     onClick(hand) {
         if ((mouseX > this.x) && (mouseX < this.x+this.card.sCardWidth) &&
             (mouseY > this.y) && (mouseY < this.y+this.card.sCardHeight)) {
-            hand.cards.push(this.getFirstCard());
+            hand.addCard(this.getFirstCard());
         }
     }
 }

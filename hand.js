@@ -1,6 +1,7 @@
 class Hand {
     constructor() {
         this.cards = new Array(0);
+        this.width = 0;
     }
 
     /**
@@ -10,5 +11,10 @@ class Hand {
      */
     display(x, y){
         this.cards.forEach((card, i) => card.display(x + 80 * i, y))
+    }
+
+    addCard(card){
+        this.cards.push(card);
+        width += 80;
     }
 }
