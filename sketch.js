@@ -36,7 +36,7 @@ function mousePressed() {
 function draw() {
     console.log("draw...");
     deck.display(0, 0);
-    hand.display(50, 50);
+    hand.display(50, windowHeight - cardImg.height/8);
 }
 
 /**
