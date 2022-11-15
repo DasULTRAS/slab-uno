@@ -35,10 +35,6 @@ function setup() {
     button = createButton("Click me");
     button.position(0, 0);
     button.mousePressed(getCard);
-
-    /* Tests */
-    svg_xml = loadXML('img/default/UNO_cards_deck.svg')
-    console.log("dd")
 }
 
 function getCard() {
