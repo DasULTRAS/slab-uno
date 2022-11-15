@@ -25,22 +25,17 @@ function setup() {
 
     /* TESTS */
     deck = new Deck(cardImg);
-    deck.shuffel();
+    deck.shuffle();
     hand = new Hand();
-    button = createButton("Click me");
-    button.position(0, 0);
-    button.mousePressed(getCard);
 }
 
-function getCard() {
-    let card = deck.getFirstCard();
-    if (card) {
-        hand.cards.push(card);
-    }
+function mousePressed() {
+    deck.onClick(hand);
 }
 
 function draw() {
     console.log("draw...");
+    deck.display(0, 0);
     hand.display(50, 50);
 }
 

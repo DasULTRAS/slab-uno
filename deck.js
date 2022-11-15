@@ -1,6 +1,14 @@
 class Deck {
+    /**
+     * A Deck is an array of cards which you can get a new card
+     * @param {IMAGE} img Asset of cards
+     */
     constructor(img) {
         this.cardArray = new Array(4 * 13);
+        this.img = img;
+        this.x = 0;
+        this.y = 0;
+        this.card = new Card(this.img, 13, 0);
 
         // color: red=0, yellow=1, green=2, blue=3
         let tmp = 0;
@@ -16,7 +24,7 @@ class Deck {
     /**
      * Shuffle the deck with the "fisher-Yatee algorith"
      */
-    shuffel() {
+    shuffle() {
         //Fisher-Yates algorith
         for (let i = this.cardArray.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -24,6 +32,17 @@ class Deck {
             this.cardArray[i] = this.cardArray[j];
             this.cardArray[j] = temp;
         }
+    }
+
+    /**
+     * Display the deck as a Card.
+     * @param {number} x The x display coordinate
+     * @param {number} y The y display coordinate
+     */
+    display(x, y) {
+        this.x = x;
+        this.y = y;
+        this.card.display(this.x, this.y);
     }
 
     /**
@@ -35,6 +54,18 @@ class Deck {
             let card = this.cardArray[0];
             this.cardArray.splice(0, 1);
             return card;
+        }
+    }
+
+    /**
+     * Execute if the mouse is over the deck.
+     * Put the first card in your hand and deletes it in the deck.
+     * @param {Hand} hand
+     */
+    onClick(hand) {
+        if ((mouseX > this.x) && (mouseX < this.x+this.card.sCardWidth) &&
+            (mouseY > this.y) && (mouseY < this.y+this.card.sCardHeight)) {
+            hand.cards.push(this.getFirstCard());
         }
     }
 }
