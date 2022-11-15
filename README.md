@@ -10,6 +10,7 @@ Written in [p5.js](https://github.com/processing/p5.js/wiki/p5.js-overview) and 
 
 ## Milestones
 
+- [ ] abfrage, wenn hochformat bitte Handy drehen
 - [ ] Karten einbinden (SVG)
 - [ ] Karten in Stack speichern (Verteilstapel), verteilen (an Spieler) und ablegen (auf den Ablegstapel)
 - [ ] Multiplayer (netzwerk basiert)

@@ -20,10 +20,15 @@ function preload() {
 function setup() {
     console.log("setup...");
 
+    frameRate(29);
+
+    // creates a working ground
+    createCanvas(windowWidth, windowHeight);
+
     // default background initialisation etc.
     windowResized();
 
-    /* TESTS */
+    /* Deck laden */
     deck = new Deck(cardImg);
     deck.shuffle();
     hand = new Hand();
@@ -45,9 +50,7 @@ function draw() {
 function windowResized() {
     console.log("windowResized...");
 
-    // creates a working ground
-    createCanvas(windowWidth, windowHeight);
-
+    resizeCanvas(windowWidth, windowHeight);
     // Image background
     background(bg);
 }
