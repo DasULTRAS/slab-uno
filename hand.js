@@ -19,7 +19,7 @@ class Hand {
     addCard(card){
         this.cards.push(card);
         if(this.cards.length === 1){
-            this.width += card.sCardWidth;
+            this.width += card.cardWidth;
         }
         else{
             this.width += 80;
@@ -34,7 +34,7 @@ class Hand {
                 cardIndex = this.cards.length - 1;
             }
             let card = this.cards[cardIndex];
-            card.display(card.x, card.y + 20);
+            card.display(card.x, card.y - 35);
         }
     }
 }

@@ -7,12 +7,14 @@ class Card {
      * @param {Number} width
      * @param {Number} height
      */
-    constructor(img, number, color, cardWidth, cardHeight){
+    constructor(img, number, color){
+        this.x = 0;
+        this.y = 0;
         this.img = img;
         this.number = number;
         this.color = color;
-        this.width = cardWidth;
-        this.height = cardHeight;
+        this.cardWidth = this.img.width/14;
+        this.cardHeight = this.img.height/8;
     }
 
     /**
@@ -22,10 +24,11 @@ class Card {
      */
     display(x, y){
         //image(source, x, y, width, height, cutting-x, cutting-y, cutting-width, cutting-height)
-
+        this.x = x;
+        this.y = y;
         image(this.img, x, y,
-            this.width, this.height,
-            this.width*this.number, this.height*this.color,
-            this.width, this.height);
+            this.cardWidth, this.cardHeight,
+            this.cardWidth*this.number, this.cardHeight*this.color,
+            this.cardWidth, this.cardHeight);
     }
 }

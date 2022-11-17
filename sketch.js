@@ -40,6 +40,7 @@ function mousePressed() {
 
 function draw() {
     console.log("draw...");
+    background(bg);
     deck.display(0, 0);
     hand.display(50, windowHeight - cardImg.height/8);
     hand.hoverEffect();
@@ -52,6 +53,4 @@ function windowResized() {
     console.log("windowResized...");
 
     resizeCanvas(windowWidth, windowHeight);
-    // Image background
-    background(bg);
 }

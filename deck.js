@@ -6,8 +6,6 @@ class Deck {
     constructor(img) {
         this.cardArray = new Array(4 * 13);
         this.img = img;
-        this.cardWidth = this.img.width/14;
-        this.cardHeight = this.img.height/8;
         this.x = 0;
         this.y = 0;
         this.card = new Card(this.img, 13, 0);
@@ -65,8 +63,8 @@ class Deck {
      * @param {Hand} hand
      */
     onClick(hand) {
-        if ((mouseX > this.x) && (mouseX < this.x+this.card.sCardWidth) &&
-            (mouseY > this.y) && (mouseY < this.y+this.card.sCardHeight)) {
+        if ((mouseX > this.x) && (mouseX < this.x+this.card.cardWidth) &&
+            (mouseY > this.y) && (mouseY < this.y+this.card.cardHeight)) {
             hand.addCard(this.getFirstCard());
         }
     }
