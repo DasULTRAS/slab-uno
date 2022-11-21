@@ -3,6 +3,7 @@ let deck, hand;
 let button;
 // Console Game
 let startButton, playerText, playerInput;
+
 /**
  * function that loads content before showing site
  * while this function is loading div 'p5_loading' will be shown
@@ -50,7 +51,7 @@ function draw() {
     console.log("draw...");
     background(bg);
     deck.display(0, 0);
-    hand.display(50, windowHeight - cardImg.height/8);
+    hand.display(50, windowHeight - cardImg.height / 8);
     hand.hoverEffect();
 }
 
@@ -65,7 +66,7 @@ function windowResized() {
     background(bg);
 
     // Console Game
-    playerInput.position(((windowWidth-playerInput.width)/2), 250);
-    playerText.position(((windowWidth-playerText.width)/2),200);
-    startButton.position(((windowWidth-startButton.width)/2), 275);
+    playerInput.position(((windowWidth - playerInput.width) / 2), 250);
+    playerText.position(((windowWidth - playerText.width) / 2), 200);
+    startButton.position(((windowWidth - startButton.width) / 2), 275);
 }

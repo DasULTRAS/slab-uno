@@ -1,5 +1,4 @@
 class Card {
-
     img;
     number;
     color;
@@ -34,14 +33,8 @@ class Card {
         this.x = x;
         this.y = y;
         image(this.img, x, y,
-<<<<<<< HEAD:src/card.js
             this.width, this.height,
             this.width * this.number, this.height * this.color,
             this.width, this.height);
-=======
-            this.cardWidth, this.cardHeight,
-            this.cardWidth*this.number, this.cardHeight*this.color,
-            this.cardWidth, this.cardHeight);
->>>>>>> 7ce4b5624338b28746043c347c3ae560cf25fb86:card.js
     }
 }

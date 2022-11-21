@@ -63,8 +63,8 @@ class Deck {
      * @param {Hand} hand
      */
     onClick(hand) {
-        if ((mouseX > this.x) && (mouseX < this.x+this.card.cardWidth) &&
-            (mouseY > this.y) && (mouseY < this.y+this.card.cardHeight)) {
+        if ((mouseX > this.x) && (mouseX < this.x + this.card.cardWidth) &&
+            (mouseY > this.y) && (mouseY < this.y + this.card.cardHeight)) {
             hand.addCard(this.getFirstCard());
         }
     }
