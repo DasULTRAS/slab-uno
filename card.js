@@ -2,7 +2,7 @@ class Card {
     /**
      * Create a card with a asset.
      * @param {*} img The source image
-     * @param {Number} number The card Number as int (0-12) the three colored special cards are included
+     * @param {Number} number The card Number as int (0-9)  the three colored special cards are included
      * @param {Number} color The card color as int (0-3)
      * @param {Number} width
      * @param {Number} height
