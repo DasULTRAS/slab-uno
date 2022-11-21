@@ -1,4 +1,12 @@
 class Card {
+
+    img;
+    number;
+    color;
+    width;
+    height;
+    name;
+
     /**
      * Create a card with a asset.
      * @param {*} img The source image
@@ -7,12 +15,13 @@ class Card {
      * @param {Number} width
      * @param {Number} height
      */
-    constructor(img, number, color, cardWidth, cardHeight){
+    constructor(img, number, color, cardWidth, cardHeight, name) {
         this.img = img;
         this.number = number;
         this.color = color;
         this.width = cardWidth;
         this.height = cardHeight;
+        this.name = name;
     }
 
     /**
@@ -20,12 +29,12 @@ class Card {
      * @param {Number} x The x coordinates
      * @param {Number} y The y coordinates
      */
-    display(x, y){
+    display(x, y) {
         //image(source, x, y, width, height, cutting-x, cutting-y, cutting-width, cutting-height)
 
         image(this.img, x, y,
             this.width, this.height,
-            this.width*this.number, this.height*this.color,
+            this.width * this.number, this.height * this.color,
             this.width, this.height);
     }
 }

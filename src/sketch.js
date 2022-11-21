@@ -1,6 +1,8 @@
 let cardImg, bg;
 let deck, hand;
 let button;
+// Console Game
+let startButton, playerText, playerInput;
 /**
  * function that loads content before showing site
  * while this function is loading div 'p5_loading' will be shown
@@ -25,13 +27,19 @@ function setup() {
     // creates a working ground
     createCanvas(windowWidth, windowHeight);
 
-    // default background initialisation etc.
-    windowResized();
-
     /* Deck laden */
     deck = new Deck(cardImg);
     deck.shuffle();
     hand = new Hand();
+
+    // Console Game
+    console.log("How much Player are playing?");
+    playerText = createElement('h2', "Wie viele Spieler gibt es?");
+    playerInput = createInput(1);
+    startButton = createButton("Start the Game");
+
+    // default background initialisation etc.
+    windowResized();
 }
 
 function mousePressed() {
@@ -53,4 +61,9 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     // Image background
     background(bg);
+
+    // Console Game
+    playerInput.position(((windowWidth-playerInput.width)/2), 250);
+    playerText.position(((windowWidth-playerText.width)/2),200);
+    startButton.position(((windowWidth-startButton.width)/2), 275);
 }
