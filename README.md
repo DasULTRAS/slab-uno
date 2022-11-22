@@ -3,6 +3,16 @@
 An UNO that aims to be a browser based multiplayer GAME.
 Written in [p5.js](https://github.com/processing/p5.js/wiki/p5.js-overview) and [js](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/).
 
+## Get Started
+1. Install all modules
+```bash
+npm i
+```
+2. Server starten
+```bash
+node app.js
+```
+
 ## Library Installation (WebStorm)
 1. File | Settings... | Languages & Frameworks | JavaScript | Libraries
 2. Click the Download... button

@@ -1,5 +1,3 @@
-import {Game} from "./game";
-
 let cardImg, bg;
 let deck, hand;
 let button;
