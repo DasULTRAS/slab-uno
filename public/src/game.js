@@ -1,4 +1,4 @@
-export class Game{
+class Game{
     player;
     /**
      *
@@ -6,5 +6,6 @@ export class Game{
      */
     constructor(player) {
         this.player = player;
+        console.log("Game created");
     }
 }
