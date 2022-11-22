@@ -5,25 +5,16 @@ class Card {
     width;
     height;
     name;
-
     /**
      * Create a card with a asset.
-     * @param {*} img The source image
-     * @param {Number} number The card Number as int (0-9)  the three colored special cards are included
-     * @param {Number} color The card color as int (0-3)
-     * @param {Number} width
-     * @param {Number} height
-     */
-    /**
-     * Create a card with a asset.
-     * @param {Image} img
+     * @param {IMAGE} img
      * @param {Number} number
      * @param {Number} color
      * @param {Number} cardWidth
      * @param {Number} cardHeight
-     * @param {let} name
+     * @param {String} name
      */
-    constructor(img: p5.Image, number: number, color: number, cardWidth: number, cardHeight: number, name:string) {
+    constructor(img, number, color, cardWidth, cardHeight, name) {
         this.img = img;
         this.number = number;
         this.color = color;
