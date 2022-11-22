@@ -1,4 +1,11 @@
 class Deck {
+    cardArray;
+    img;
+    x;
+    y;
+    cardWidth;
+    cardHeight;
+
     /**
      * A Deck is an array of cards which you can get a new card
      * @param {IMAGE} img Asset of cards
@@ -8,6 +15,8 @@ class Deck {
         this.img = img;
         this.x = 0;
         this.y = 0;
+        this.cardWidth = this.img.width / 14;
+        this.cardHeight = this.img.height / 8;
 
         // color: red=0, yellow=1, green=2, blue=3
         let tmp = 0;
@@ -15,7 +24,7 @@ class Deck {
             for (let j = 0; j < 13; j++) {
                 if (tmp >= this.cardArray.length)
                     console.error("Card Array out of bound.");
-                this.cardArray[tmp] = new Card(img, j, i);
+                this.cardArray[tmp] = new Card(img, j, i, this.cardWidth, this.cardHeight, '');
                 tmp++;
             }
     }

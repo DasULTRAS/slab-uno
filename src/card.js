@@ -23,7 +23,7 @@ class Card {
      * @param {Number} cardHeight
      * @param {let} name
      */
-    constructor(img: p5.Image, number: number, color: number, cardWidth: number, cardHeight: number, name:string) {
+    constructor(img, number, color, cardWidth, cardHeight, name) {
         this.img = img;
         this.number = number;
         this.color = color;
