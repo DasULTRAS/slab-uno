@@ -37,7 +37,7 @@ function setup() {
     // Console Game
     console.log("How much Player are playing?");
     playerText = createElement('h2', "Wie viele Spieler gibt es?");
-    playerInput = createInput("1");
+    playerInput = createInput('1');
     startButton = createButton("START GAME");
 
     // default background initialisation etc.
