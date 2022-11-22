@@ -51,7 +51,7 @@ class Deck {
         this.x = x;
         this.y = y;
         for (let i = 0; i < this.cardArray.length; i++)
-            this.cardArray.get(i).display(this.x + (this.cardWidth / 3 * i), this.y);
+            this.cardArray[i].display(this.x + (this.cardWidth / 3 * i), this.y);
     }
 
     /**
