@@ -50,7 +50,8 @@ class Deck {
     display(x, y) {
         this.x = x;
         this.y = y;
-        this.card.display(this.x, this.y);
+        for (let i = 0; i < this.cardArray.length; i++)
+            this.cardArray.get(i).display(this.x + (this.cardWidth / 3 * i), this.y);
     }
 
     /**
