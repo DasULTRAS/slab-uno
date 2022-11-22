@@ -37,8 +37,11 @@ function setup() {
     // Console Game
     console.log("How much Player are playing?");
     playerText = createElement('h2', "Wie viele Spieler gibt es?");
-    playerInput = createSlider(1,4,1,1);
+    playerText.size(250, 25);
+    playerInput = createSlider(1,8,1,1);
     startButton = createButton("START GAME");
+    startButton.size(250,25);
+    startButton.mousePressed(startGame);
 
     // default background initialisation etc.
     windowResized();
@@ -49,7 +52,8 @@ function startGame(){
 }
 
 function mousePressed() {
-    deck.onClick(hand);
+    console.log("Start Game");
+    game = new Game(playerInput.value());
 }
 
 function draw() {
