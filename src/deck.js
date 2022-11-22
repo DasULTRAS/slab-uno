@@ -11,7 +11,8 @@ class Deck {
      * @param {IMAGE} img Asset of cards
      */
     constructor(img) {
-        this.cardArray = new Array(4 * 13);
+        this.cardArray = [];
+        this.cardArray.length = 4 * 13;
         this.img = img;
         this.x = 0;
         this.y = 0;
@@ -50,7 +51,9 @@ class Deck {
     display(x, y) {
         this.x = x;
         this.y = y;
-        for (let i = 0; i < this.cardArray.length; i++)
+
+        let l = this.cardArray.length;
+        for (let i = 0; i < l; i++)
             this.cardArray[i].display(this.x + (this.cardWidth / 3 * i), this.y);
     }
 

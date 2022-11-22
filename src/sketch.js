@@ -1,3 +1,5 @@
+import {Game} from "./game";
+
 let cardImg, bg;
 let deck, hand;
 let button;
@@ -37,10 +39,11 @@ function setup() {
     // Console Game
     console.log("How much Player are playing?");
     playerText = createElement('h2', "Wie viele Spieler gibt es?");
-    playerText.size(250, 25);
+    playerText.size(300, 25);
     playerInput = createSlider(1,8,1,1);
+    playerInput.size(300, 10);
     startButton = createButton("START GAME");
-    startButton.size(250,25);
+    startButton.size(300,25);
     startButton.mousePressed(startGame);
 
     // default background initialisation etc.
