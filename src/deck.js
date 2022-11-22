@@ -8,7 +8,6 @@ class Deck {
         this.img = img;
         this.x = 0;
         this.y = 0;
-        this.card = new Card(this.img, 13, 0, this.cardWidth, this.cardHeight);
 
         // color: red=0, yellow=1, green=2, blue=3
         let tmp = 0;

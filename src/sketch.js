@@ -3,6 +3,7 @@ let deck, hand;
 let button;
 // Console Game
 let startButton, playerText, playerInput;
+let game;
 
 /**
  * function that loads content before showing site
@@ -37,10 +38,14 @@ function setup() {
     console.log("How much Player are playing?");
     playerText = createElement('h2', "Wie viele Spieler gibt es?");
     playerInput = createInput(1);
-    startButton = createButton("Start the Game");
+    startButton = createButton("START GAME");
 
     // default background initialisation etc.
     windowResized();
+}
+
+function startGame(){
+    console.log(playerInput.value());
 }
 
 function mousePressed() {
@@ -68,5 +73,5 @@ function windowResized() {
     // Console Game
     playerInput.position(((windowWidth - playerInput.width) / 2), 250);
     playerText.position(((windowWidth - playerText.width) / 2), 200);
-    startButton.position(((windowWidth - startButton.width) / 2), 275);
+    startButton.position(((windowWidth - playerText.width) / 2), 275);
 }

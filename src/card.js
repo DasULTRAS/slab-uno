@@ -14,7 +14,16 @@ class Card {
      * @param {Number} width
      * @param {Number} height
      */
-    constructor(img, number, color, cardWidth, cardHeight, name) {
+    /**
+     * Create a card with a asset.
+     * @param {Image} img
+     * @param {Number} number
+     * @param {Number} color
+     * @param {Number} cardWidth
+     * @param {Number} cardHeight
+     * @param {let} name
+     */
+    constructor(img: p5.Image, number: number, color: number, cardWidth: number, cardHeight: number, name:string) {
         this.img = img;
         this.number = number;
         this.color = color;
@@ -32,9 +41,6 @@ class Card {
         //image(source, x, y, width, height, cutting-x, cutting-y, cutting-width, cutting-height)
         this.x = x;
         this.y = y;
-        image(this.img, x, y,
-            this.width, this.height,
-            this.width * this.number, this.height * this.color,
-            this.width, this.height);
+        image(this.img, x, y, this.width, this.height, this.width * this.number, this.height * this.color, this.width, this.height);
     }
 }
