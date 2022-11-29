@@ -21,7 +21,8 @@ npm start
     - [ ] logo (size: 512x512)
   - [ ] Dockerize
     - [ ] Guide
-    - [ ] docker-compose.yml
+    - [x] docker-compose.yml for development
+    - [ ] docker-compose.yml for production
 - Maxim
   - [ ] Display the layout(without functions)
     - [ ] Uno button
