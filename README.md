@@ -13,21 +13,29 @@ npm install
 ```bash
 npm start 
 ```
-### With Docker-Compose
-1. build image
-```bash
-docker-compose build
-```
-2. start docker
+### With Docker-Compose (DEV)
+1. build image and start docker
 remove *-d* if you want console logs direct to console
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
-3. Stop Container
+2. stop container
 If you started detached stop with `STRG/CNTRL + C`  
 ```bash
 docker-compose down
 ```
+
+### With Docker-Compose (PROD)
+1. build image and start docker
+```bash
+docker-compose -f docker-compose-prod.yml up -d --build
+```
+2. stop container
+   If you started detached stop with `STRG/CNTRL + C`
+```bash
+docker-compose -f docker-compose-prod.yml down
+```
+
 
 ## Tasks
 - Christian
@@ -35,10 +43,10 @@ docker-compose down
     - [ ] Tap icon
     - [ ] icon (size: 192x192)
     - [ ] logo (size: 512x512)
-  - [ ] Dockerize
-    - [ ] Guide
+  - [x] Dockerized start
+    - [x] Guide
     - [x] docker-compose.yml for development
-    - [ ] docker-compose.yml for production
+    - [x] docker-compose.yml for production
 - Maxim
   - [ ] Display the layout(without functions)
     - [ ] Uno button
