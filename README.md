@@ -4,6 +4,7 @@ An UNO that aims to be a browser based multiplayer GAME.
 Written in.
 
 ## Get started
+### With Node.js local installed
 1. Install node modules
 ```bash
 npm install
@@ -11,6 +12,16 @@ npm install
 2. Start the project
 ```bash
 npm start 
+```
+### With Docker-Compose
+1. Build image an start docker
+remove *-d* if you want console logs direct to console
+```bash
+docker-compose up -d
+```
+2. Stop Container
+```bash
+docker-compose down
 ```
 
 ## Tasks
