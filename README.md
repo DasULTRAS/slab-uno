@@ -39,10 +39,10 @@ docker-compose -f docker-compose-prod.yml down
 
 ## Tasks
 - Christian
-  - [ ] Search for icons/assets
-    - [ ] Tap icon
-    - [ ] icon (size: 192x192)
-    - [ ] logo (size: 512x512)
+  - [x] Search for icons/assets
+    - [x] Tap icon
+    - [x] icon (size: 192x192)
+    - [x] logo (size: 512x512)
   - [x] Dockerized start
     - [x] Guide
     - [x] docker-compose.yml for development
