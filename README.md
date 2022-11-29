@@ -14,12 +14,17 @@ npm install
 npm start 
 ```
 ### With Docker-Compose
-1. Build image an start docker
+1. build image
+```bash
+docker-compose build
+```
+2. start docker
 remove *-d* if you want console logs direct to console
 ```bash
 docker-compose up -d
 ```
-2. Stop Container
+3. Stop Container
+If you started detached stop with `STRG/CNTRL + C`  
 ```bash
 docker-compose down
 ```

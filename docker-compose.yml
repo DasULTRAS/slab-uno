@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: DOCKERFILE
-    volumes:
-      - '.:/app'
+    image: slab-uno
     ports:
       - 8080:3000

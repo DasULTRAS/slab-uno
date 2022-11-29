@@ -1,10 +1,12 @@
-#FROM node:7.7.2-alpine
-## Stage 1
 FROM node:17-alpine as builder
+# SET work dir in container
 WORKDIR /app
+# copy packages files
 COPY package.json .
 COPY package-lock.json .
-RUN npm install --silent
+# install packages
+RUN npm ci --silent
+# COPY APP (without .dockerignore)
 COPY . .
 # Build the app
 RUN npm run build
