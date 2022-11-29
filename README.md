@@ -6,12 +6,10 @@ Written in.
 ## Get started
 1. Install node modules
 ```bash
-cd slab-uno
 npm install
 ```
 2. Start the project
 ```bash
-cd slab-uno
 npm start 
 ```
 
