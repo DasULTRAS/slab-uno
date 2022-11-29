@@ -19,8 +19,11 @@ npm start
 - Christian
   - [ ] Search for icons/assets
     - [ ] Tap icon
-    - [ ] Logo (size: 192x192)
-    - [ ] Logo (size: 512x512)
+    - [ ] icon (size: 192x192)
+    - [ ] logo (size: 512x512)
+  - [ ] Dockerize
+    - [ ] Guide
+    - [ ] docker-compose.yml
 - Maxim
   - [ ] Display the layout(without functions)
     - [ ] Uno button
