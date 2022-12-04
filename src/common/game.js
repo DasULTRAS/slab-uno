@@ -1,11 +1,13 @@
 import React from "react";
-import "./game.css"
+import "./game.css";
+import Card, { CardType } from "./cards";
 
 function Game () {
     return (
-        <div class="background">
-            
-        </div>
+        <>
+            <Card color={"#fff555"} cardType={'zero'} />
+            <div className="background" />
+        </>
     );
 }
 
