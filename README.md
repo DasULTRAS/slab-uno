@@ -1,22 +1,58 @@
 # SLAB-UNO
 
 An UNO that aims to be a browser based multiplayer GAME.
-Written in [p5.js](https://github.com/processing/p5.js/wiki/p5.js-overview) and [js](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/).
+Written in.
 
-## Get Started
-1. Install all modules
+## Get started
+### With Node.js local installed
+1. Install node modules
 ```bash
-npm i
+npm install
 ```
-2. Server starten
+2. Start the project
 ```bash
-node app.js
+npm start 
+```
+### With Docker-Compose (DEV)
+1. build image and start docker
+remove *-d* if you want console logs direct to console
+```bash
+docker-compose up -d --build
+```
+2. stop container
+If you started detached stop with `STRG/CNTRL + C`  
+```bash
+docker-compose down
 ```
 
-## Library Installation (WebStorm)
-1. File | Settings... | Languages & Frameworks | JavaScript | Libraries
-2. Click the Download... button
-3. Search for p5
+### With Docker-Compose (PROD)
+1. build image and start docker
+```bash
+docker-compose -f docker-compose-prod.yml up -d --build
+```
+2. stop container
+   If you started detached stop with `STRG/CNTRL + C`
+```bash
+docker-compose -f docker-compose-prod.yml down
+```
+
+
+## Tasks
+- Christian
+  - [x] Search for icons/assets
+    - [x] Tap icon
+    - [x] icon (size: 192x192)
+    - [x] logo (size: 512x512)
+  - [x] Dockerized start
+    - [x] Guide
+    - [x] docker-compose.yml for development
+    - [x] docker-compose.yml for production
+- Maxim
+  - [ ] Display the layout(without functions)
+    - [ ] Uno button
+    - [ ] Own player deck
+    - [ ] Draw card deck
+    - [ ] Middle deck
 
 ## Milestones
 
