@@ -1,9 +1,10 @@
 import React from "react";
 import Card from "./cards";
+import "./deck.css"
 
 export default function Deck({cards, cardSize}) {
     return(
-        <div>
+        <div className="Deck">
         {cards.map(card => {
             return (<Card color={card.color} cardType={card.cardType} cardWith={cardSize}/>)
             })}
