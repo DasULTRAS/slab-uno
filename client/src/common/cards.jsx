@@ -1,4 +1,3 @@
-import React from "react";
 import redZero from "../assets/Cards/red-zero.png";
 import redOne from "../assets/Cards/red-one.png";
 import redTwo from "../assets/Cards/red-two.png";
@@ -58,7 +57,6 @@ import greenDrawTwo from "../assets/Cards/green-draw-two.png";
 import wild from "../assets/Cards/wild.png";
 import wildDraw from "../assets/Cards/wild-draw.png";
 import back from "../assets/Cards/back.png";
-import "./cards.css";
 
 export const cardMap = new Map();
 cardMap.set('zero', [redZero, yellowZero, blueZero, greenZero]);
@@ -93,24 +91,4 @@ export function getColorId(color){
         default:
             return 0;
     }
-}
-
-export default function Card({
-    color = 'red',
-    cardType = 'back', 
-    cardWidth, 
-    clickEvent, 
-    enableHover = false
-}) {
-    const isHover = enableHover ? "cardHover" : "";
-    const isSpecialCard = specialCard.includes(cardType);
-
-    return(
-        <div className={isHover} style={{width: cardWidth}} onClick={clickEvent}>
-            <img 
-                src={cardMap.get(cardType)[isSpecialCard ? 0 : getColorId(color)]}
-                alt={isSpecialCard ? cardType : color + " " + cardType} 
-                style={{width: "100%", height: "100%"}}/>
-        </div>
-    );
 }
