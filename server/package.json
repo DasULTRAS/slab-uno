@@ -1,0 +1,26 @@
+{
+  "name": "slab-uno-server",
+  "version": "0.1.0",
+  "description": "Socket.IO Server for slab-uno",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DasULTRAS/slab-uno.git"
+  },
+  "author": "Maxim und Christian",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DasULTRAS/slab-uno/issues"
+  },
+  "homepage": "https://github.com/DasULTRAS/slab-uno#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.4"
+  }
+}
