@@ -60,7 +60,7 @@ import wildDraw from "../assets/Cards/wild-draw.png";
 import back from "../assets/Cards/back.png";
 import "./cards.css";
 
-const cardMap = new Map();
+export const cardMap = new Map();
 cardMap.set('zero', [redZero, yellowZero, blueZero, greenZero]);
 cardMap.set('one', [redOne, yellowOne, blueOne, greenOne]);
 cardMap.set('two', [redTwo, yellowTwo, blueTwo, greenTwo]);
@@ -78,9 +78,9 @@ cardMap.set('wild', [wild]);
 cardMap.set('wildDraw', [wildDraw]);
 cardMap.set('back', [back]);
 
-const specialCard = ['wild', 'wildDraw', 'back'];
+export const specialCard = ['wild', 'wildDraw', 'back'];
 
-function getColorId(color){
+export function getColorId(color){
     switch(color) {
         case 'red':
             return 0;
