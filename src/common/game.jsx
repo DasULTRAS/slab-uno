@@ -1,14 +1,16 @@
 import React from "react";
+import { useState } from "react";
 import Card from "./cards";
 import Deck from "./deck";
 import "./game.css";
+import UnoButtonAsset from "../assets/UNO_Button.png";
 
 const cardSize = "10em";
 
 function Game({state}) {
     const [playerCards, setPlayerCards] = useState([{color: 'red', cardType: 'nine'}]);
 
-function addCard() {
+    function addCard() {
         setPlayerCards(oldPlayerCards => [...oldPlayerCards, {color: 'red', cardType: 'nine'}]);
     };
 
@@ -26,7 +28,9 @@ function addCard() {
         <div className="playerDeck">
             <Deck cards={playerCards} cardSize={cardSize}/>
         </div>
-        <div className="unoButton"></div>
+        <div className="unoButton">
+            <img src={UnoButtonAsset}></img>
+        </div>
         <div className="background"/>
     </div>);
 }
