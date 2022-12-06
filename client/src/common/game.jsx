@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import Card from "./cards";
+import Card from "./card";
 import Deck from "./deck";
 import "./game.css";
 import UnoButtonAsset from "../assets/UNO_Button.png";
@@ -8,7 +8,7 @@ import UnoButtonAsset from "../assets/UNO_Button.png";
 const cardSize = "10em";
 
 function Game() {
-    const [playerCards, setPlayerCards] = useState([{color: 'red', cardType: 'nine'}]);
+    const [playerCards, setPlayerCards] = useState([]);
     const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'})
 
     function addCard() {

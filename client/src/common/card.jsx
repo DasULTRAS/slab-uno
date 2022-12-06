@@ -7,13 +7,14 @@ export default function Card({
     cardType = 'back', 
     cardWidth, 
     clickEvent, 
-    enableHover = false
+    enableHover = false,
+    style = {}
 }) {
     const isHover = enableHover ? "cardHover" : "";
     const isSpecialCard = specialCard.includes(cardType);
 
     return(
-        <div className={isHover} style={{width: cardWidth}} onClick={clickEvent}>
+        <div className={isHover} style={{width: cardWidth, ...style}} onClick={clickEvent}>
             <img 
                 src={cardMap.get(cardType)[isSpecialCard ? 0 : getColorId(color)]}
                 alt={isSpecialCard ? cardType : color + " " + cardType} 
