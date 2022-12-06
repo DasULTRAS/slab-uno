@@ -15,23 +15,21 @@ function Game({state}) {
     };
 
     return (
-    <div className="content">
-        <div className="empty"></div>
-        <div className="enemyPlayer"></div>
-        <div className="menu"></div>
-        <div className="enemyPlayer"></div>
+    <div className="gameContent">
+        <div className="enemyPlayers"></div>
         <div className="field"></div>
-        <div className="enemyPlayer"></div>
-        <div className="drawCard">
-            <Card color={'red'} cardType={'back'} cardWidth={cardSize} clickEvent={addCard}/>
+        <div className="bar">
+            <div className="drawCard">
+                <Card color={'red'} cardType={'back'} cardWidth={cardSize} clickEvent={addCard}/>
+            </div>
+            <div className="playerDeck">
+                <Deck cards={playerCards} cardSize={cardSize}/>
+            </div>
+            <div className="unoButton">
+                <img src={UnoButtonAsset}></img>
+            </div>
         </div>
-        <div className="playerDeck">
-            <Deck cards={playerCards} cardSize={cardSize}/>
-        </div>
-        <div className="unoButton">
-            <img src={UnoButtonAsset}></img>
-        </div>
-        <div className="background"/>
+        <div className="gameBackground"/>
     </div>);
 }
 
