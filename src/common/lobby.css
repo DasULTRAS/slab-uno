@@ -22,10 +22,11 @@
 }
 
 .lobbyCode{
-    width: 100%;
+    width: 98%;
     font-family: Arial;
     font-size: large;
     text-align: center;
+    resize: none;
 }
 
 .buttons button{
