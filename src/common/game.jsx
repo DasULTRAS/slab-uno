@@ -9,6 +9,7 @@ const cardSize = "10em";
 
 function Game({state}) {
     const [playerCards, setPlayerCards] = useState([{color: 'red', cardType: 'nine'}]);
+    const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'})
 
     function addCard() {
         setPlayerCards(oldPlayerCards => [...oldPlayerCards, {color: 'red', cardType: 'nine'}]);
@@ -17,7 +18,9 @@ function Game({state}) {
     return (
     <div className="gameContent">
         <div className="enemyPlayers"></div>
-        <div className="field"></div>
+        <div className="gameField">
+            <Card color={playCard.color} cardType={playCard.cardType} cardWidth={cardSize} />
+        </div>
         <div className="bar">
             <div className="drawCard">
                 <Card color={'red'} cardType={'back'} cardWidth={cardSize} clickEvent={addCard}/>
@@ -26,7 +29,7 @@ function Game({state}) {
                 <Deck cards={playerCards} cardSize={cardSize}/>
             </div>
             <div className="unoButton">
-                <img src={UnoButtonAsset}></img>
+                <img src={UnoButtonAsset} width="160px"></img>
             </div>
         </div>
         <div className="gameBackground"/>
