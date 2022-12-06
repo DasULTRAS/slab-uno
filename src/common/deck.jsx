@@ -4,7 +4,7 @@ import "./deck.css"
 
 export default function Deck({cards, cardSize}) {
     return(
-        <div className="Deck">
+        <div className="deck">
         {cards.map(card => {
             return (<Card 
                 color={card.color} 
