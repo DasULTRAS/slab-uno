@@ -76,7 +76,9 @@ cardMap.set('reverse', [redReverse, yellowReverse, blueReverse, greenReverse]);
 cardMap.set('drawtwo', [redDrawTwo, yellowDrawTwo, blueDrawTwo, greenDrawTwo]);
 cardMap.set('wild', [wild]);
 cardMap.set('wildDraw', [wildDraw]);
-cardMap.set('back', [back])
+cardMap.set('back', [back]);
+
+const specialCard = ['wild', 'wildDraw', 'back'];
 
 function getColorId(color){
     switch(color) {
@@ -95,11 +97,12 @@ function getColorId(color){
 
 export default function Card({color, cardType, cardWidth, clickEvent, enableHover}) {
     const isHover = enableHover !== undefined && enableHover ? "cardHover" : "";
+    const isSpecialCard = specialCard.includes(cardType);
     return(
         <div className={isHover} style={{width: cardWidth}} onClick={clickEvent}>
             <img 
-                src={cardMap.get(cardType)[cardType === 'wild' || cardType === 'wildDraw' || cardType === 'back' ? 0 : getColorId(color)]}
-                alt={cardType === 'wild' || cardType === 'wildDraw' || cardType === 'back' ? cardType : color + " " + cardType} 
+                src={cardMap.get(cardType)[isSpecialCard ? 0 : getColorId(color)]}
+                alt={isSpecialCard ? cardType : color + " " + cardType} 
                 style={{width: "100%", height: "100%"}}/>
         </div>
     );
