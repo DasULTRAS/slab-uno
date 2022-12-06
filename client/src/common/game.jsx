@@ -30,9 +30,7 @@ function Game() {
                     clickEvent={addCard}
                     enableHover={true}/>
             </div>
-            <div className="playerDeck">
-                <Deck cards={playerCards} cardSize={cardSize}/>
-            </div>
+            <Deck cards={playerCards} cardSize={cardSize}/>
             <div className="unoButton">
                 <img src={UnoButtonAsset} width="160px"></img>
             </div>
