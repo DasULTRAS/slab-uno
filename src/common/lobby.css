@@ -9,17 +9,35 @@
 }
 
 .content {
+    margin: auto;
+    width: 50%;
+    height: 25%;
+}
+
+.logo {
+    padding-top: 15%;
+    margin: auto;
+    display: flex;
+    height: 25%;
+}
+
+.lobbyCode{
     width: 100%;
-    height: 100%;
-    display: none;
-    grid-template: none;
+    font-family: Arial;
+    font-size: large;
+    text-align: center;
+}
+
+.buttons button{
+    width: 50%;
+    height: 1cm;
+    font-size: large;
 }
 
 .createLobbyButton {
-    position: center;
+    margin: auto;
     cursor: pointer;
     border: 1px solid #1a202c;
-    padding: 8px;
     min-width: 64px;
     transition: all 0.1s ease-in;
 }
