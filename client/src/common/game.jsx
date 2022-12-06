@@ -32,7 +32,7 @@ function Game() {
             </div>
             <Deck cards={playerCards} cardSize={cardSize}/>
             <div className="unoButton">
-                <img src={UnoButtonAsset} width="160px"></img>
+                <img src={UnoButtonAsset} width="160px" alt="UnoButton"></img>
             </div>
         </div>
         <div className="gameBackground"/>
