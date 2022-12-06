@@ -30,3 +30,17 @@
     align-items: center;
     justify-content: center;
 }
+
+.unoButton {
+    width: 160px;
+    transition: .5s;
+}
+
+.unoButton:hover {
+    transform: scale(1.2);
+}
+
+.unoButton:active {
+    transition: .1s;
+    transform: scale(0.8);
+}
