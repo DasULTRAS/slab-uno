@@ -4,13 +4,14 @@ import Deck from "./deck";
 import "./game.css";
 
 const cardSize = "10em";
-const playerCards = [{color:'red', cardType:'five'}, {color:'yellow', cardType:'six'}];
+
+function Game({state}) {
+    const [playerCards, setPlayerCards] = useState([{color: 'red', cardType: 'nine'}]);
 
 function addCard() {
-    playerCards.push({color:'yellow', cardType:'nine'});
-}
+        setPlayerCards(oldPlayerCards => [...oldPlayerCards, {color: 'red', cardType: 'nine'}]);
+    };
 
-function Game() {
     return (
     <div className="content">
         <div className="empty"></div>
