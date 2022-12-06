@@ -57,6 +57,7 @@ import greenDrawTwo from "../assets/Cards/green-draw-two.png";
 
 import wild from "../assets/Cards/wild.png";
 import wildDraw from "../assets/Cards/wild-draw.png";
+import back from "../assets/Cards/back.png";
 
 const cardMap = new Map();
 cardMap.set('zero', [redZero, yellowZero, blueZero, greenZero]);
@@ -74,6 +75,7 @@ cardMap.set('reverse', [redReverse, yellowReverse, blueReverse, greenReverse]);
 cardMap.set('drawtwo', [redDrawTwo, yellowDrawTwo, blueDrawTwo, greenDrawTwo]);
 cardMap.set('wild', [wild]);
 cardMap.set('wildDraw', [wildDraw]);
+cardMap.set('back', [back])
 
 function getColorId(color){
     switch(color) {
@@ -94,8 +96,8 @@ export default function Card({color, cardType, cardWidth}) {
     return(
         <div style={{width: cardWidth}}>
             <img 
-                src={cardMap.get(cardType)[cardType === 'wild' || cardType === 'wildDraw' ? 0 : getColorId(color)]}
-                alt={cardType === 'wild' || cardType === 'wildDraw' ? cardType : color + " " + cardType} 
+                src={cardMap.get(cardType)[cardType === 'wild' || cardType === 'wildDraw' || cardType === 'back' ? 0 : getColorId(color)]}
+                alt={cardType === 'wild' || cardType === 'wildDraw' || cardType === 'back' ? cardType : color + " " + cardType} 
                 style={{width: "100%", height: "100%"}}/>
         </div>
     );
