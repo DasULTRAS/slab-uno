@@ -25,7 +25,7 @@ function Lobby() {
 
     return (
         <>
-            <img className="logo" src={logo}/>
+            <img className="logo" src={logo} alt="Logo"/>
             <div className="content">
                 <div className="lobbyID">
                     <label>Lobby ID: </label>

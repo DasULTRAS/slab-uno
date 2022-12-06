@@ -15,6 +15,10 @@ function Game() {
         setPlayerCards(oldPlayerCards => [...oldPlayerCards, {color: 'red', cardType: 'nine'}]);
     };
 
+    function unoButtonClick() {
+        console.log('uno');
+    }
+
     return (
     <div className="gameContent">
         <div className="enemyPlayers"></div>
@@ -31,8 +35,8 @@ function Game() {
                     enableHover={true}/>
             </div>
             <Deck cards={playerCards} cardSize={cardSize}/>
-            <div className="unoButton">
-                <img src={UnoButtonAsset} width="160px"></img>
+            <div className="unoButton" onClick={unoButtonClick}>
+                <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
             </div>
         </div>
         <div className="gameBackground"/>
