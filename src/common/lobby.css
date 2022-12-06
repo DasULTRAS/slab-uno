@@ -21,24 +21,23 @@
     height: 25%;
 }
 
-.lobbyCode{
-    width: 98%;
-    font-family: Arial;
-    font-size: large;
+.lobbyID input{
+    width: 100%;
     text-align: center;
-    resize: none;
+    font-family: Arial;
+    font-size: larger;
+    font-weight: bold;
 }
 
 .buttons button{
     width: 50%;
-    height: 1cm;
     font-size: large;
-}
 
-.createLobbyButton {
     margin: auto;
     cursor: pointer;
+    background: white;
     border: 1px solid #1a202c;
     min-width: 64px;
     transition: all 0.1s ease-in;
 }
+
