@@ -6,7 +6,7 @@ export default function Deck({cards, cardSize}) {
     return(
         <div className="Deck">
         {cards.map(card => {
-            return (<Card color={card.color} cardType={card.cardType} cardWith={cardSize}/>)
+            return (<Card color={card.color} cardType={card.cardType} cardWidth={cardSize}/>)
             })}
         </div>
     );

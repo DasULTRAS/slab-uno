@@ -90,9 +90,9 @@ function getColorId(color){
     }
 }
 
-export default function Card({color, cardType, cardWith}) {
+export default function Card({color, cardType, cardWidth}) {
     return(
-        <div style={{width: cardWith}}>
+        <div style={{width: cardWidth}}>
             <img 
                 src={cardMap.get(cardType)[cardType === 'wild' || cardType === 'wildDraw' ? 0 : getColorId(color)]}
                 alt={cardType === 'wild' || cardType === 'wildDraw' ? cardType : color + " " + cardType} 
