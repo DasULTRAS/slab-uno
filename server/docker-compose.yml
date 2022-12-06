@@ -7,4 +7,4 @@ services:
       dockerfile: DOCKERFILE
     image: slab-uno-server
     ports:
-      - 8081:80
+      - 8081:3003

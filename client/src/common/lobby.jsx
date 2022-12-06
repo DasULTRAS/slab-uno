@@ -4,7 +4,8 @@ import "./lobby.css";
 import logo from "../assets/UNO_Button.png";
 import {useEffect} from 'react';
 
-const socket = io.connect("http://localhost:3003");
+const socket = io.connect("http://localhost:3003/");
+// const socket = io.connect("https://uno-api.dasultras.de/");
 
 function Lobby() {
     let lobbyID = "";
