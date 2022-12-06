@@ -58,6 +58,7 @@ import greenDrawTwo from "../assets/Cards/green-draw-two.png";
 import wild from "../assets/Cards/wild.png";
 import wildDraw from "../assets/Cards/wild-draw.png";
 import back from "../assets/Cards/back.png";
+import "./cards.css";
 
 const cardMap = new Map();
 cardMap.set('zero', [redZero, yellowZero, blueZero, greenZero]);
@@ -92,9 +93,10 @@ function getColorId(color){
     }
 }
 
-export default function Card({color, cardType, cardWidth, clickEvent}) {
+export default function Card({color, cardType, cardWidth, clickEvent, enableHover}) {
+    const isHover = enableHover !== undefined && enableHover ? "cardHover" : "";
     return(
-        <div style={{width: cardWidth}} onClick={clickEvent}>
+        <div className={isHover} style={{width: cardWidth}} onClick={clickEvent}>
             <img 
                 src={cardMap.get(cardType)[cardType === 'wild' || cardType === 'wildDraw' || cardType === 'back' ? 0 : getColorId(color)]}
                 alt={cardType === 'wild' || cardType === 'wildDraw' || cardType === 'back' ? cardType : color + " " + cardType} 

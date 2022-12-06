@@ -7,7 +7,7 @@ import UnoButtonAsset from "../assets/UNO_Button.png";
 
 const cardSize = "10em";
 
-function Game({state}) {
+function Game() {
     const [playerCards, setPlayerCards] = useState([{color: 'red', cardType: 'nine'}]);
     const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'})
 
@@ -23,7 +23,12 @@ function Game({state}) {
         </div>
         <div className="bar">
             <div className="drawCard">
-                <Card color={'red'} cardType={'back'} cardWidth={cardSize} clickEvent={addCard}/>
+                <Card 
+                    color={'red'} 
+                    cardType={'back'} 
+                    cardWidth={cardSize} 
+                    clickEvent={addCard}
+                    enableHover={true}/>
             </div>
             <div className="playerDeck">
                 <Deck cards={playerCards} cardSize={cardSize}/>
