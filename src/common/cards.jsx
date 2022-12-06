@@ -95,9 +95,16 @@ function getColorId(color){
     }
 }
 
-export default function Card({color, cardType, cardWidth, clickEvent, enableHover}) {
-    const isHover = enableHover !== undefined && enableHover ? "cardHover" : "";
+export default function Card({
+    color = 'red',
+    cardType = 'back', 
+    cardWidth, 
+    clickEvent, 
+    enableHover = false
+}) {
+    const isHover = enableHover ? "cardHover" : "";
     const isSpecialCard = specialCard.includes(cardType);
+
     return(
         <div className={isHover} style={{width: cardWidth}} onClick={clickEvent}>
             <img 
