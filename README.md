@@ -1,7 +1,7 @@
 # SLAB-UNO
 
 An UNO that aims to be a browser based multiplayer GAME.
-Written in.
+Written with [React](http://reactjs.org/) an [Socket.io](http://socket.io/) .
 
 ## Get started
 ### With Node.js local installed
@@ -13,9 +13,8 @@ npm install
 ```bash
 npm start 
 ```
-### With Docker-Compose (DEV)
-1. build image and start docker
-remove *-d* if you want console logs direct to console
+### With Docker-Compose
+1. build image and start docker (detached)
 ```bash
 docker-compose up -d --build
 ```
@@ -25,16 +24,11 @@ If you started detached stop with `STRG/CNTRL + C`
 docker-compose down
 ```
 
-### With Docker-Compose (PROD)
-1. build image and start docker
-```bash
-docker-compose -f docker-compose-prod.yml up -d --build
-```
-2. stop container
-   If you started detached stop with `STRG/CNTRL + C`
-```bash
-docker-compose -f docker-compose-prod.yml down
-```
+## Hosting
+To host productive edit in `client/src/common/lobby.jsx` the Socket.io Server URL and
+edit in `server/index.js` the *origin* to the UNO Server.
+**Important:** Enable Websockets support in nginx.
+
 
 
 ## Tasks
