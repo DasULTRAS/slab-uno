@@ -10,10 +10,11 @@ const cardSize = "10em";
 
 function Game() {
     const [playerCards, setPlayerCards] = useState([]);
+    const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'});
     const [enemyPlayers, setEnemyPlayers] = useState([{cardCount: 5, name: "TestUser1"}, {cardCount: 5, name: "TestUser2"}]);
 
-    function addCard() {
-        setPlayerCards(oldPlayerCards => [...oldPlayerCards, {color: 'red', cardType: 'nine'}]);
+    function addCard(card) {
+        setPlayerCards(oldPlayerCards => [...oldPlayerCards, card]);
     };
 
     function unoButtonClick() {
@@ -48,7 +49,7 @@ function Game() {
                     color={'red'} 
                     cardType={'back'} 
                     cardWidth={cardSize} 
-                    clickEvent={addCard}
+                    clickEvent={getOneCardFromStack}
                     enableHover={true}/>
             </div>
             <Deck cards={playerCards} cardSize={cardSize}/>
