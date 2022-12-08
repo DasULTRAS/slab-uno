@@ -4,6 +4,7 @@ import Card from "./card";
 import Deck from "./deck";
 import "./game.css";
 import UnoButtonAsset from "../assets/UNO_Button.png";
+import EnemyPlayer from "./enemyPlayer";
 
 const cardSize = "10em";
 
