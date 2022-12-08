@@ -8,18 +8,23 @@ export default function Card({
     cardWidth, 
     clickEvent, 
     enableHover = false,
-    style = {}
+    style = {},
+    disable = false
 }) {
-    const isHover = enableHover ? "cardHover" : "";
+    const isHover = enableHover && !disable ? "cardHover" : "";
     const isSpecialCard = specialCard.includes(cardType);
 
     return(
-        <div style={{width: cardWidth, ...style}} onClick={clickEvent}>
+        <div style={{width: cardWidth, ...style}} onClick={disable ? () => {} : clickEvent}>
             <img 
                 className={isHover}
                 src={cardMap.get(cardType)[isSpecialCard ? 0 : getColorId(color)]}
                 alt={isSpecialCard ? cardType : color + " " + cardType} 
-                style={{width: "100%", height: "100%"}}/>
+                style={disable ? {width: "100%", height: "100%", ...disableStyle} : {width: "100%", height: "100%"}}/>
         </div>
     );
 }
+
+const disableStyle = {
+    filter: 'brightness(35%)'
+};
