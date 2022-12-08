@@ -12,6 +12,7 @@
     margin: auto;
     width: 35%;
     height: 25%;
+    font-size: larger;
 }
 
 .logo {
@@ -22,22 +23,23 @@
 }
 
 .lobbyID input{
-    width: 100%;
+    width:98%;
+
+    background: transparent;
+    color: white;
+    text-shadow: #343434;
     text-align: center;
-    font-family: Arial;
-    font-size: larger;
+    font-size: 25px;
     font-weight: bold;
 }
 
 .buttons button{
     width: 50%;
-    font-size: large;
 
+    min-height: 30px;
+    font-size: large;
     margin: auto;
     cursor: pointer;
-    background: white;
     border: 1px solid #1a202c;
-    min-width: 64px;
     transition: all 0.1s ease-in;
 }
-

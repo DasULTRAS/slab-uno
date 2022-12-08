@@ -15,11 +15,11 @@ function Game() {
 
     function addCard(card) {
         setPlayerCards(oldPlayerCards => [...oldPlayerCards, card]);
-    };
+    }
 
     function unoButtonClick() {
         console.log('uno');
-    };
+    }
 
     //TODO: the server calls this function and adds the player
     function addEnemyPlayer(enemyPlayer) {
@@ -57,7 +57,6 @@ function Game() {
                 <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
             </div>
         </div>
-        <div className="gameBackground"/>
     </div>);
 }
 
