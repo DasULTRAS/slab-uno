@@ -9,7 +9,7 @@ const cardSize = "10em";
 
 function Game() {
     const [playerCards, setPlayerCards] = useState([]);
-    const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'})
+    const [enemyPlayers, setEnemyPlayers] = useState([{cardCount: 5, name: "TestUser1"}, {cardCount: 5, name: "TestUser2"}]);
 
     function addCard() {
         setPlayerCards(oldPlayerCards => [...oldPlayerCards, {color: 'red', cardType: 'nine'}]);
@@ -17,11 +17,27 @@ function Game() {
 
     function unoButtonClick() {
         console.log('uno');
+    };
+
+    //TODO: the server calls this function and adds the player
+    function addEnemyPlayer(enemyPlayer) {
+        setEnemyPlayers(oldArray => [...oldArray, enemyPlayer])
+    }
+
+    function getOneCardFromStack(){
+        //TODO: Get a random card from the server
+        // the server should have the lobby stack
     }
 
     return (
     <div className="gameContent">
-        <div className="enemyPlayers"></div>
+        <div className="enemyPlayers">
+            {enemyPlayers.map(player => {
+                return(
+                    <EnemyPlayer cardCount={player.cardCount} playerName={player.name} />
+                )
+            })}
+        </div>
         <div className="gameField">
             <Card color={playCard.color} cardType={playCard.cardType} cardWidth={cardSize} />
         </div>
