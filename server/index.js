@@ -8,6 +8,7 @@ const {render} = require("express/lib/application");
 app.use(cors());
 app.set('port', 3003);
 
+// @type object - {lobbyID: *, player: [socket.id, username]}
 const lobbys = [];
 
 const server = http.createServer(app)
@@ -29,14 +30,22 @@ io.on("connection", (socket) => {
             if (currentValue.lobbyID === data.lobbyID)
                 i = index;
         });
-        if (i == -1) {
-            lobbys.push({lobbyID: data.lobbyID, player: [socket.id]});
+
+        // not empty inputs
+        if (data.lobbyID === "" || data.username === "")
+            i = -2;
+
+        if (i == -2){
+            console.log(`wrong input: ${data.lobbyID}`);
+            socket.emit("create_lobby", {message: "Wrong input.", status: 0, lobbyID: data.lobbyID, username: data.username});
+        } else if (i == -1) {
+            lobbys.push({lobbyID: data.lobbyID, player: [{socketID: socket.id, username: data.username}]});
             console.log(`lobby created: ${data.lobbyID}`);
             socket.join(data.lobbyID);
-            socket.emit("create_lobby", {message: "Lobby created and joined.", status: 1, lobbyID: data.lobbyID});
+            socket.emit("create_lobby", {message: "Lobby created and joined.", status: 1, lobbyID: data.lobbyID, username: data.username});
         } else {
             console.log(`lobby already exists: ${lobbys[i].lobbyID}`);
-            socket.emit("create_lobby", {message: "Lobby already exists.", status: 0, lobbyID: data.lobbyID});
+            socket.emit("create_lobby", {message: "Lobby already exists.", status: 0, lobbyID: data.lobbyID, username: data.username});
         }
     })
     socket.on("join_lobby", (data) => {
@@ -45,14 +54,19 @@ io.on("connection", (socket) => {
             if (currentValue.lobbyID === data.lobbyID)
                 i = index;
         });
+
+        // not empty inputs
+        if (data.lobbyID === "" || data.username === "")
+            i = -2;
+
         if (i == -1) {
             console.log(`lobby doesnt exists: ${data.lobbyID}`);
-            socket.emit("join_lobby", {message: "Lobby doesnt exists.", status: 0, lobbyID: data.lobbyID});
+            socket.emit("join_lobby", {message: "Lobby doesnt exists.", status: 0, lobbyID: data.lobbyID, username: data.username});
         } else {
-            lobbys[i].player.push(socket.id);
+            lobbys[i].player.push({socketID: socket.id, username: data.username});
             socket.join(data.lobbyID);
             console.log(`lobby joined: ${lobbys[i].lobbyID}`);
-            socket.emit("join_lobby", {message: "Lobby joined.", status: 1, lobbyID: data.lobbyID});
+            socket.emit("join_lobby", {message: "Lobby joined.", status: 1, lobbyID: data.lobbyID, username: data.username});
         }
     })
 });

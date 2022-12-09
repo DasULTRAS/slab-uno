@@ -1,13 +1,3 @@
-.background {
-    background: #343434;
-    background-size: 100% 100%;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    top: 0;
-    bottom: 0;
-}
-
 .content {
     margin: auto;
     width: 35%;
@@ -22,16 +12,20 @@
     height: 25%;
 }
 
-.lobbyID input{
+.form-items input, textarea{
     width:98%;
 
     background: transparent;
     color: white;
     text-shadow: #343434;
     text-align: center;
-    font-size: 25px;
+    font-size: 21px;
     font-weight: bold;
 }
+
+.form-items {
+    padding-bottom: 10pt;
+ }
 
 .buttons button{
     width: 50%;
