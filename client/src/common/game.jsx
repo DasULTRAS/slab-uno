@@ -8,7 +8,7 @@ import EnemyPlayer from "./enemyPlayer";
 
 const cardSize = "10em";
 
-function Game() {
+function Game(socket) {
     const [playerCards, setPlayerCards] = useState([]);
     const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'});
     const [enemyPlayers, setEnemyPlayers] = useState([{cardCount: 5, name: "TestUser1"}, {cardCount: 5, name: "TestUser2"}]);

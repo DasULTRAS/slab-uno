@@ -1,13 +1,9 @@
 import "./lobby.css";
-import io from 'socket.io-client';
 import {useState, useEffect} from 'react';
 import {Button} from 'react-bootstrap'
 import logo from "../assets/UNO_Button.png";
 
-// const socket = io.connect("https://uno-api.dasultras.de/");
-const socket = io.connect("http://localhost:3003/");
-
-function Lobby() {
+function Lobby(socket) {
     const [lobbyID, setLobbyID] = useState("");
     const [lobbyIDText, setLobbyIDText] = useState("");
     const [messageReceived, setMessageReceived] = useState("");
