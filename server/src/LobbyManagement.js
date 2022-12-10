@@ -12,13 +12,45 @@ export default class LobbyManagement {
      * @param lobbyID
      * @returns {number} -1 if lobby not found else the index
      */
-    getLobbyIndex(lobbyID){
+    getLobbyIndexByID(lobbyID) {
         let i = -1;
         this.lobbys.forEach((currentValue, index) => {
             if (currentValue.lobbyID === lobbyID)
                 i = index;
         });
         return i;
+    }
+
+    getLobbyByID(lobbyID) {
+        const i = this.getLobbyIndexByID(lobbyID);
+        if (i === -1)
+            return null;
+        else
+            return this.lobbys[i];
+    }
+
+    getLobbyBySocketID(socketID) {
+        let temp = null;
+        this.lobbys.forEach((lobby) => {
+            lobby.players.forEach((player) => {
+                if (player.socketID == socketID)
+                    temp = lobby;
+            });
+        });
+
+        return temp;
+    }
+
+    getPlayerBySocketID(socketID) {
+        let temp = null;
+        this.lobbys.forEach((lobby) => {
+            lobby.players.forEach((player) => {
+                if (player.socketID == socketID)
+                    temp = player;
+            });
+        });
+
+        return temp;
     }
 
     createLobby(data, socket) {
@@ -33,7 +65,7 @@ export default class LobbyManagement {
             });
         }
 
-        let i = this.getLobbyIndex(data.lobbyID);
+        let i = this.getLobbyIndexByID(data.lobbyID);
 
         if (i === -1) {
             this.lobbys.push(new Lobby(data.lobbyID));
@@ -62,7 +94,7 @@ export default class LobbyManagement {
             });
         }
 
-        let i = this.getLobbyIndex(data.lobbyID);
+        let i = this.getLobbyIndexByID(data.lobbyID);
 
         if (i == -1) {
             console.log(`lobby doesnt exists: ${data.lobbyID}`);
@@ -72,8 +104,9 @@ export default class LobbyManagement {
                 lobbyID: data.lobbyID,
                 username: data.username
             });
+            return this.lobbys[i];
         } else {
-            this.lobbys[i].addPlayer(new Player(data.username, socket.id));
+            this.lobbys[i].addPlayer(new Player(data.username, socket.id, this.lobbys[i].lobbyID));
             socket.join(data.lobbyID);
             console.log(`lobby joined: ${this.lobbys[i].lobbyID}`);
             socket.emit("join_lobby", {
@@ -83,7 +116,6 @@ export default class LobbyManagement {
                 lobby: this.lobbys[i]
             });
         }
-
-        return this.lobbys[i];
+        return null;
     }
 }

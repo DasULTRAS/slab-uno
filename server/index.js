@@ -18,8 +18,7 @@ const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
         // origin: "https://uno.dasultras.de",
-        origin: "http://localhost:3000",
-        methods: ["GET", "POST"],
+        origin: "http://localhost:3000", methods: ["GET", "POST"],
     },
 });
 
@@ -36,8 +35,24 @@ io.on("connection", (socket) => {
 
     socket.on("join_lobby", (data) => {
         const lobby = lobbyManagement.joinLobby(data, socket);
-        io.emit("player_joined", {message: `Player joined: ${data.username}`, lobby: lobby});
+        if (lobby != null) io.emit("player_change", {message: `Player joined: ${data.username}`, lobby: lobby});
     });
+
+    socket.on("ready_to_play", (data) => {
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        if (player !== null) {
+            player.readyToPlay = !player.readyToPlay;
+            io.emit("player_change", {
+                message: `Player status changed: ${player.username}`,
+                lobby: lobbyManagement.getLobbyByID(player.lobbyID)
+            });
+        }
+    });
+    socket.on("start_game", (data) => {
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        if (lobby != null)
+            io.emit("start_game", {message: `Game started.`, lobby: lobby})
+    })
 });
 
 server.listen(app.get('port'), () => {

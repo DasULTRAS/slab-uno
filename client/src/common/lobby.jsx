@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {Button, ListGroup, Form} from 'react-bootstrap'
 import logo from "../assets/UNO_Button.png";
 
-function Lobby(socket) {
+function Lobby({socket}) {
     const [isLobbyJoined, setLobbyJoined] = useState(false);
     const [lobbyID, setLobbyID] = useState("");
     const [messageReceived, setMessageReceived] = useState("");
@@ -31,11 +31,19 @@ function Lobby(socket) {
                 setUsername(data.username)
             }
         });
-        socket.on("player_joined", (data) => {
+        socket.on("player_change", (data) => {
             setMessageReceived(data.message);
             setLobby(data.lobby);
         });
     });
+
+    const isLobbyReady = () => {
+        let ready = true;
+        lobby.players.forEach((player) => {
+            if (player.readyToPlay === false) ready = false;
+        });
+        return ready;
+    }
 
     return (<>
         <div className="content">
@@ -63,23 +71,26 @@ function Lobby(socket) {
                 {!isLobbyJoined && <div className="buttons">
                     <Button onClick={() => {
                         socket.emit("create_lobby", {lobbyID: lobbyID, username: username});
-                    }}>create new Lobby
-                    </Button>
+                    }}>create new Lobby</Button>
                     <Button onClick={() => {
                         socket.emit("join_lobby", {lobbyID: lobbyID, username: username});
-                    }}>join Lobby
-                    </Button>
+                    }}>join Lobby</Button>
                 </div>}
             </div>
 
             {isLobbyJoined && lobby !== null && <div className="waitingRoom">
                 <label>{`Lobby - ${lobbyID}`}</label>
+                <div className="buttons">
+                    <Button onClick={() => {
+                        socket.emit("ready_to_play");
+                    }}>Ready to Play</Button>
+                    <Button onClick={() => {
+                        socket.emit("start_game");
+                    }} disabled={!isLobbyReady()}>Start Game</Button>
+                </div>
                 <ListGroup className="playerboard" as="ol" numbered>
-                    {
-                        lobby.players.map((player) =>
-                            <ListGroup.Item as="li">{player.username}</ListGroup.Item>
-                        )
-                    }
+                    {lobby.players.map((player) => <ListGroup.Item
+                        as="li">{`${player.username} - ${player.readyToPlay}`}</ListGroup.Item>)}
                 </ListGroup>
             </div>}
 
