@@ -1,9 +1,13 @@
-const express = require('express');
+import express from "express";
+import http from "http";
+import {Server} from "socket.io";
+import cors from "cors";
+
+import Player from "./src/Player.js"
+import Lobby from "./src/Lobby.js"
+
+
 const app = express();
-const http = require("http");
-const {Server} = require("socket.io");
-const cors = require("cors");
-const {render} = require("express/lib/application");
 
 app.use(cors());
 app.set('port', 3003);
@@ -39,7 +43,10 @@ io.on("connection", (socket) => {
             console.log(`wrong input: ${data.lobbyID}`);
             socket.emit("create_lobby", {message: "Wrong input.", status: 0, lobbyID: data.lobbyID, username: data.username});
         } else if (i == -1) {
-            lobbys.push({lobbyID: data.lobbyID, player: [{socketID: socket.id, username: data.username}]});
+            const lobby = new Lobby(data.lobbyID);
+            lobby.addPlayer(new Player(data.username, socket.id));
+            lobbys.push(lobby);
+
             console.log(`lobby created: ${data.lobbyID}`);
             socket.join(data.lobbyID);
             socket.emit("create_lobby", {message: "Lobby created and joined.", status: 1, lobbyID: data.lobbyID, username: data.username});
@@ -48,6 +55,7 @@ io.on("connection", (socket) => {
             socket.emit("create_lobby", {message: "Lobby already exists.", status: 0, lobbyID: data.lobbyID, username: data.username});
         }
     })
+
     socket.on("join_lobby", (data) => {
         let i = -1;
         lobbys.forEach((currentValue, index) => {
@@ -63,7 +71,7 @@ io.on("connection", (socket) => {
             console.log(`lobby doesnt exists: ${data.lobbyID}`);
             socket.emit("join_lobby", {message: "Lobby doesnt exists.", status: 0, lobbyID: data.lobbyID, username: data.username});
         } else {
-            lobbys[i].player.push({socketID: socket.id, username: data.username});
+            lobbys[i].addPlayer(new Player(data.username, socket.id));
             socket.join(data.lobbyID);
             console.log(`lobby joined: ${lobbys[i].lobbyID}`);
             socket.emit("join_lobby", {message: "Lobby joined.", status: 1, lobbyID: data.lobbyID, username: data.username});
