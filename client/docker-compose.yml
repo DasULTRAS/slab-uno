@@ -6,5 +6,7 @@ services:
       context: .
       dockerfile: DOCKERFILE
     image: slab-uno
+    restart: unless-stopped
+    container_name: slab-uno-frontend
     ports:
       - 8080:80
