@@ -8,85 +8,86 @@ function Lobby(socket) {
     const [lobbyID, setLobbyID] = useState("");
     const [messageReceived, setMessageReceived] = useState("");
     const [username, setUsername] = useState("");
+    const [lobby, setLobby] = useState(null);
 
     useEffect(() => {
         socket.on("create_lobby", (data) => {
             setMessageReceived(data.message);
             if (data.status) {
                 // input get static
+                setLobby(data.lobby);
                 setLobbyJoined(true);
                 setLobbyID(data.lobbyID);
                 setUsername(data.username)
             }
-        })
+        });
         socket.on("join_lobby", (data) => {
             setMessageReceived(data.message);
             if (data.status) {
                 // input get static
+                setLobby(data.lobby);
                 setLobbyJoined(true);
-                setLobbyID(data.lobbyID);
+                setLobbyID(data.lobby.lobbyID);
                 setUsername(data.username)
             }
-        })
-    })
+        });
+        socket.on("player_joined", (data) => {
+            setMessageReceived(data.message);
+            setLobby(data.lobby);
+        });
+    });
 
-    return (
-        <>
+    return (<>
+        <div className="content">
             <img className="logo" src={logo} alt="Logo"/>
-            <div className="content">
-                <div className="lobbyJoin">
-                    <Form>
-                        <Form.Group className="form-items" controlId="formLobbyID">
-                            <Form.Label>LobbyID</Form.Label>
-                            <Form.Control type="text" placeholder="Enter LobbyID"
-                                          disabled={isLobbyJoined} readOnly={isLobbyJoined}
-                                          onChange={(event) => {
-                                              setLobbyID(event.target.value)
-                                          }}/>
-                        </Form.Group>
-                        <Form.Group className="form-items" controlId="formUsername">
-                            <Form.Label>Username</Form.Label>
-                            <Form.Control type="username" placeholder="Enter Username"
-                                          disabled={isLobbyJoined} readOnly={isLobbyJoined}
-                                          onChange={(event) => {
-                                              setUsername(event.target.value)
-                                          }}/>
-                        </Form.Group>
-                    </Form>
+            <div className="lobbyJoin">
+                <Form>
+                    <Form.Group className="form-items" controlId="formLobbyID">
+                        <Form.Label>LobbyID</Form.Label>
+                        <Form.Control type="text" placeholder="Enter LobbyID"
+                                      disabled={isLobbyJoined} readOnly={isLobbyJoined}
+                                      onChange={(event) => {
+                                          setLobbyID(event.target.value)
+                                      }}/>
+                    </Form.Group>
+                    <Form.Group className="form-items" controlId="formUsername">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="username" placeholder="Enter Username"
+                                      disabled={isLobbyJoined} readOnly={isLobbyJoined}
+                                      onChange={(event) => {
+                                          setUsername(event.target.value)
+                                      }}/>
+                    </Form.Group>
+                </Form>
 
-                    {
-                        !isLobbyJoined &&
-                        <div className="buttons">
-                            <Button onClick={() => {
-                                socket.emit("create_lobby", {lobbyID: lobbyID, username: username});
-                            }}>create new Lobby
-                            </Button>
-                            <Button onClick={() => {
-                                socket.emit("join_lobby", {lobbyID: lobbyID, username: username});
-                            }}>join Lobby
-                            </Button>
-                        </div>
-                    }
-                </div>
-
-                {
-                    isLobbyJoined &&
-                    <div className="waitingRoom">
-                        <label>{`Lobby - ${lobbyID}`}</label>
-                        <ListGroup as="ol" numbered>
-                            <ListGroup.Item as="li">Cras justo odio</ListGroup.Item>
-                            <ListGroup.Item as="li">Cras justo odio</ListGroup.Item>
-                            <ListGroup.Item as="li">Cras justo odio</ListGroup.Item>
-                        </ListGroup>
-                    </div>
-                }
-
-                <div className="message_received">
-                    {messageReceived}
-                </div>
+                {!isLobbyJoined && <div className="buttons">
+                    <Button onClick={() => {
+                        socket.emit("create_lobby", {lobbyID: lobbyID, username: username});
+                    }}>create new Lobby
+                    </Button>
+                    <Button onClick={() => {
+                        socket.emit("join_lobby", {lobbyID: lobbyID, username: username});
+                    }}>join Lobby
+                    </Button>
+                </div>}
             </div>
-        </>
-    );
+
+            {isLobbyJoined && lobby !== null && <div className="waitingRoom">
+                <label>{`Lobby - ${lobbyID}`}</label>
+                <ListGroup className="playerboard" as="ol" numbered>
+                    {
+                        lobby.players.map((player) =>
+                            <ListGroup.Item as="li">{player.username}</ListGroup.Item>
+                        )
+                    }
+                </ListGroup>
+            </div>}
+
+            <div className="message_received">
+                {messageReceived}
+            </div>
+        </div>
+    </>);
 }
 
 export default Lobby;

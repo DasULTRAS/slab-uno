@@ -35,7 +35,8 @@ io.on("connection", (socket) => {
     });
 
     socket.on("join_lobby", (data) => {
-        lobbyManagement.joinLobby(data, socket);
+        const lobby = lobbyManagement.joinLobby(data, socket);
+        io.emit("player_joined", {message: `Player joined: ${data.username}`, lobby: lobby});
     });
 });
 

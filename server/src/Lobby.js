@@ -22,7 +22,7 @@ export default class Lobby {
     /**
      * Searches the player-object with the same Username
      * @param username
-     * @returns {number} -1 if username not found or the index
+     * @returns {number} -1 if username not found else the index
      */
     getPlayerIndex(username){
         let i = -1;

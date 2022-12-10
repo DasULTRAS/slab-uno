@@ -1,4 +1,9 @@
 .content {
+    padding-top: 10%;
+    padding-bottom: 10%;
+    min-height: 15%;
+    max-height: 80%;
+
     margin: auto;
     width: 35%;
     height: 25%;
@@ -6,10 +11,9 @@
 }
 
 .logo {
-    padding-top: 15%;
     margin: auto;
     display: flex;
-    height: 25%;
+    height: 125pt;
 }
 
 .form-items input, textarea{
