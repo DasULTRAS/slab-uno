@@ -3,9 +3,8 @@ import http from "http";
 import {Server} from "socket.io";
 import cors from "cors";
 
-import Player from "./src/Player.js"
-import Lobby from "./src/Lobby.js"
 import LobbyManagement from "./src/LobbyManagement.js"
+import Deck from "./src/Deck.js";
 
 
 const app = express();
@@ -50,8 +49,18 @@ io.on("connection", (socket) => {
     });
     socket.on("start_game", (data) => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
-        if (lobby != null)
-            io.emit("start_game", {message: `Game started.`, lobby: lobby})
+        if (lobby != null) {
+            let ready = true;
+            lobby.players.forEach((player) => {
+                if (!player.readyToPlay)
+                    ready = false;
+            })
+            if (ready) {
+                io.emit("start_game", {message: `Game started.`, lobby: lobby});
+                // init Deck
+                lobby.deck = new Deck(parseInt(lobby.players.length / 4) + 1);
+            }
+        }
     })
 });
 

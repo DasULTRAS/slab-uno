@@ -2,6 +2,7 @@ export default class Lobby {
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
+        this.deck = null;
     }
 
     addPlayer(player) {
