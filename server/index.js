@@ -24,13 +24,20 @@ const lobbyManagement = new LobbyManagement(io);
 
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
-});
-// NOT WORKING
-io.on("disconnect", (socket) => {
-    console.log(`User Disconnected: ${socket.id}`);
-    const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
-    const player = lobbyManagement.getLobbyBySocketID(socket.id);
-    if (lobby != null) lobby.removePlayer();
+    socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
+
+    socket.on("disconnect", (data) => {
+        console.log(`${socket.id} disconnected.`);
+        socket.broadcast.emit('message', {message: `${socket.id} disconnected.`});
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        if (lobby != null) {
+            // Remove player from lobby
+            lobby.removePlayer(socket.id);
+            if (lobby.players.length == 0)
+                // Remove Lobby if is empty
+                lobbyManagement.removeLobby(lobby.lobbyID);
+        }
+    });
 });
 
 io.on("connection", (socket) => {

@@ -79,6 +79,19 @@ export default class LobbyManagement {
         }
     }
 
+    removeLobby(lobbyID){
+        const i = this.getLobbyIndexByID(lobbyID)
+        if (i === -1)
+            return false;
+
+        // move the element to the last index
+        const temp = this.lobbys[i];
+        this.lobbys[i] = this.lobbys[this.lobbys.length -1];
+        this.lobbys[this.lobbys.length-1] = temp;
+        // removes the last element
+        this.lobbys.pop();
+    }
+
     joinLobby(data, socket) {
         // not empty inputs
         if (data.lobbyID === "" || data.username === "") {
