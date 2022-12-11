@@ -90,7 +90,7 @@ function Lobby({socket}) {
                 </div>
                 <ListGroup className="playerboard" as="ol" numbered>
                     {lobby.players.map((player) => <ListGroup.Item
-                        as="li">{`${player.username} - ${player.readyToPlay}`}</ListGroup.Item>)}
+                        as="li" key={player.username}>{`${player.username} - ${player.readyToPlay}`}</ListGroup.Item>)}
                 </ListGroup>
             </div>}
 

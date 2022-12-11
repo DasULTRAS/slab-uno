@@ -16,7 +16,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: ["https://uno.dasultras.de", "http://localhost:8080"], methods: ["GET", "POST"],
+        origin: ["https://uno.dasultras.de", "http://localhost:3000"], methods: ["GET", "POST"],
     },
 });
 
@@ -56,11 +56,13 @@ io.on("connection", (socket) => {
     socket.on("start_game", (data) => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
         if (lobby != null) {
+            // Test if every Player is ready
             let ready = true;
             lobby.players.forEach((player) => {
                 if (!player.readyToPlay) ready = false;
             })
             if (ready) {
+                // Start the game
                 io.emit("start_game", {message: `Game started.`, lobby: lobby});
                 // init Deck
                 lobby.deck = new Deck(parseInt(lobby.players.length / 4) + 1);
