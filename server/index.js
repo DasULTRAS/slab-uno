@@ -33,26 +33,21 @@ io.on("connection", (socket) => {
             // Remove player from lobby
             lobby.removePlayer(socket.id);
             io.to(lobby.lobbyID).emit("message", {message: `Player ${socket} disconnected.`});
+            io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
             if (lobby.players.length === 0) {
                 // Remove Lobby if is empty
                 lobbyManagement.removeLobby(lobby.lobbyID);
-                socket.broadcast.emit("message", {message: `Lobby ${lobby.lobbyID} removed.`});
             }
         }
     });
-});
 
-io.on("connection", (socket) => {
     socket.on("create_lobby", (data) => {
         lobbyManagement.createLobby(data, socket);
     });
 
     socket.on("join_lobby", (data) => {
         const lobby = lobbyManagement.joinLobby(data, socket);
-        if (lobby != null) io.to(lobby.lobbyID).emit("player_change", {
-            message: `Player joined: ${data.username}`,
-            lobby: lobby
-        });
+        if (lobby != null) io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
     });
 
     socket.on("ready_to_play", () => {
@@ -60,9 +55,7 @@ io.on("connection", (socket) => {
         if (player !== null) {
             player.readyToPlay = !player.readyToPlay;
             io.to(player.lobbyID).emit("message", {message: `Player status changed: ${player.username}`});
-            io.to(player.lobbyID).emit("player_change", {
-                lobby: lobbyManagement.getLobbyByID(player.lobbyID)
-            });
+            io.to(player.lobbyID).emit("player_change", {lobby: lobbyManagement.getLobbyByID(player.lobbyID)});
         }
     });
     socket.on("start_game", () => {
@@ -75,7 +68,7 @@ io.on("connection", (socket) => {
             })
             if (ready) {
                 // Start the game
-                io.to(lobby.lobbyID).emit("start_game", {message: `Game started.`, lobby: lobby});
+                io.to(lobby.lobbyID).emit("start_game", {lobby: lobby});
                 io.to(lobby.lobbyID).emit("message", {message: `Game in Lobby ${lobby.lobbyID} started.`});
                 // init Deck   // Math.trunc returns the number of an float
                 lobby.deck = new Deck(Math.trunc(lobby.players.length / 4) + 1);
