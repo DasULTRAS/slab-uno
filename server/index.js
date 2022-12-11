@@ -26,6 +26,14 @@ const lobbyManagement = new LobbyManagement(io);
 io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
 });
+// NOT WORKING
+io.on("disconnect", (socket) =>{
+    console.log(`User Disconnected: ${socket.id}`);
+    const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+    const player = lobbyManagement.getLobbyBySocketID(socket.id);
+    if (lobby != null)
+        lobby.removePlayer();
+});
 
 io.on("connection", (socket) => {
     socket.on("create_lobby", (data) => {
