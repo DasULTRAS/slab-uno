@@ -72,7 +72,9 @@ export default class LobbyManagement {
             this.lobbys.push(new Lobby(data.lobbyID));
             console.log(`lobby created: ${data.lobbyID}`);
             socket.emit("message", {message: `lobby created: ${data.lobbyID}`})
-            this.joinLobby(data, socket);
+            const lobby = this.joinLobby(data, socket);
+            if (lobby === null)
+                this.removeLobby(data.lobbyID);
         } else {
             console.log(`lobby already exists: ${this.lobbys[i].lobbyID}`);
             socket.emit("message", {message: `lobby already exists: ${this.lobbys[i].lobbyID}`});
@@ -80,6 +82,7 @@ export default class LobbyManagement {
     }
 
     removeLobby(lobbyID){
+        console.log(`${lobbyID} closed.`);
         const i = this.getLobbyIndexByID(lobbyID)
         if (i === -1)
             return false;
