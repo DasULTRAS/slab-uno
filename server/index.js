@@ -10,14 +10,13 @@ import Deck from "./src/Deck.js";
 const app = express();
 
 app.use(cors());
-app.set('port', 3003);
+app.set('port', 8080);
 
 const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-        // origin: "https://uno.dasultras.de",
-        origin: "http://localhost:3000", methods: ["GET", "POST"],
+        origin: ["https://uno.dasultras.de", "http://localhost:8080"], methods: ["GET", "POST"],
     },
 });
 
@@ -27,12 +26,11 @@ io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
 });
 // NOT WORKING
-io.on("disconnect", (socket) =>{
+io.on("disconnect", (socket) => {
     console.log(`User Disconnected: ${socket.id}`);
     const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
     const player = lobbyManagement.getLobbyBySocketID(socket.id);
-    if (lobby != null)
-        lobby.removePlayer();
+    if (lobby != null) lobby.removePlayer();
 });
 
 io.on("connection", (socket) => {
@@ -60,8 +58,7 @@ io.on("connection", (socket) => {
         if (lobby != null) {
             let ready = true;
             lobby.players.forEach((player) => {
-                if (!player.readyToPlay)
-                    ready = false;
+                if (!player.readyToPlay) ready = false;
             })
             if (ready) {
                 io.emit("start_game", {message: `Game started.`, lobby: lobby});
@@ -71,7 +68,7 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("ping", (data)=>{
+    socket.on("ping", (data) => {
         socket.emit("pong", data);
     });
 });
