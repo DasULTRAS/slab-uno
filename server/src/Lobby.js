@@ -9,9 +9,9 @@ export default class Lobby {
         this.players.push(player);
     }
 
-    removePlayer(username) {
-        let i = this.getPlayerIndex(username);
-        if (i == -1)
+    removePlayer(socketID) {
+        let i = this.getPlayerIndexBySocketID(socketID);
+        if (i === -1)
             return false;
 
         // move the element to the last index
@@ -25,10 +25,10 @@ export default class Lobby {
      * @param username
      * @returns {number} -1 if username not found else the index
      */
-    getPlayerIndex(username){
+    getPlayerIndexBySocketID(socketID){
         let i = -1;
-        this.players.forEach((currentValue, index) => {
-            if (currentValue.username === username)
+        this.players.forEach((player, index) => {
+            if (player.socketID === socketID)
                 i = index;
         });
         return i;

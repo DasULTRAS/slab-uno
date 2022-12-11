@@ -40,6 +40,17 @@ export default class LobbyManagement {
 
         return temp;
     }
+    getLobbyByUsername(username) {
+        let temp = null;
+        this.lobbys.forEach((lobby) => {
+            lobby.players.forEach((player) => {
+                if (player.username == username)
+                    temp = lobby;
+            });
+        });
+
+        return temp;
+    }
 
     getPlayerBySocketID(socketID) {
         let temp = null;
@@ -63,6 +74,7 @@ export default class LobbyManagement {
                 lobbyID: data.lobbyID,
                 username: data.username
             });
+            return;
         }
 
         let i = this.getLobbyIndexByID(data.lobbyID);
@@ -92,6 +104,7 @@ export default class LobbyManagement {
                 lobbyID: data.lobbyID,
                 username: data.username
             });
+            return null;
         }
 
         let i = this.getLobbyIndexByID(data.lobbyID);
@@ -104,17 +117,26 @@ export default class LobbyManagement {
                 lobbyID: data.lobbyID,
                 username: data.username
             });
-            return this.lobbys[i];
         } else {
-            this.lobbys[i].addPlayer(new Player(data.username, socket.id, this.lobbys[i].lobbyID));
-            socket.join(data.lobbyID);
-            console.log(`lobby joined: ${this.lobbys[i].lobbyID}`);
-            socket.emit("join_lobby", {
-                message: "Lobby joined.",
-                status: 1,
+            if (this.getLobbyByUsername(data.username) === null){
+                this.lobbys[i].addPlayer(new Player(data.username, socket.id, this.lobbys[i].lobbyID));
+                socket.join(data.lobbyID);
+                console.log(`lobby joined: ${this.lobbys[i].lobbyID}`);
+                socket.emit("join_lobby", {
+                    message: "Lobby joined.",
+                    status: 1,
+                    username: data.username,
+                    lobby: this.lobbys[i]
+                });
+                return this.lobbys[i];
+            } else {
+                socket.emit("join_lobby", {
+                message: "Username is used.",
+                status: 0,
                 username: data.username,
                 lobby: this.lobbys[i]
             });
+            }
         }
         return null;
     }
