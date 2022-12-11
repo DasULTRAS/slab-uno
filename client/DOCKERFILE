@@ -1,4 +1,4 @@
-FROM node:17-alpine as builder
+FROM node:19.2 as builder
 # SET work dir in container
 WORKDIR /app
 # copy packages files
