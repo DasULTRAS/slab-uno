@@ -3,6 +3,11 @@
     width: 100%;
 }
 
+label.latency{
+    float: right;
+    font-size: small;
+}
+
 .gameBackground {
      background-image: url(./assets/defaultBG.webp);
      background-size: 100% 100%;

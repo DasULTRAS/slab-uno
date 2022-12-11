@@ -69,7 +69,11 @@ io.on("connection", (socket) => {
                 lobby.deck = new Deck(parseInt(lobby.players.length / 4) + 1);
             }
         }
-    })
+    });
+
+    socket.on("ping", (data)=>{
+        socket.emit("pong", data);
+    });
 });
 
 server.listen(app.get('port'), () => {
