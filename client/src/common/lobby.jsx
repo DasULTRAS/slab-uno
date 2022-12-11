@@ -6,33 +6,26 @@ import logo from "../assets/UNO_Button.png";
 function Lobby({socket}) {
     const [isLobbyJoined, setLobbyJoined] = useState(false);
     const [lobbyID, setLobbyID] = useState("");
-    const [messageReceived, setMessageReceived] = useState("");
     const [username, setUsername] = useState("");
     const [lobby, setLobby] = useState(null);
 
     useEffect(() => {
         socket.on("create_lobby", (data) => {
-            setMessageReceived(data.message);
-            if (data.status) {
-                // input get static
-                setLobby(data.lobby);
-                setLobbyJoined(true);
-                setLobbyID(data.lobbyID);
-                setUsername(data.username)
-            }
+            // input get static
+            setLobby(data.lobby);
+            setLobbyJoined(true);
+            setLobbyID(data.lobbyID);
+            setUsername(data.username)
         });
         socket.on("join_lobby", (data) => {
-            setMessageReceived(data.message);
-            if (data.status) {
-                // input get static
-                setLobby(data.lobby);
-                setLobbyJoined(true);
-                setLobbyID(data.lobby.lobbyID);
-                setUsername(data.username)
-            }
+            // input get static
+            setLobby(data.lobby);
+            setLobbyJoined(true);
+            setLobbyID(data.lobby.lobbyID);
+            setUsername(data.username)
+
         });
         socket.on("player_change", (data) => {
-            setMessageReceived(data.message);
             setLobby(data.lobby);
         });
     });
@@ -93,10 +86,6 @@ function Lobby({socket}) {
                         as="li" key={player.username}>{`${player.username} - ${player.readyToPlay}`}</ListGroup.Item>)}
                 </ListGroup>
             </div>}
-
-            <div className="message_received">
-                {messageReceived}
-            </div>
         </div>
     </>);
 }

@@ -47,8 +47,8 @@ io.on("connection", (socket) => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         if (player !== null) {
             player.readyToPlay = !player.readyToPlay;
+            socket.emit("message", {message: `Player status changed: ${player.username}`});
             io.emit("player_change", {
-                message: `Player status changed: ${player.username}`,
                 lobby: lobbyManagement.getLobbyByID(player.lobbyID)
             });
         }
@@ -64,6 +64,7 @@ io.on("connection", (socket) => {
             if (ready) {
                 // Start the game
                 io.emit("start_game", {message: `Game started.`, lobby: lobby});
+                io.emit("message", {message: `Game in Lobby ${lobby.lobbyID} started.`});
                 // init Deck
                 lobby.deck = new Deck(parseInt(lobby.players.length / 4) + 1);
             }

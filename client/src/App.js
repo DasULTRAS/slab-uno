@@ -9,8 +9,9 @@ const socket = io.connect("http://localhost:8080/");
 
 function App() {
     const [gameStarted, setGameStarted] = useState(false);
-    const [lobby, setLobby] = useState(null);
     const [latency, setLatency] = useState(0);
+    const [message, setMessage] = useState("");
+    const [lobby, setLobby] = useState(null);
 
     useEffect(() => {
         socket.on("start_game", (data) => {
@@ -20,7 +21,12 @@ function App() {
             console.log(socket);
         });
 
-        socket.on("pong", (data)=>{
+        socket.on("message", (data) => {
+            console.log(data.message);
+            setMessage(data.message);
+        });
+
+        socket.on("pong", (data) => {
             setLatency(Date.now() - data.timestamp);
         });
         const interval = setInterval(() => {
@@ -32,7 +38,11 @@ function App() {
 
     return (
         <div className="App">
-            <label className="latency">{`${latency}ms`}</label>
+            <div className="debug">
+                <li className="latency">{`${latency}ms`}</li>
+                <li className="message">{message}</li>
+            </div>
+
             {gameStarted ? <Game socket={socket}/> : <Lobby socket={socket}/>}
             <div className="gameBackground"/>
         </div>

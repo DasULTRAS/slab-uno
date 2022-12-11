@@ -1,13 +1,22 @@
 import Card from "./Card.js";
 
 export default class Deck {
-    #colors;
-    #specialcard;
+    #Colors = Object.freeze({
+        RED: "red",
+        YELLOW: "yellow",
+        GREEN: "green",
+        BLUE: "blue"
+    });
+    #SpecialCard = Object.freeze({
+        SKIP: "skip",
+        REVERSE: "reverse",
+        DRAW_TWO: "draw_two",
+        WILD: "wild",
+        WILD_DRAW_FOUR: "wild_draw_four"
+    });
 
     constructor(numberOfDecks) {
         this.cards = [];
-        this.#colors = ["red", "yellow", "green", "blue"];
-        this.#specialcard = ["skip", "reverse", "draw_two", "wild", "wild_draw_four"];
 
         for (let i = 0; i < numberOfDecks; i++) this.#initDeck();
 
@@ -17,13 +26,13 @@ export default class Deck {
     #initDeck() {
         // init number cards
         for (let i = 0; i < 8; i++) for (let j = 0; j < 10; j++) {
-            if (!(i < 4 && j == 0)) this.cards.push(new Card(this.#colors[i % 4], j));
+            if (!(i < 4 && j == 0)) this.cards.push(new Card(Object.values(this.#Colors)[i % 4], j));
         }
 
         // init special cards
         for (let i = 0; i < 8; i++) for (let j = 0; j < 4; j++) {
             if (i >= 4 && j == 3) j++;
-            this.cards.push(new Card(this.#colors[i % 4], this.#specialcard[j]));
+            this.cards.push(new Card(Object.values(this.#Colors)[i % 4], Object.values(this.#SpecialCard)[j]));
         }
     }
 
