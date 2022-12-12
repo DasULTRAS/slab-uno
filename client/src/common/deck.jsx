@@ -16,7 +16,7 @@ function disableCard(card, playCard){
     return true;
 }
 
-export default function Deck({cards, cardSize, playCard}) {
+export default function Deck({socket, cards, cardSize, playCard}) {
     const deckLength = cards.length;
     const curl = Math.pow(deckLength, 1.30) * 10;
     const deg = deckLength > 1 ? -deckLength * 15 : 0;
@@ -51,6 +51,11 @@ export default function Deck({cards, cardSize, playCard}) {
         }
     }
 
+    function placeCard(_, color, type) {
+        console.log({card: {color: color, type: type}});
+        socket.emit('place_card', {card: {color: color, type: type}});
+    }
+
     return(
         <div className="deck">
         {cards.map((card, index) => {
@@ -60,6 +65,7 @@ export default function Deck({cards, cardSize, playCard}) {
                 cardWidth={cardSize}
                 enableHover={true}
                 style={fanStyle(index)}
+                clickEvent={placeCard}
                 disable={disableCard(card, playCard)}/>)
             })}
         </div>
