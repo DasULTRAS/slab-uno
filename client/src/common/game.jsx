@@ -41,7 +41,7 @@ function Game({socket}) {
             })}
         </div>
         <div className="gameField">
-            <Card color={playCard.color} cardType={playCard.cardType} cardWidth={cardSize} />
+            <Card color={playCard.color} cardType={playCard.type} cardWidth={cardSize} />
         </div>
         <div className="bar">
             <div className="drawCard">
