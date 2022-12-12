@@ -32,7 +32,7 @@ io.on("connection", (socket) => {
         if (lobby != null) {
             // Remove player from lobby
             lobby.removePlayer(socket.id);
-            io.to(lobby.lobbyID).emit("message", {message: `Player ${socket} disconnected.`});
+            io.to(lobby.lobbyID).emit("message", {message: `Player ${socket.id} disconnected.`});
             io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
             if (lobby.players.length === 0) {
                 // Remove Lobby if is empty
@@ -58,6 +58,7 @@ io.on("connection", (socket) => {
             io.to(player.lobbyID).emit("player_change", {lobby: lobbyManagement.getLobbyByID(player.lobbyID)});
         }
     });
+    // Start and init the new Game
     socket.on("start_game", () => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
         if (lobby != null) {
@@ -66,14 +67,22 @@ io.on("connection", (socket) => {
             lobby.players.forEach((player) => {
                 if (!player.readyToPlay) ready = false;
             })
+
             if (ready) {
-                // Start the game
-                io.to(lobby.lobbyID).emit("start_game", {lobby: lobby});
-                io.to(lobby.lobbyID).emit("message", {message: `Game in Lobby ${lobby.lobbyID} started.`});
                 // init Deck   // Math.trunc returns the number of an float
                 lobby.deck = new Deck(Math.trunc(lobby.players.length / 4) + 1);
+                // Start the game
+                lobby.renewPlayersDeckLength();
+
+                io.to(lobby.lobbyID).emit("start_game", {lobby: lobby, player_deck:lobbyManagement.getPlayerBySocketID(socket.id).playerDeck});
+                io.to(lobby.lobbyID).emit("message", {message: `Game in Lobby ${lobby.lobbyID} started.`});
             }
         }
+    });
+
+    // Player wants one more card
+    socket.on("get_card", () => {
+
     });
 
     socket.on("ping", (data) => {

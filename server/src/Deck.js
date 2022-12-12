@@ -1,5 +1,3 @@
-import Card from "./Card.js";
-
 export default class Deck {
     #Colors = Object.freeze({
         RED: "red",
@@ -15,6 +13,14 @@ export default class Deck {
         WILD_DRAW_FOUR: "wild_draw_four"
     });
 
+    // Card in Composition to Deck
+    #Card = class Card {
+        constructor(color, type) {
+            this.color = color;
+            this.type = type;
+        }
+    }
+
     constructor(numberOfDecks) {
         this.cards = [];
 
@@ -26,13 +32,13 @@ export default class Deck {
     #initDeck() {
         // init number cards
         for (let i = 0; i < 8; i++) for (let j = 0; j < 10; j++) {
-            if (!(i < 4 && j == 0)) this.cards.push(new Card(Object.values(this.#Colors)[i % 4], j));
+            if (!(i < 4 && j == 0)) this.cards.push(new this.#Card(Object.values(this.#Colors)[i % 4], j));
         }
 
         // init special cards
         for (let i = 0; i < 8; i++) for (let j = 0; j < 4; j++) {
             if (i >= 4 && j == 3) j++;
-            this.cards.push(new Card(Object.values(this.#Colors)[i % 4], Object.values(this.#SpecialCard)[j]));
+            this.cards.push(new this.#Card(Object.values(this.#Colors)[i % 4], Object.values(this.#SpecialCard)[j]));
         }
     }
 
