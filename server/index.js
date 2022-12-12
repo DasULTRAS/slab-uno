@@ -108,14 +108,19 @@ io.on("connection", (socket) => {
             return;
         }
         // Player is not active Player
-        if (lobby.players[lobby.activePlayerIndex].socketID !== socket.id){
+        if (lobby.players[lobby.activePlayerIndex].socketID !== socket.id) {
             socket.emit("message", {message: "Wait for your turn."});
             return;
         }
+        lobby.activePlayerIndex = (lobby.activePlayerIndex + 1) % lobby.players.length;
+
         // Check if Move is valid and make the move
         try {
-            if(lobby.playCard(player, data.card)){
+            if (lobby.playCard(player, data.card)) {
+                lobby.renewPlayerDecksLength();
                 socket.emit("message", {message: "Move was valid."});
+                socket.emit("get_card", {player_deck: player.deck});
+                io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
             } else {
                 socket.emit("message", {message: "Move is not valid."});
             }
@@ -133,9 +138,9 @@ io.on("connection", (socket) => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
 
         if (player !== null && lobby !== null) {
-            /*
-            GET NEW CARD
-             */
+            // Get new Card
+            player.deck.placeCard(lobby.deck.drawCard());
+
             lobby.renewPlayerDecksLength();
             io.emit("message", {message: `${player.username} gets a new Card.`});
             socket.emit("get_card", {player_deck: player.deck});
