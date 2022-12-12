@@ -42,11 +42,11 @@ edit in `server/index.js` the *origin* to the UNO Server.
     - [x] docker-compose.yml for development
     - [x] docker-compose.yml for production
 - Maxim
-  - [ ] Display the layout(without functions)
-    - [ ] Uno button
-    - [ ] Own player deck
-    - [ ] Draw card deck
-    - [ ] Middle deck
+  - [X] Display the layout(without functions)
+    - [X] Uno button
+    - [X] Own player deck
+    - [X] Draw card deck
+    - [X] Middle deck
 
 ## Milestones
 

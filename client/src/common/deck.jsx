@@ -1,8 +1,22 @@
 import React from "react";
 import "./deck.css";
 import Card from "./card";
+import { specialCard } from "./cards";
 
-export default function Deck({cards, cardSize}) {
+function disableCard(card, playCard){
+    if(card.color === playCard.color){
+        return false;
+    }
+    if(card.type === playCard.type){
+        return false;
+    }
+    if(specialCard.includes(card.type)){
+        return false;
+    }
+    return true;
+}
+
+export default function Deck({cards, cardSize, playCard}) {
     const deckLength = cards.length;
     const curl = Math.pow(deckLength, 1.30) * 10;
     const deg = deckLength > 1 ? -deckLength * 15 : 0;
@@ -45,7 +59,8 @@ export default function Deck({cards, cardSize}) {
                 cardType={card.type} 
                 cardWidth={cardSize}
                 enableHover={true}
-                style={fanStyle(index)}/>)
+                style={fanStyle(index)}
+                disable={disableCard(card, playCard)}/>)
             })}
         </div>
     );
