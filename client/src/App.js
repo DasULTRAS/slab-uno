@@ -30,6 +30,10 @@ function App() {
             setLobby(data.lobby);
         });
 
+        socket.on("renew_lobby", (data) => {
+            setLobby(data.lobby);
+        });
+
         socket.on("pong", (data) => {
             setLatency(Date.now() - data.timestamp);
         });
