@@ -60,7 +60,8 @@ export default function Deck({socket, cards, cardSize, playCard}) {
         <div className="deck">
         {cards.map((card, index) => {
             return (<Card 
-                color={card.color} 
+                color={card.color}
+                key={index}
                 cardType={card.type} 
                 cardWidth={cardSize}
                 enableHover={true}
