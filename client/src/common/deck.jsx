@@ -12,7 +12,7 @@ export default function Deck({cards, cardSize}) {
     const initialOver = curl;
     let over = initialOver / 2;
 
-    console.log(
+    /*console.log(
         `deckLength: ${deckLength},\n` +
         `curl: ${curl},\n` +
         `deg: ${deg},\n` +
@@ -20,7 +20,7 @@ export default function Deck({cards, cardSize}) {
         `initialDown: ${initialDown},\n` +
         `down: ${down},\n` +
         `initialOver: ${initialOver},\n` +
-        `over: ${over},\n`);
+        `over: ${over},\n`);*/
 
     function fanStyle(num) {
         let overHalf = num > (deckLength - 1) / 2;
