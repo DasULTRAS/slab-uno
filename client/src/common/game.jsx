@@ -56,7 +56,7 @@ function Game({socket, lobby}) {
                     clickEvent={getOneCardFromStack}
                     enableHover={true}/>
             </div>
-            <Deck cards={playerCards} cardSize={cardSize}/>
+            <Deck cards={playerCards} cardSize={cardSize} playCard={playCard}/>
             <div className="unoButton" onClick={unoButtonClick}>
                 <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
             </div>
