@@ -25,9 +25,7 @@ export default class Lobby {
 
         // deal first card to Played Cards
         this.playedCards.placeCard(this.#deck.drawCard());
-        const types = this.playedCards.Types;
-        while (this.playedCards.last.type === (null || types.WILD || types.WILD_DRAW_FOUR || types.REVERSE || types.SKIP || types.DRAW_TWO))
-            this.playedCards.placeCard(this.#deck.drawCard());
+        while (Object.values(this.playedCards.Types).slice(10, 15).includes(this.playedCards.last.type)) this.playedCards.placeCard(this.#deck.drawCard());
     }
 
     /**
@@ -44,8 +42,10 @@ export default class Lobby {
             return false;
 
         /* Check if move is valid */
-        if ((this.playedCards.last.color || card.color) === this.playedCards.Colors.BLACK) {
-            if ((this.playedCards.last.color) && (card.color) === this.playedCards.color.BLACK)
+        if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
+            if ([this.playedCards.last.color, card.color].every(value => {
+                return value === this.playedCards.Colors.BLACK
+            }))
                 // Cant combine two black
                 return false;
             /* BLACK CARD RULES */
