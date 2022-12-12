@@ -26,6 +26,10 @@ function App() {
             setMessage(data.message);
         });
 
+        socket.on("player_change", (data) => {
+            setLobby(data.lobby);
+        });
+
         socket.on("pong", (data) => {
             setLatency(Date.now() - data.timestamp);
         });
@@ -43,7 +47,7 @@ function App() {
                 <li className="message">{message}</li>
             </div>
 
-            {gameStarted ? <Game socket={socket}/> : <Lobby socket={socket}/>}
+            {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket}/>}
             <div className="gameBackground"/>
         </div>
     );

@@ -9,15 +9,20 @@ import { useEffect } from "react";
 
 const cardSize = "10em";
 
-function Game({socket}) {
+function Game({socket, lobby}) {
     const [playerCards, setPlayerCards] = useState([]);
     const [playCard, setPlayCard] = useState({color: 'red', type: 'nine'});
+    const [enemyPlayers, setEnemyPlayers] = useState([]);
 
     useEffect(() => {
         socket.on('get_card', (data) => {
             addCard(data.card);
         });
     })
+
+    useEffect(() => {
+        setEnemyPlayers(lobby.players);
+    }, [lobby]);
 
     function addCard(card) {
         setPlayerCards(oldPlayerCards => [...oldPlayerCards, card]);
