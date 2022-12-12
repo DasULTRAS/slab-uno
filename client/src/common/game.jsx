@@ -5,6 +5,7 @@ import Deck from "./deck";
 import "./game.css";
 import UnoButtonAsset from "../assets/UNO_Button.png";
 import EnemyPlayer from "./enemyPlayer";
+import { useEffect } from "react";
 
 const cardSize = "10em";
 
