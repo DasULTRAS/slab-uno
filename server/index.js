@@ -70,11 +70,15 @@ io.on("connection", (socket) => {
 
             if (ready) {
                 // init Deck   // Math.trunc returns the number of an float
-                lobby.deck = new Deck(Math.trunc(lobby.players.length / 4) + 1);
+                lobby.deck = new Deck(true);
+                lobby.dealCards();
                 // Start the game
-                lobby.renewPlayersDeckLength();
+                lobby.renewDeckLength();
 
-                io.to(lobby.lobbyID).emit("start_game", {lobby: lobby, player_deck:lobbyManagement.getPlayerBySocketID(socket.id).playerDeck});
+                io.to(lobby.lobbyID).emit("start_game", {lobby: lobby});
+                lobby.players.forEach((player) => {
+                    io.in(player.socketID).emit("get_card", {player_deck: player.deck});
+                });
                 io.to(lobby.lobbyID).emit("message", {message: `Game in Lobby ${lobby.lobbyID} started.`});
             }
         }
@@ -82,7 +86,18 @@ io.on("connection", (socket) => {
 
     // Player wants one more card
     socket.on("get_card", () => {
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
 
+        if (player !== null && lobby !== null) {
+            /*
+            GET NEW CARD
+             */
+            lobby.renewDeckLength();
+            io.emit("message", {message: `${player.username} gets a new Card.`});
+            socket.emit("get_card", {player_deck: player.deck});
+            io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
+        }
     });
 
     socket.on("ping", (data) => {

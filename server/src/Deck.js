@@ -20,13 +20,16 @@ export default class Deck {
             this.type = type;
         }
     }
+    #mainDeck;
 
-    constructor(numberOfDecks) {
+    constructor(mainDeck) {
+        this.#mainDeck = mainDeck;
         this.cards = [];
 
-        for (let i = 0; i < numberOfDecks; i++) this.#initDeck();
-
-        this.#mixDeck();
+        if (mainDeck) {
+            this.#initDeck();
+            this.#mixDeck();
+        }
     }
 
     #initDeck() {
@@ -45,7 +48,7 @@ export default class Deck {
     #mixDeck() {
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < this.cards.length; j++) {
-                this.#swap(j, parseInt(Math.random() * this.cards.length), this.cards);
+                this.#swap(j, Math.trunc(Math.random() * this.cards.length), this.cards);
             }
         }
     }
@@ -54,5 +57,17 @@ export default class Deck {
         const temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
+    }
+
+    drawCard() {
+        if (this.cards.length === 0 && this.#mainDeck) {
+            this.#initDeck();
+            this.#mixDeck();
+            console.log("NEW Cards.");
+        }
+        return this.cards.pop();
+    }
+    placeCard(newCard){
+        this.cards.push(newCard);
     }
 }

@@ -1,16 +1,33 @@
+import Deck from "./Deck.js";
+
 export default class Lobby {
     #deck;
-    #playedCards;
+
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
         this.#deck = null;
-        this.#playedCards = null;
+        this.playedCards = null;
     }
 
-    renewPlayersDeckLength(){
+    dealCards() {
+        if (this.playedCards !== null)
+            return;
+
+        // init decks
+        this.playedCards = new Deck(false);
         this.players.forEach((player) => {
-            player.renewPlayerDeckLength();
+            // init
+            player.deck = new Deck(false);
+            // deal Cards
+            for (let i = 0; i < 7; i++)
+                player.deck.placeCard(this.#deck.drawCard());
+        });
+    }
+
+    renewDeckLength() {
+        this.players.forEach((player) => {
+            player.renewDeckLength();
         });
     }
 

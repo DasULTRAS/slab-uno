@@ -1,27 +1,31 @@
 export default class Player {
-    #playerDeck;
+    #deck;
 
     constructor(username, socketID, lobbyID) {
         this.username = username;
         this.socketID = socketID;
         this.readyToPlay = false;
         this.lobbyID = lobbyID;
-        this.playerDeckLength = 0;
-        this.#playerDeck = null;
+        this.deckLength = 0;
+        this.#deck = null;
     }
 
-    renewPlayerDeckLength() {
-        if (this.#playerDeck == null)
-            this.playerDeckLength = 0;
+    renewDeckLength() {
+        if (this.#deck == null)
+            this.deckLength = 0;
         else
-            this.playerDeckLength = this.#playerDeck.length;
+            this.deckLength = this.#deck.length;
     }
 
-    get playerDeck() {
-        return this.#playerDeck;
+    drawCard(deck) {
+
     }
 
-    set playerDeck(value) {
-        this.#playerDeck = value;
+    get deck() {
+        return this.#deck;
+    }
+
+    set deck(value) {
+        this.#deck = value;
     }
 }
