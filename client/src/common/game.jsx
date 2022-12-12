@@ -36,7 +36,7 @@ function Game({socket}) {
         <div className="enemyPlayers">
             {enemyPlayers.map(player => {
                 return(
-                    <EnemyPlayer cardCount={player.cardCount} playerName={player.name} />
+                    <EnemyPlayer cardCount={player.cardCount} playerName={player.username} />
                 )
             })}
         </div>
