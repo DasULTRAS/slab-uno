@@ -59,24 +59,24 @@ import wildDraw from "../assets/Cards/wild-draw.png";
 import back from "../assets/Cards/back.png";
 
 export const cardMap = new Map();
-cardMap.set('zero', [redZero, yellowZero, blueZero, greenZero]);
-cardMap.set('one', [redOne, yellowOne, blueOne, greenOne]);
-cardMap.set('two', [redTwo, yellowTwo, blueTwo, greenTwo]);
-cardMap.set('three', [redThree, yellowThree, blueThree, greenThree]);
-cardMap.set('four', [redFour, yellowFour, blueFour, greenFour]);
-cardMap.set('five', [redFive, yellowFive, blueFive, greenFive]);
-cardMap.set('six', [redSix, yellowSix, blueSix, greenSix]);
-cardMap.set('seven', [redSeven, yellowSeven, blueSeven, greenSeven]);
-cardMap.set('eight', [redEight, yellowEight, blueEight, greenEight]);
-cardMap.set('nine', [redNine, yellowNine, blueNine, greenNine]);
+cardMap.set(0, [redZero, yellowZero, blueZero, greenZero]);
+cardMap.set(1, [redOne, yellowOne, blueOne, greenOne]);
+cardMap.set(2, [redTwo, yellowTwo, blueTwo, greenTwo]);
+cardMap.set(3, [redThree, yellowThree, blueThree, greenThree]);
+cardMap.set(4, [redFour, yellowFour, blueFour, greenFour]);
+cardMap.set(5, [redFive, yellowFive, blueFive, greenFive]);
+cardMap.set(6, [redSix, yellowSix, blueSix, greenSix]);
+cardMap.set(7, [redSeven, yellowSeven, blueSeven, greenSeven]);
+cardMap.set(8, [redEight, yellowEight, blueEight, greenEight]);
+cardMap.set(9, [redNine, yellowNine, blueNine, greenNine]);
 cardMap.set('skip', [redSkip, yellowSkip, blueSkip, greenSkip]);
 cardMap.set('reverse', [redReverse, yellowReverse, blueReverse, greenReverse]);
-cardMap.set('drawtwo', [redDrawTwo, yellowDrawTwo, blueDrawTwo, greenDrawTwo]);
+cardMap.set('draw_two', [redDrawTwo, yellowDrawTwo, blueDrawTwo, greenDrawTwo]);
 cardMap.set('wild', [wild]);
-cardMap.set('wildDraw', [wildDraw]);
+cardMap.set('wild_draw_four', [wildDraw]);
 cardMap.set('back', [back]);
 
-export const specialCard = ['wild', 'wildDraw', 'back'];
+export const specialCard = ['wild', 'wild_draw_four', 'back'];
 
 export function getColorId(color){
     switch(color) {

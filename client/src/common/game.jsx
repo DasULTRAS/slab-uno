@@ -11,7 +11,7 @@ const cardSize = "10em";
 
 function Game({socket, lobby}) {
     const [playerCards, setPlayerCards] = useState([]);
-    const [playCard, setPlayCard] = useState({color: 'red', type: 'nine'});
+    const [playCard, setPlayCard] = useState({color: 'red', type: 9});
     const [enemyPlayers, setEnemyPlayers] = useState([]);
 
     useEffect(() => {
