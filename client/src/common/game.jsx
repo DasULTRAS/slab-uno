@@ -10,8 +10,13 @@ const cardSize = "10em";
 
 function Game({socket}) {
     const [playerCards, setPlayerCards] = useState([]);
-    const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'});
-    const [enemyPlayers, setEnemyPlayers] = useState([{cardCount: 5, name: "TestUser1"}, {cardCount: 5, name: "TestUser2"}]);
+    const [playCard, setPlayCard] = useState({color: 'red', type: 'nine'});
+
+    useEffect(() => {
+        socket.on('get_card', (data) => {
+            addCard(data.card);
+        });
+    })
 
     function addCard(card) {
         setPlayerCards(oldPlayerCards => [...oldPlayerCards, card]);
@@ -21,14 +26,8 @@ function Game({socket}) {
         console.log('uno');
     }
 
-    //TODO: the server calls this function and adds the player
-    function addEnemyPlayer(enemyPlayer) {
-        setEnemyPlayers(oldArray => [...oldArray, enemyPlayer])
-    }
-
     function getOneCardFromStack(){
-        //TODO: Get a random card from the server
-        // the server should have the lobby stack
+        socket.emit('get_card');
     }
 
     return (
