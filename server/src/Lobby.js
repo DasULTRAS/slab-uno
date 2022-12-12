@@ -1,8 +1,17 @@
 export default class Lobby {
+    #deck;
+    #playedCards;
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
-        this.deck = null;
+        this.#deck = null;
+        this.#playedCards = null;
+    }
+
+    renewPlayersDeckLength(){
+        this.players.forEach((player) => {
+            player.renewPlayerDeckLength();
+        });
     }
 
     addPlayer(player) {
@@ -44,5 +53,14 @@ export default class Lobby {
         const temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
+    }
+
+
+    get deck() {
+        return this.#deck;
+    }
+
+    set deck(value) {
+        this.#deck = value;
     }
 }
