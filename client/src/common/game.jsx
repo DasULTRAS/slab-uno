@@ -16,17 +16,13 @@ function Game({socket, lobby}) {
 
     useEffect(() => {
         socket.on('get_card', (data) => {
-            addCard(data.card);
+            setPlayerCards(data.player_deck);
         });
     })
 
     useEffect(() => {
         setEnemyPlayers(lobby.players);
     }, [lobby]);
-
-    function addCard(card) {
-        setPlayerCards(oldPlayerCards => [...oldPlayerCards, card]);
-    }
 
     function unoButtonClick() {
         console.log('uno');
