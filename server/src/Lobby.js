@@ -22,8 +22,12 @@ export default class Lobby {
             // deal Cards
             for (let i = 0; i < 7; i++) player.deck.placeCard(this.#deck.drawCard());
         });
+
         // deal first card to Played Cards
         this.playedCards.placeCard(this.#deck.drawCard());
+        const types = this.playedCards.Types;
+        while (this.playedCards.last.type === (null || types.WILD || types.WILD_DRAW_FOUR || types.REVERSE || types.SKIP || types.DRAW_TWO))
+            this.playedCards.placeCard(this.#deck.drawCard());
     }
 
     /**
@@ -34,17 +38,24 @@ export default class Lobby {
      */
     playCard(player, card) {
         // Find Card index
-        let index = -1;
-        player.cards.forEach((playerCard, deckIndex) => {
-            if (playerCard.equals(card))
-                index = deckIndex;
-        });
+        let index = player.deck.getCardIndex(card);
         if (index == -1)
             // Card not found
             return false;
 
         /* Check if move is valid */
-        return false;
+        if ((this.playedCards.last.color || card.color) === this.playedCards.Colors.BLACK) {
+            if ((this.playedCards.last.color) && (card.color) === this.playedCards.color.BLACK)
+                // Cant combine two black
+                return false;
+            /* BLACK CARD RULES */
+        } else if (this.playedCards.last.color !== card.color && this.playedCards.last.type !== card.type)
+            // Colored Card have no matching attribute
+            return false;
+
+        // Move card from Player Cards to Played Cards
+        this.playedCards.placeCard(player.deck.removeCardByIndex(index));
+        return true;
     }
 
     renewPlayerDecksLength() {

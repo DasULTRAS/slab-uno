@@ -34,6 +34,9 @@ edit in `server/index.js` the *origin* to the UNO Server.
 ## Tasks
 - Christian
   - [ ] if main Cards are empty recycle played cards 
+  - [ ] Implement the new UNO Cards:
+    - Wild Shuffle Hands Card
+    - Wild Customizable card
 - Maxim
   - [X] Display the layout(without functions)
     - [X] Uno button
