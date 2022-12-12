@@ -76,12 +76,16 @@ io.on("connection", (socket) => {
                 lobby.renewDeckLength();
 
                 io.to(lobby.lobbyID).emit("start_game", {lobby: lobby});
-                lobby.players.forEach((player) => {
-                    io.in(player.socketID).emit("get_card", {player_deck: player.deck});
-                });
                 io.to(lobby.lobbyID).emit("message", {message: `Game in Lobby ${lobby.lobbyID} started.`});
             }
         }
+    });
+    // Frontend init
+    socket.on("game_started", () => {
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        if (player !== null)
+            // Send first Cards
+            socket.emit("get_card", {player_deck: player.deck});
     });
 
     // Player wants one more card
