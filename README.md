@@ -33,14 +33,7 @@ edit in `server/index.js` the *origin* to the UNO Server.
 
 ## Tasks
 - Christian
-  - [x] Search for icons/assets
-    - [x] Tap icon
-    - [x] icon (size: 192x192)
-    - [x] logo (size: 512x512)
-  - [x] Dockerized start
-    - [x] Guide
-    - [x] docker-compose.yml for development
-    - [x] docker-compose.yml for production
+  - [ ] if main Cards are empty recycle played cards 
 - Maxim
   - [X] Display the layout(without functions)
     - [X] Uno button

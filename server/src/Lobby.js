@@ -12,8 +12,7 @@ export default class Lobby {
     }
 
     dealCards() {
-        if (this.playedCards !== null)
-            return;
+        if (this.playedCards !== null) return;
 
         // init decks
         this.playedCards = new Deck(false);
@@ -21,14 +20,34 @@ export default class Lobby {
             // init
             player.deck = new Deck(false);
             // deal Cards
-            for (let i = 0; i < 7; i++)
-                player.deck.placeCard(this.#deck.drawCard());
+            for (let i = 0; i < 7; i++) player.deck.placeCard(this.#deck.drawCard());
         });
         // deal first card to Played Cards
         this.playedCards.placeCard(this.#deck.drawCard());
     }
 
-    renewDecksLength() {
+    /**
+     * Put the player's card on the main deck if the move is allowed.
+     * @param player who try to move the Card
+     * @param card that will be placed
+     * @returns {boolean} false if move is not allowed else true
+     */
+    playCard(player, card) {
+        // Find Card index
+        let index = -1;
+        player.cards.forEach((playerCard, deckIndex) => {
+            if (playerCard.equals(card))
+                index = deckIndex;
+        });
+        if (index == -1)
+            // Card not found
+            return false;
+
+        /* Check if move is valid */
+        return false;
+    }
+
+    renewPlayerDecksLength() {
         this.players.forEach((player) => {
             player.renewDeckLength();
         });

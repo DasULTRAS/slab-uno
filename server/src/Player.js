@@ -17,10 +17,6 @@ export default class Player {
             this.deckLength = this.#deck.length;
     }
 
-    drawCard(deck) {
-
-    }
-
     get deck() {
         return this.#deck;
     }
