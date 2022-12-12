@@ -85,6 +85,9 @@ io.on("connection", (socket) => {
     });
 
     // Player wants one more card
+    /**
+     * WHY DOES PLAYER NEED ONE CARD
+     */
     socket.on("get_card", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
