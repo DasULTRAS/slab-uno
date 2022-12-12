@@ -16,7 +16,7 @@ function Game({socket, lobby}) {
 
     useEffect(() => {
         socket.on('get_card', (data) => {
-            setPlayerCards(data.player_deck);
+            setPlayerCards(data.player_deck.cards);
         });
     })
 
