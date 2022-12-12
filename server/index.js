@@ -42,11 +42,19 @@ io.on("connection", (socket) => {
     });
 
     socket.on("create_lobby", (data) => {
-        lobbyManagement.createLobby(data, socket);
+        try {
+            lobbyManagement.createLobby(data, socket);
+        } catch (e) {
+            console.error(e);
+        }
     });
 
     socket.on("join_lobby", (data) => {
-        const lobby = lobbyManagement.joinLobby(data, socket);
+        try {
+            const lobby = lobbyManagement.joinLobby(data, socket);
+        } catch (e) {
+            console.error(e);
+        }
         if (lobby != null) io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
     });
 
@@ -74,7 +82,7 @@ io.on("connection", (socket) => {
                 lobby.deck = new Deck(true);
                 lobby.dealCards();
                 // Start the game
-                lobby.renewDecksLength();
+                lobby.renewPlayerDecksLength();
                 // Choose first Player
                 lobby.activePlayerIndex = Math.trunc(Math.random() * lobby.players.length);
 
@@ -91,6 +99,31 @@ io.on("connection", (socket) => {
             socket.emit("get_card", {player_deck: player.deck});
     });
 
+    socket.on("place_card", (data) => {
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        //Player or Lobby not found
+        if ((player || lobby) === null) {
+            console.log(`${socket.id} - Player not found.`)
+            return;
+        }
+        // Player is not active Player
+        if (lobby.players[lobby.activePlayerIndex].socketID !== socket.id){
+            socket.emit("message", {message: "Wait for your turn."});
+            return;
+        }
+        // Check if Move is valid and make the move
+        try {
+            if(lobby.playCard(player, data.card)){
+                socket.emit("message", {message: "Move was valid."});
+            } else {
+                socket.emit("message", {message: "Move is not valid."});
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
     // Player wants one more card
     /**
      * WHY DOES PLAYER NEED ONE CARD
@@ -103,7 +136,7 @@ io.on("connection", (socket) => {
             /*
             GET NEW CARD
              */
-            lobby.renewDecksLength();
+            lobby.renewPlayerDecksLength();
             io.emit("message", {message: `${player.username} gets a new Card.`});
             socket.emit("get_card", {player_deck: player.deck});
             io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
@@ -111,7 +144,11 @@ io.on("connection", (socket) => {
     });
 
     socket.on("ping", (data) => {
-        socket.emit("pong", data);
+        try {
+            socket.emit("pong", data);
+        } catch (e) {
+            console.error(e);
+        }
     });
 });
 

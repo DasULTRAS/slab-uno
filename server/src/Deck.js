@@ -1,10 +1,10 @@
 import Card from "./Card.js";
 
 export default class Deck {
-    #Colors = Object.freeze({
+    Colors = Object.freeze({
         RED: "red", YELLOW: "yellow", GREEN: "green", BLUE: "blue", BLACK: "black"
     });
-    #Type = Object.freeze({
+    Type = Object.freeze({
         ZERO: "0",
         ONE: "1",
         TWO: "2",
@@ -37,12 +37,12 @@ export default class Deck {
     #initDeck() {
         // init normal and special cards
         for (let i = 0; i < 8; i++) for (let j = 0; j < 13; j++) {
-            if (!(i >= 4 && j == 0)) this.cards.push(new Card(Object.values(this.#Colors)[i % 4], Object.values(this.#Type)[j]));
+            if (!(i >= 4 && j == 0)) this.cards.push(new Card(Object.values(this.Colors)[i % 4], Object.values(this.Type)[j]));
         }
 
         // init WILD Cards
         for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) {
-            this.cards.push(new Card(Object.values(this.#Colors)[4], Object.values(this.#Type)[j + 13]))
+            this.cards.push(new Card(Object.values(this.Colors)[4], Object.values(this.Type)[j + 13]))
         }
     }
 
@@ -75,5 +75,9 @@ export default class Deck {
 
     get length() {
         return this.cards.length;
+    }
+
+    get last(){
+        return this.cards.get(this.cards.length-1);
     }
 }

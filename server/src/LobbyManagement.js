@@ -81,7 +81,7 @@ export default class LobbyManagement {
         }
     }
 
-    removeLobby(lobbyID){
+    removeLobby(lobbyID) {
         console.log(`${lobbyID} closed.`);
         const i = this.getLobbyIndexByID(lobbyID)
         if (i === -1)
@@ -89,8 +89,8 @@ export default class LobbyManagement {
 
         // move the element to the last index
         const temp = this.lobbys[i];
-        this.lobbys[i] = this.lobbys[this.lobbys.length -1];
-        this.lobbys[this.lobbys.length-1] = temp;
+        this.lobbys[i] = this.lobbys[this.lobbys.length - 1];
+        this.lobbys[this.lobbys.length - 1] = temp;
         // removes the last element
         this.lobbys.pop();
     }
@@ -109,9 +109,10 @@ export default class LobbyManagement {
             socket.emit("message", {message: "Lobby doesnt exists."});
         } else if (this.lobbys[i].deck !== null) {
             // Lobby is started
-            socket.emit("message", {
-                message: "Lobby is already started."
-            });
+            socket.emit("message", {message: "Lobby is already started."});
+        } else if (this.lobbys[i].players.length >= 8) {
+            // Lobby is full max Players 8
+            socket.emit("message", {message: "Lobby is full."});
         } else if (this.getLobbyByUsername(data.username) === null) {
             this.lobbys[i].addPlayer(new Player(data.username, socket.id, this.lobbys[i].lobbyID));
             socket.join(data.lobbyID);
