@@ -42,7 +42,7 @@ export default function Deck({cards, cardSize}) {
         {cards.map((card, index) => {
             return (<Card 
                 color={card.color} 
-                cardType={card.cardType} 
+                cardType={card.type} 
                 cardWidth={cardSize}
                 enableHover={true}
                 style={fanStyle(index)}/>)

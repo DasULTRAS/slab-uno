@@ -5,30 +5,31 @@ import Deck from "./deck";
 import "./game.css";
 import UnoButtonAsset from "../assets/UNO_Button.png";
 import EnemyPlayer from "./enemyPlayer";
+import { useEffect } from "react";
 
 const cardSize = "10em";
 
-function Game({socket}) {
+function Game({socket, lobby}) {
     const [playerCards, setPlayerCards] = useState([]);
-    const [playCard, setPlayCard] = useState({color: 'red', cardType: 'nine'});
-    const [enemyPlayers, setEnemyPlayers] = useState([{cardCount: 5, name: "TestUser1"}, {cardCount: 5, name: "TestUser2"}]);
+    const [playCard, setPlayCard] = useState({color: 'red', type: 'nine'});
+    const [enemyPlayers, setEnemyPlayers] = useState([]);
 
-    function addCard(card) {
-        setPlayerCards(oldPlayerCards => [...oldPlayerCards, card]);
-    }
+    useEffect(() => {
+        socket.on('get_card', (data) => {
+            setPlayerCards(data.player_deck);
+        });
+    })
+
+    useEffect(() => {
+        setEnemyPlayers(lobby.players);
+    }, [lobby]);
 
     function unoButtonClick() {
         console.log('uno');
     }
 
-    //TODO: the server calls this function and adds the player
-    function addEnemyPlayer(enemyPlayer) {
-        setEnemyPlayers(oldArray => [...oldArray, enemyPlayer])
-    }
-
     function getOneCardFromStack(){
-        //TODO: Get a random card from the server
-        // the server should have the lobby stack
+        socket.emit('get_card');
     }
 
     return (
@@ -36,12 +37,12 @@ function Game({socket}) {
         <div className="enemyPlayers">
             {enemyPlayers.map(player => {
                 return(
-                    <EnemyPlayer cardCount={player.cardCount} playerName={player.name} />
+                    <EnemyPlayer cardCount={player.cardCount} playerName={player.username} />
                 )
             })}
         </div>
         <div className="gameField">
-            <Card color={playCard.color} cardType={playCard.cardType} cardWidth={cardSize} />
+            <Card color={playCard.color} cardType={playCard.type} cardWidth={cardSize} />
         </div>
         <div className="bar">
             <div className="drawCard">
