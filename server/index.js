@@ -29,7 +29,7 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log(`${socket.id} disconnected.`);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
-        if (lobby != null) {
+        if (lobby !== undefined) {
             // Remove player from lobby
             lobby.removePlayer(socket.id);
             io.to(lobby.lobbyID).emit("message", {message: `Player ${socket.id} disconnected.`});
@@ -52,10 +52,10 @@ io.on("connection", (socket) => {
     socket.on("join_lobby", (data) => {
         try {
             const lobby = lobbyManagement.joinLobby(data, socket);
+            if (lobby !== undefined) io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
         } catch (e) {
             console.error(e);
         }
-        if (lobby != null) io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
     });
 
     socket.on("ready_to_play", () => {
@@ -94,7 +94,7 @@ io.on("connection", (socket) => {
     // Frontend init
     socket.on("game_started", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player !== null)
+        if (player !== undefined)
             // Send first Cards
             socket.emit("get_card", {player_deck: player.deck});
     });
@@ -103,7 +103,7 @@ io.on("connection", (socket) => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
         //Player or Lobby not found
-        if ((player || lobby) === null) {
+        if ((player || lobby) === undefined) {
             console.log(`${socket.id} - Player not found.`)
             return;
         }
@@ -137,7 +137,7 @@ io.on("connection", (socket) => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
 
-        if (player !== null && lobby !== null) {
+        if (player !== undefined && lobby !== undefined) {
             // Get new Card
             player.deck.placeCard(lobby.deck.drawCard());
 

@@ -26,7 +26,7 @@ export default class LobbyManagement {
     }
 
     getLobbyBySocketID(socketID) {
-        let temp = null;
+        let temp = undefined;
         this.lobbys.forEach((lobby) => {
             lobby.players.forEach((player) => {
                 if (player.socketID == socketID) temp = lobby;
@@ -37,7 +37,7 @@ export default class LobbyManagement {
     }
 
     getLobbyByUsername(username) {
-        let temp = null;
+        let temp = undefined;
         this.lobbys.forEach((lobby) => {
             lobby.players.forEach((player) => {
                 if (player.username == username) temp = lobby;
@@ -48,7 +48,7 @@ export default class LobbyManagement {
     }
 
     getPlayerBySocketID(socketID) {
-        let temp = null;
+        let temp = undefined;
         this.lobbys.forEach((lobby) => {
             lobby.players.forEach((player) => {
                 if (player.socketID == socketID) temp = player;
@@ -99,7 +99,7 @@ export default class LobbyManagement {
         // not empty inputs
         if (data.lobbyID === "" || data.username === "") {
             console.log(`wrong input: ${data.lobbyID}`);
-            return null;
+            return undefined;
         }
 
         let i = this.getLobbyIndexByID(data.lobbyID);
@@ -127,6 +127,6 @@ export default class LobbyManagement {
                 message: "Username is used."
             });
         }
-        return null;
+        return undefined;
     }
 }
