@@ -61,6 +61,7 @@ io.on("connection", (socket) => {
     // Start and init the new Game
     socket.on("start_game", () => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+
         if (lobby != null) {
             // Test if every Player is ready
             let ready = true;
@@ -73,7 +74,9 @@ io.on("connection", (socket) => {
                 lobby.deck = new Deck(true);
                 lobby.dealCards();
                 // Start the game
-                lobby.renewDeckLength();
+                lobby.renewDecksLength();
+                // Choose first Player
+                lobby.activePlayerIndex = Math.trunc(Math.random() * lobby.players.length);
 
                 io.to(lobby.lobbyID).emit("start_game", {lobby: lobby});
                 io.to(lobby.lobbyID).emit("message", {message: `Game in Lobby ${lobby.lobbyID} started.`});
@@ -100,7 +103,7 @@ io.on("connection", (socket) => {
             /*
             GET NEW CARD
              */
-            lobby.renewDeckLength();
+            lobby.renewDecksLength();
             io.emit("message", {message: `${player.username} gets a new Card.`});
             socket.emit("get_card", {player_deck: player.deck});
             io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});

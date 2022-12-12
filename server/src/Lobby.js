@@ -6,7 +6,7 @@ export default class Lobby {
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
-        this.activeUser = "";
+        this.activePlayerIndex = 0;
         this.#deck = null;
         this.playedCards = null;
     }
@@ -28,7 +28,7 @@ export default class Lobby {
         this.playedCards.placeCard(this.#deck.drawCard());
     }
 
-    renewDeckLength() {
+    renewDecksLength() {
         this.players.forEach((player) => {
             player.renewDeckLength();
         });

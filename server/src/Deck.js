@@ -70,4 +70,8 @@ export default class Deck {
     placeCard(newCard){
         this.cards.push(newCard);
     }
+
+    get length(){
+        return this.cards.length;
+    }
 }
