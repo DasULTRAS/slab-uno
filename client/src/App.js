@@ -17,12 +17,9 @@ function App() {
         socket.on("start_game", (data) => {
             setGameStarted(true);
             setLobby(data.lobby);
-
-            console.log(socket);
         });
 
         socket.on("message", (data) => {
-            console.log(data.message);
             setMessage(data.message);
         });
 
