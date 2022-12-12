@@ -113,7 +113,7 @@ export default class LobbyManagement {
         } else if (this.lobbys[i].players.length >= 8) {
             // Lobby is full max Players 8
             socket.emit("message", {message: "Lobby is full."});
-        } else if (this.getLobbyByUsername(data.username) === null) {
+        } else if (this.getLobbyByUsername(data.username) === undefined) {
             this.lobbys[i].addPlayer(new Player(data.username, socket.id, this.lobbys[i].lobbyID));
             socket.join(data.lobbyID);
             console.log(`lobby joined: ${this.lobbys[i].lobbyID}`);
