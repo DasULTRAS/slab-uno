@@ -11,17 +11,20 @@ const cardSize = "10em";
 
 function Game({socket, lobby}) {
     const [playerCards, setPlayerCards] = useState([]);
-    const [playCard, setPlayCard] = useState({color: 'red', type: 'nine'});
+    const [playCard, setPlayCard] = useState({color: 'red', type: 'back'});
     const [enemyPlayers, setEnemyPlayers] = useState([]);
 
     useEffect(() => {
         socket.on('get_card', (data) => {
-            setPlayerCards(data.player_deck);
+            setPlayerCards(data.player_deck.cards);
         });
+
+        socket.emit('game_started');
     })
 
     useEffect(() => {
         setEnemyPlayers(lobby.players);
+        setPlayCard(lobby.playedCards.cards.at(-1));
     }, [lobby]);
 
     function unoButtonClick() {
@@ -37,7 +40,7 @@ function Game({socket, lobby}) {
         <div className="enemyPlayers">
             {enemyPlayers.map(player => {
                 return(
-                    <EnemyPlayer cardCount={player.cardCount} playerName={player.username} />
+                    <EnemyPlayer cardCount={player.deckLength} playerName={player.username} />
                 )
             })}
         </div>
