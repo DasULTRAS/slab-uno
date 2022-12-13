@@ -88,12 +88,19 @@ export default class Lobby {
         return true;
     }
 
+    /**
+     * Renew the class Attribute playerDecksLength from every Player
+     */
     renewPlayerDecksLength() {
         this.players.map((player) => {
             player.renewDeckLength();
         });
     }
 
+    /**
+     * Add one Player to the Lobby
+     * @param player {}
+     */
     addPlayer(player) {
         this.players.push(player);
     }
@@ -125,6 +132,10 @@ export default class Lobby {
         return this.players.findIndex(player => player.socketID === socketID);
     }
 
+    /**
+     * Increases or decreases the aktivePlayerIndex dependent on the private class Attribute gameDirection
+     * @returns {number}
+     */
     nextActivePlayerIndex() {
         this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
         return this.activePlayerIndex;
@@ -142,6 +153,10 @@ export default class Lobby {
         return this.#gameDirection;
     }
 
+    /**
+     * Changes the private Game Direction attribute to other site
+     * @returns {number} 1 if clockwise game direction else -1 for counterclockwise
+     */
     changeGameDirection() {
         this.#gameDirection *= -1;
         return this.#gameDirection;

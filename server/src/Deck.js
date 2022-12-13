@@ -59,6 +59,11 @@ export default class Deck {
         }
     }
 
+    /**
+     * Removes and returns a Card by Index
+     * @param index of the Card Array
+     * @returns {{Card}|null} a Card if index is in range else null
+     */
     removeCardByIndex(index) {
         if (index >= 0 && this.cards.length > index) {
             [this.cards[this.cards.length - 1], this.cards[index]] = [this.cards[index], this.cards[this.cards.length - 1]];
@@ -67,6 +72,11 @@ export default class Deck {
         return null;
     }
 
+    /**
+     * Find the index of the card object and returns. If not found returns -1.
+     * @param card {Card}
+     * @returns {number} The index of the first element in the array that passes the test. Otherwise, -1
+     */
     getCardIndex(card) {
         let i = -1;
         this.cards.forEach((playerCard, index) => {
@@ -102,6 +112,10 @@ export default class Deck {
         this.#mixDeck();
     }
 
+    /**
+     * Draws one Card from the end of Cards
+     * @returns {{Card}|null} Card if the Deck isn't empty else null
+     */
     drawCard() {
         if (this.cards.length === 0) {
             return null;

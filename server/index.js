@@ -27,11 +27,10 @@ io.on("connection", (socket) => {
     socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
 
     socket.on("reconnect", (attempt) => {
-        // never triggert
+        // never triggered
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player === null)
+        if (player === undefined)
             io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
-        // ...
     });
 
     socket.on("disconnect", () => {
@@ -68,7 +67,7 @@ io.on("connection", (socket) => {
 
     socket.on("ready_to_play", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player !== null) {
+        if (player !== undefined) {
             player.readyToPlay = !player.readyToPlay;
             io.to(player.lobbyID).emit("message", {message: `Player status changed: ${player.username}`});
             io.to(player.lobbyID).emit("player_change", {lobby: lobbyManagement.getLobbyByID(player.lobbyID)});
@@ -102,7 +101,7 @@ io.on("connection", (socket) => {
     // Frontend init
     socket.on("game_started", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player !== null)
+        if (player !== undefined)
             // Send first Cards
             socket.emit("get_card", {player_deck: player.deck});
     });
@@ -111,7 +110,7 @@ io.on("connection", (socket) => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
         //Player or Lobby not found
-        if ((player || lobby) === undefined) {
+        if ((player === undefined) || (undefined === lobby)) {
             console.log(`${socket.id} - Player not found.`)
             return;
         }
@@ -138,10 +137,7 @@ io.on("connection", (socket) => {
         }
     });
 
-    // Player wants one more card
-    /**
-     * WHY DOES PLAYER NEED ONE CARD
-     */
+    // Player wants one card
     socket.on("get_card", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
@@ -149,7 +145,7 @@ io.on("connection", (socket) => {
         if (player !== undefined && lobby !== undefined) {
             // Get new Card
             player.deck.placeCard(lobby.deck.drawCard());
-            if (lobby.deck.length == 0){
+            if (lobby.deck.length == 0) {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
 
