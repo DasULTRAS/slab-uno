@@ -2,10 +2,14 @@ import Deck from "./Deck.js";
 
 export default class Lobby {
     #deck;
+    #gameDirection;
 
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
+        // If 1 clockwise else if -1 counterclockwise
+        this.#gameDirection = 1;
+        // Index of the activePlayer
         this.activePlayerIndex = 0;
         this.#deck = null;
         this.playedCards = null;
@@ -111,8 +115,15 @@ export default class Lobby {
     get deck() {
         return this.#deck;
     }
-
     set deck(value) {
         this.#deck = value;
+    }
+
+    get gameDirection(){
+        return this.#gameDirection;
+    }
+    changeGameDirection(){
+        this.#gameDirection *= -1;
+        return this.#gameDirection;
     }
 }
