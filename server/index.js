@@ -123,15 +123,8 @@ io.on("connection", (socket) => {
         lobby.nextActivePlayerIndex();
 
         try {
-            // Check if Move is valid and make the move
-            let move_valid = true;
-            if (data.hasOwnProperty('challenge_wild'))
-                move_valid = lobby.playCard(player, data.card, true);
-            else
-                move_valid = lobby.playCard(player, data.card);
-
-            // Send infos
-            if (move_valid) {
+            // Check if Move is valid and make the move and Send infos
+            if (lobby.playCard(player, data.card, socket)) {
                 lobby.renewPlayerDecksLength();
                 socket.emit("message", {message: "Move was valid."});
                 socket.emit("get_card", {player_deck: player.deck});

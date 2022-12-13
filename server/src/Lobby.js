@@ -1,4 +1,5 @@
 import Deck from "./Deck.js";
+import {Socket} from "socket.io";
 
 export default class Lobby {
     #deck;
@@ -36,9 +37,10 @@ export default class Lobby {
      * Put the player's card on the main deck if the move is allowed.
      * @param {Player} player who try to move the Card
      * @param card that will be placed
+     * @param {Socket} socket
      * @returns {boolean} false if move is not allowed else true
      */
-    playCard(player, card, challengeWild = false) {
+    playCard(player, card, socket) {
         // Find Card index
         let index = player.deck.getCardIndex(card);
         if (index == -1)
@@ -79,7 +81,7 @@ export default class Lobby {
                 break;
 
             case this.playedCards.Types.WILD_DRAW_FOUR:
-                for (let i = 0; i < 4; i++) this.players[this.activePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                socket.emit("challenge_wild_draw_four_request");
                 break;
         }
 
@@ -136,7 +138,7 @@ export default class Lobby {
     }
 
     nextActivePlayerIndex() {
-        this.activePlayerIndex = (this.activePlayerIndex + 1) % this.players.length;
+        this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
         return this.activePlayerIndex;
     }
 
