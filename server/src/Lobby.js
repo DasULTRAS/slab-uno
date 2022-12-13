@@ -30,7 +30,7 @@ export default class Lobby {
 
     /**
      * Put the player's card on the main deck if the move is allowed.
-     * @param player who try to move the Card
+     * @param {Player} player who try to move the Card
      * @param card that will be placed
      * @returns {boolean} false if move is not allowed else true
      */
@@ -41,7 +41,9 @@ export default class Lobby {
             // Card not found
             return false;
 
+
         /* Check if move is valid */
+        // if (card.hasOwnProperty("declared_color") || )
         if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
             if ([this.playedCards.last.color, card.color].every(value => {
                 return value === this.playedCards.Colors.BLACK

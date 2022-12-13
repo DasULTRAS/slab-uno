@@ -26,6 +26,14 @@ io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
     socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
 
+    socket.on("reconnect", (attempt) => {
+        // never triggert
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        if (player === null)
+            io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
+        // ...
+    });
+
     socket.on("disconnect", () => {
         console.log(`${socket.id} disconnected.`);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
@@ -94,7 +102,7 @@ io.on("connection", (socket) => {
     // Frontend init
     socket.on("game_started", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player !== undefined)
+        if (player !== null)
             // Send first Cards
             socket.emit("get_card", {player_deck: player.deck});
     });
