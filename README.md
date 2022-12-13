@@ -38,11 +38,12 @@ edit in `server/index.js` the *origin* to the UNO Server.
     - Wild Shuffle Hands Card
     - Wild Customizable card
 - Maxim
-  - [X] Display the layout(without functions)
-    - [X] Uno button
-    - [X] Own player deck
-    - [X] Draw card deck
-    - [X] Middle deck
+  - [ ] Abfragen bei Karten wahl
+    - [ ] Challenge Wild DRAW FOUR FOR NEXT PLAYER (challenge_wild_draw_four_request), wenn ja mitte einfach zurück senden
+    - [ ] WILD CARDS welche Farbe
+  - [ ] Hand format
+    - 75% horizontal für Karten
+    - wenn der Halbkreis zu groß wird werden die Karten kleiner skaliert
 
 ## Milestones
 
