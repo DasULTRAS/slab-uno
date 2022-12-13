@@ -64,9 +64,7 @@ export default function Deck({socket, cards, cardSize, playCard}) {
                 cardType={card.type} 
                 cardWidth={cardSize}
                 enableHover={true}
-                style={fanStyle(index)}
-                clickEvent={placeCard}
-                disable={disableCard(card, playCard)}/>)
+                clickEvent={placeCard}/>)
             })}
         </div>
     );
