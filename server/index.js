@@ -26,6 +26,14 @@ io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
     socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
 
+    socket.on("reconnect", (attempt) => {
+        // never triggert
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        if (player === null)
+            io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
+        // ...
+    });
+
     socket.on("disconnect", () => {
         console.log(`${socket.id} disconnected.`);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
@@ -94,7 +102,7 @@ io.on("connection", (socket) => {
     // Frontend init
     socket.on("game_started", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player !== undefined)
+        if (player !== null)
             // Send first Cards
             socket.emit("get_card", {player_deck: player.deck});
     });
@@ -112,11 +120,18 @@ io.on("connection", (socket) => {
             socket.emit("message", {message: "Wait for your turn."});
             return;
         }
-        lobby.activePlayerIndex = (lobby.activePlayerIndex + 1) % lobby.players.length;
+        lobby.nextActivePlayerIndex();
 
-        // Check if Move is valid and make the move
         try {
-            if (lobby.playCard(player, data.card)) {
+            // Check if Move is valid and make the move
+            let move_valid = true;
+            if (data.hasOwnProperty('challenge_wild'))
+                move_valid = lobby.playCard(player, data.card, true);
+            else
+                move_valid = lobby.playCard(player, data.card);
+
+            // Send infos
+            if (move_valid) {
                 lobby.renewPlayerDecksLength();
                 socket.emit("message", {message: "Move was valid."});
                 socket.emit("get_card", {player_deck: player.deck});
@@ -124,7 +139,8 @@ io.on("connection", (socket) => {
             } else {
                 socket.emit("message", {message: "Move is not valid."});
             }
-        } catch (error) {
+        } catch
+            (error) {
             console.error(error);
         }
     });

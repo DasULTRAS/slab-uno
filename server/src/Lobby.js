@@ -2,10 +2,14 @@ import Deck from "./Deck.js";
 
 export default class Lobby {
     #deck;
+    #gameDirection;
 
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
+        // If 1 clockwise else if -1 counterclockwise
+        this.#gameDirection = 1;
+        // Index of the activePlayer
         this.activePlayerIndex = 0;
         this.#deck = null;
         this.playedCards = null;
@@ -30,28 +34,54 @@ export default class Lobby {
 
     /**
      * Put the player's card on the main deck if the move is allowed.
-     * @param player who try to move the Card
+     * @param {Player} player who try to move the Card
      * @param card that will be placed
      * @returns {boolean} false if move is not allowed else true
      */
-    playCard(player, card) {
+    playCard(player, card, challengeWild = false) {
         // Find Card index
         let index = player.deck.getCardIndex(card);
         if (index == -1)
             // Card not found
             return false;
 
+
         /* Check if move is valid */
         if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
-            if ([this.playedCards.last.color, card.color].every(value => {
-                return value === this.playedCards.Colors.BLACK
-            }))
-                // Cant combine two black
+            /* WILD CARD RULES */
+            if (card.type !== this.playedCards.Types.WILD && card.type !== this.playedCards.Types.WILD_DRAW_FOUR && card.color !== this.playedCards.last.declared_color) {
+                // declared color is not equal played card
+                console.log(this.playedCards.last);
+                console.log(card);
+                console.log("WRONG CARD: declared color is not equal played card");
                 return false;
-            /* BLACK CARD RULES */
-        } else if (this.playedCards.last.color !== card.color && this.playedCards.last.type !== card.type)
+            }
+        } else if (this.playedCards.last.color !== card.color && this.playedCards.last.type !== card.type) {
             // Colored Card have no matching attribute
+            console.log(this.playedCards.last);
+            console.log(card);
+            console.log("WRONG CARD: Colored Card have no matching attribute");
             return false;
+        }
+
+        /* Check special Card effects */
+        switch (card.type) {
+            case this.playedCards.Types.SKIP:
+                this.nextActivePlayerIndex();
+                break;
+
+            case this.playedCards.Types.REVERSE:
+                this.changeGameDirection();
+                break;
+
+            case this.playedCards.Types.DRAW_TWO:
+                for (let i = 0; i < 2; i++) this.players[this.activePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                break;
+
+            case this.playedCards.Types.WILD_DRAW_FOUR:
+                for (let i = 0; i < 4; i++) this.players[this.activePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                break;
+        }
 
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
@@ -105,6 +135,10 @@ export default class Lobby {
         arr[j] = temp;
     }
 
+    nextActivePlayerIndex() {
+        this.activePlayerIndex = (this.activePlayerIndex + 1) % this.players.length;
+        return this.activePlayerIndex;
+    }
 
     get deck() {
         return this.#deck;
@@ -112,5 +146,14 @@ export default class Lobby {
 
     set deck(value) {
         this.#deck = value;
+    }
+
+    get gameDirection() {
+        return this.#gameDirection;
+    }
+
+    changeGameDirection() {
+        this.#gameDirection *= -1;
+        return this.#gameDirection;
     }
 }
