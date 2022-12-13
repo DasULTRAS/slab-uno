@@ -76,6 +76,33 @@ export default class Deck {
         return i;
     }
 
+    /**
+     * Gives all unused cards for the live game
+     * @returns {Card[]}
+     */
+    getUnusedCards() {
+        // How many indexes are special cards and must stay for streaks
+        let i = 1;
+        while (i < this.cards.length && Object.values(this.Types).slice(10, 15).includes(this.cards[this.cards.length - 1 - i].type)) {
+            i++;
+        }
+        // Store the removed array in temp constant
+        const unusedCards = this.cards.slice(0, this.cards.length - i);
+        // Remove the removed cards from the array
+        this.cards = this.cards.splice(this.cards.length - i, i);
+        // return the removed array
+        return unusedCards;
+    }
+
+    /**
+     * Adds a Array of Cards to the cards and shuffle the deck
+     * @param unusedCards {Card[]}
+     */
+    addCards(unusedCards) {
+        this.cards.push(unusedCards);
+        this.#mixDeck();
+    }
+
     drawCard() {
         if (this.cards.length === 0 && this.#isMainDeck) {
             this.#initDeck();

@@ -140,6 +140,9 @@ io.on("connection", (socket) => {
         if (player !== undefined && lobby !== undefined) {
             // Get new Card
             player.deck.placeCard(lobby.deck.drawCard());
+            if (lobby.deck.length == 0){
+                lobby.deck.addCards(lobby.playedCards.getUnusedCards());
+            }
 
             lobby.renewPlayerDecksLength();
             io.emit("message", {message: `${player.username} gets a new Card.`});
