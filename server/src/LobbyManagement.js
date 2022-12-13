@@ -48,7 +48,7 @@ export default class LobbyManagement {
     }
 
     getPlayerBySocketID(socketID) {
-        let temp = undefined;
+        let temp = null;
         this.lobbys.forEach((lobby) => {
             lobby.players.forEach((player) => {
                 if (player.socketID == socketID) temp = player;

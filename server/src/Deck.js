@@ -1,4 +1,4 @@
-import Card from "./Card.js";
+import Card, {WildCard} from "./Card.js";
 
 export default class Deck {
     Colors = Object.freeze({
@@ -42,7 +42,7 @@ export default class Deck {
 
         // init WILD Cards
         for (let i = 0; i < 4; i++) for (let j = 0; j < 2; j++) {
-            this.cards.push(new Card(Object.values(this.Colors)[4], Object.values(this.Types)[j + 13]))
+            this.cards.push(new WildCard(Object.values(this.Colors)[4], Object.values(this.Types)[j + 13]))
         }
     }
 

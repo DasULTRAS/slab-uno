@@ -10,3 +10,10 @@ export default class Card {
         return false;
     }
 }
+
+export class WildCard extends Card{
+    constructor(color, type) {
+        super(color, type);
+        this.declared_color = null;
+    }
+}
