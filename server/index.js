@@ -120,11 +120,18 @@ io.on("connection", (socket) => {
             socket.emit("message", {message: "Wait for your turn."});
             return;
         }
-        lobby.activePlayerIndex = (lobby.activePlayerIndex + 1) % lobby.players.length;
+        lobby.nextActivePlayerIndex();
 
-        // Check if Move is valid and make the move
         try {
-            if (lobby.playCard(player, data.card)) {
+            // Check if Move is valid and make the move
+            let move_valid = true;
+            if (data.hasOwnProperty('challenge_wild'))
+                move_valid = lobby.playCard(player, data.card, true);
+            else
+                move_valid = lobby.playCard(player, data.card);
+
+            // Send infos
+            if (move_valid) {
                 lobby.renewPlayerDecksLength();
                 socket.emit("message", {message: "Move was valid."});
                 socket.emit("get_card", {player_deck: player.deck});
@@ -132,7 +139,8 @@ io.on("connection", (socket) => {
             } else {
                 socket.emit("message", {message: "Move is not valid."});
             }
-        } catch (error) {
+        } catch
+            (error) {
             console.error(error);
         }
     });
