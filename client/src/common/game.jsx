@@ -15,14 +15,20 @@ function Game({socket, lobby}) {
     const [enemyPlayers, setEnemyPlayers] = useState([]);
 
     useEffect(() => {
+        // Run EVERY render
         socket.on('get_card', (data) => {
             setPlayerCards(data.player_deck.cards);
         });
 
+    });
+
+    useEffect(()=>{
+        // Run ONE on render
         socket.emit('game_started');
-    })
+    }, []);
 
     useEffect(() => {
+        // run if lobby was rendered
         setEnemyPlayers(lobby.players);
         setPlayCard(lobby.playedCards.cards.at(-1));
     }, [lobby]);
