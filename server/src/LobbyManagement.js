@@ -88,9 +88,7 @@ export default class LobbyManagement {
             return false;
 
         // move the element to the last index
-        const temp = this.lobbys[i];
-        this.lobbys[i] = this.lobbys[this.lobbys.length - 1];
-        this.lobbys[this.lobbys.length - 1] = temp;
+        [this.lobbys[i], this.lobbys[this.lobbys.length - 1]]=[this.lobbys[this.lobbys.length - 1], this.lobbys[i]];
         // removes the last element
         this.lobbys.pop();
     }

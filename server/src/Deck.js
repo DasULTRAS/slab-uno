@@ -46,32 +46,31 @@ export default class Deck {
         }
     }
 
+    /**
+     * Fisher-Yates shuffle algorithm
+     */
     #mixDeck() {
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < this.cards.length; j++) {
-                this.#swap(j, Math.trunc(Math.random() * this.cards.length), this.cards);
-            }
+        for (let i = this.cards.length - 1; i > 0; i--) {
+            // Generate a random index between 0 and i
+            let j = Math.floor(Math.random() * (i + 1));
+
+            // Swap the cards at indices i and j
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
         }
     }
 
     removeCardByIndex(index) {
-        if (this.cards.length <= 0 && this.cards.length <= index)
-            return null;
-        this.#swap(index, this.cards.length - 1, this.cards);
-        return this.cards.pop();
-    }
-
-    #swap(i, j, arr) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+        if (index >= 0 && this.cards.length > index) {
+            [this.cards[this.cards.length - 1], this.cards[index]] = [this.cards[index], this.cards[this.cards.length - 1]];
+            return this.cards.pop();
+        }
+        return null;
     }
 
     getCardIndex(card) {
         let i = -1;
         this.cards.forEach((playerCard, index) => {
-            if (playerCard.equals(card))
-                i = index;
+            if (playerCard.equals(card)) i = index;
         });
         return i;
     }
@@ -104,10 +103,8 @@ export default class Deck {
     }
 
     drawCard() {
-        if (this.cards.length === 0 && this.#isMainDeck) {
-            this.#initDeck();
-            this.#mixDeck();
-            console.log("NEW Cards.");
+        if (this.cards.length === 0) {
+            return null;
         }
         return this.cards.pop();
     }
@@ -121,8 +118,7 @@ export default class Deck {
     }
 
     get last() {
-        if (this.cards.length == 0)
-            return null;
+        if (this.cards.length == 0) return null;
         return this.cards[this.cards.length - 1];
     }
 }

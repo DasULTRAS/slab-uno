@@ -1,5 +1,4 @@
 import Deck from "./Deck.js";
-import {Socket} from "socket.io";
 
 export default class Lobby {
     #deck;
@@ -47,7 +46,6 @@ export default class Lobby {
             // Card not found
             return false;
 
-
         /* Check if move is valid */
         if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
             /* WILD CARD RULES */
@@ -91,7 +89,7 @@ export default class Lobby {
     }
 
     renewPlayerDecksLength() {
-        this.players.forEach((player) => {
+        this.players.map((player) => {
             player.renewDeckLength();
         });
     }
@@ -113,28 +111,18 @@ export default class Lobby {
         if (i === -1) return false;
 
         // move the element to the last index
-        this.#swap(this.players, i, this.players.length - 1);
+        [this.players[i], this.players[this.players.length - 1]] = [this.players[this.players.length - 1], this.players[i]];
         // removes the last element
-        this.players.pop();
+        return this.players.pop();
     }
 
     /**
      * Searches the player-object with the same Username
-     * @param username
-     * @returns {number} -1 if username not found else the index
+     * @param socketID of the Player
+     * @returns {number} The index of the first element in the array that passes the test. Otherwise, -1.
      */
     getPlayerIndexBySocketID(socketID) {
-        let i = -1;
-        this.players.forEach((player, index) => {
-            if (player.socketID === socketID) i = index;
-        });
-        return i;
-    }
-
-    #swap(arr, i, j) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+        return this.players.findIndex(player => player.socketID === socketID);
     }
 
     nextActivePlayerIndex() {
