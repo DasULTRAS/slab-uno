@@ -3,6 +3,7 @@ import Game from "./common/game";
 import Lobby from "./common/lobby";
 import {useState, useEffect} from "react";
 import io from "socket.io-client";
+import Chat from "./common/chat";
 
 // const socket = io.connect("https://uno-api.dasultras.de/");
 const socket = io.connect("http://localhost:8080/");
@@ -48,6 +49,8 @@ function App() {
                 <li className="latency">{`${latency}ms`}</li>
                 <li className="message">{message}</li>
             </div>
+
+            <Chat socket={socket}/>
 
             {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket}/>}
             <div className="gameBackground"/>

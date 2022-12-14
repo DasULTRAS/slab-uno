@@ -1,0 +1,10 @@
+.chatMessage {
+    background: #343434;
+}
+
+.chatMessage p {
+    color: white;   /* Text Color white */
+    display: table-row; /* display list vertical */
+    list-style-type: none; /* Remove bullets */
+    white-space: pre-wrap;
+}

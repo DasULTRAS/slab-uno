@@ -1,0 +1,46 @@
+.chat {
+    /* set the position of the container to be absolute */
+    position: absolute;
+    /* set the right property to 20% to take up 20% of the screen */
+    right: 10%;
+    width: 10%;
+    /* set the height of the container */
+    height: 100%;
+}
+
+.chat button {
+    /* position the button absolutely */
+    position: absolute;
+    /* position the button vertically in the middle */
+    top: 50%;
+    /* rotate the button so that it appears as an arrow */
+    transform: rotate(270deg);
+    /* remove default styling */
+    appearance: none;
+    border: none;
+    font-size: medium;
+    background: white;
+}
+
+.button-open {
+    /* position the button at the right edge */
+    right: 0;
+}
+
+
+.chat-window {
+    width: 100cm;
+    height: 100%;
+}
+
+.chat-background{
+    background: rgba(127,127,127,0.3);
+    /* Position */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Background */
+    z-index: -1;
+}
