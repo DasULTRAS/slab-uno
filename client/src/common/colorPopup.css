@@ -1,0 +1,67 @@
+.popupBackground {
+    position: absolute;
+    background-color: rgba(255, 179, 179, 0.5);
+    border-radius: 50%;
+    width: 500px;
+    height: 500px;
+    margin-top: -250px;
+    margin-left: -250px;
+    left: 50%;
+    top: 50%;
+    z-index: 99;
+}
+
+.popupBackground .button {
+    width: 45%;
+    height: 45%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: 0% 0%;
+    cursor: pointer;
+    border-bottom-right-radius: 100%;
+    border: solid black;
+    transition: .5s;
+}
+
+.red {
+    background-color: #ff5555;
+    rotate: 225deg;
+    top: 49% !important;
+}
+
+.red:hover {
+    top: 48% !important;
+}
+
+.blue {
+    background-color: #5555ff;
+    rotate: 315deg;
+    left: 51% !important;
+}
+
+.blue:hover {
+    left: 52% !important;
+}
+
+
+.green {
+    background-color: #55aa55;
+    rotate: 45deg;
+    top: 51% !important;
+}
+
+.green:hover {
+    top: 52% !important;
+}
+
+
+.yellow {
+    background-color: #ffaa00;
+    rotate: 135deg;
+    left: 49% !important;
+}
+
+.yellow:hover {
+    left: 48% !important;
+}

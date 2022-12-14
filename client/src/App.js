@@ -21,7 +21,6 @@ function App() {
         });
 
         socket.on("message", (data) => {
-            console.log(data.message);
             setMessage(data.message);
         });
 
