@@ -2,6 +2,7 @@ import React from "react";
 import "./deck.css";
 import Card from "./card";
 import { specialCard } from "./cards";
+import { degreesToRadians, getRotatedDimensions, radiansToDegress } from "./mathFunctions";
 
 function disableCard(card, playCard){
     if(card.color === playCard.color){
@@ -16,58 +17,73 @@ function disableCard(card, playCard){
     return true;
 }
 
+function calculateCoords (cardsLength, circleRadius, cardWidth, cardHeight, cardSpacing) {
+    let anglePerCard = radiansToDegress(Math.atan((cardWidth * cardSpacing) / circleRadius));
+    let startAngle = 270 - 0.5 * anglePerCard * (cardsLength - 1);
+
+    let x = 0;
+    let y = 0;
+
+    let coords = [];
+
+    for(let i = 0; i < cardsLength; i++){
+        let degress = startAngle + anglePerCard * i;
+
+        let radians = degreesToRadians(degress);
+        x = Math.cos(radians) * circleRadius; 
+        y = Math.sin(radians) * circleRadius; 
+
+        coords.push({ x: x, y: y, angle: degress + 90 });
+    }
+
+    let offsetX = -x + ((getRotatedDimensions(coords[0].angle, cardWidth, cardHeight)[0] - cardWidth) / 2);
+    let offsetY = -y;
+
+    coords.forEach(coord => {
+        coord.x += offsetX;
+        coord.x = Math.round(coord.x);
+
+        coord.y += offsetY;
+        coord.y = Math.round(coord.y);
+    });
+
+    return coords;
+}
+
+function coordsToStyleSheet(i, x, y, angle) {
+    return {
+        'zIndex' : i,
+        transform: `rotate(${angle}deg)`,
+        top: `${y}px`,
+        left: `${x}px`
+    };
+}
+
 export default function Deck({socket, cards, cardSize, playCard}) {
-    const deckLength = cards.length;
-    const curl = Math.pow(deckLength, 1.30) * 10;
-    const deg = deckLength > 1 ? -deckLength * 15 : 0;
-    let degs = deg / 2;
-    const initialDown = deckLength * 7;
-    let down = initialDown / 2;
-    const initialOver = curl;
-    let over = initialOver / 2;
-
-    /*console.log(
-        `deckLength: ${deckLength},\n` +
-        `curl: ${curl},\n` +
-        `deg: ${deg},\n` +
-        `degs: ${degs},\n` +
-        `initialDown: ${initialDown},\n` +
-        `down: ${down},\n` +
-        `initialOver: ${initialOver},\n` +
-        `over: ${over},\n`);*/
-
-    function fanStyle(num) {
-        let overHalf = num > (deckLength - 1) / 2;
-        if (num > 0) {
-            degs -= deg / (deckLength - 1);
-            down -= initialDown / (deckLength - 1);
-            over -= initialOver / (deckLength - 1);
-        }
-        return {
-            'zIndex' : num,
-            transform: `translateY(${(overHalf ? -down : down)}%) 
-            translateX(${(-50 + over * -1)}%) 
-            rotate(${degs}deg)`
-        }
+    if(cards.length === 0) {
+        return;
     }
 
     function placeCard(_, color, type) {
         console.log({card: {color: color, type: type}});
         socket.emit('place_card', {card: {color: color, type: type}});
+        // socket.emit('place_card', {card: {color: color, type: type, declared_color:"COLOR"}});
     }
+
+    let coords = calculateCoords(cards.length, 400, 160, 236, 0.2);
 
     return(
         <div className="deck">
         {cards.map((card, index) => {
+            let coord = coords[index]
             return (<Card 
                 color={card.color}
                 key={index}
                 cardType={card.type} 
                 cardWidth={cardSize}
                 enableHover={true}
-                style={fanStyle(index)}
-                clickEvent={placeCard}
-                disable={disableCard(card, playCard)}/>)
+                style={coordsToStyleSheet(index, coord.x, coord.y, coord.angle)}
+                clickEvent={placeCard}/>)
             })}
         </div>
     );

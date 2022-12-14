@@ -2,10 +2,14 @@ import Deck from "./Deck.js";
 
 export default class Lobby {
     #deck;
+    #gameDirection;
 
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
+        // If 1 clockwise else if -1 counterclockwise
+        this.#gameDirection = 1;
+        // Index of the activePlayer
         this.activePlayerIndex = 0;
         this.#deck = null;
         this.playedCards = null;
@@ -25,18 +29,17 @@ export default class Lobby {
 
         // deal first card to Played Cards
         this.playedCards.placeCard(this.#deck.drawCard());
-        const types = this.playedCards.Types;
-        while (this.playedCards.last.type === (null || types.WILD || types.WILD_DRAW_FOUR || types.REVERSE || types.SKIP || types.DRAW_TWO))
-            this.playedCards.placeCard(this.#deck.drawCard());
+        while (Object.values(this.playedCards.Types).slice(10, 15).includes(this.playedCards.last.type)) this.playedCards.placeCard(this.#deck.drawCard());
     }
 
     /**
      * Put the player's card on the main deck if the move is allowed.
-     * @param player who try to move the Card
+     * @param {Player} player who try to move the Card
      * @param card that will be placed
+     * @param {Socket} socket
      * @returns {boolean} false if move is not allowed else true
      */
-    playCard(player, card) {
+    playCard(player, card, socket) {
         // Find Card index
         let index = player.deck.getCardIndex(card);
         if (index == -1)
@@ -44,26 +47,60 @@ export default class Lobby {
             return false;
 
         /* Check if move is valid */
-        if ((this.playedCards.last.color || card.color) === this.playedCards.Colors.BLACK) {
-            if ((this.playedCards.last.color) && (card.color) === this.playedCards.color.BLACK)
-                // Cant combine two black
+        if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
+            /* WILD CARD RULES */
+            if (card.type !== this.playedCards.Types.WILD && card.type !== this.playedCards.Types.WILD_DRAW_FOUR && card.color !== this.playedCards.last.declared_color) {
+                // declared color is not equal played card
+                console.log(this.playedCards.last);
+                console.log(card);
+                console.log("WRONG CARD: declared color is not equal played card");
                 return false;
-            /* BLACK CARD RULES */
-        } else if (this.playedCards.last.color !== card.color && this.playedCards.last.type !== card.type)
+            }
+        } else if (this.playedCards.last.color !== card.color && this.playedCards.last.type !== card.type) {
             // Colored Card have no matching attribute
+            console.log(this.playedCards.last);
+            console.log(card);
+            console.log("WRONG CARD: Colored Card have no matching attribute");
             return false;
+        }
+
+        /* Check special Card effects */
+        switch (card.type) {
+            case this.playedCards.Types.SKIP:
+                this.nextActivePlayerIndex();
+                break;
+
+            case this.playedCards.Types.REVERSE:
+                this.changeGameDirection();
+                break;
+
+            case this.playedCards.Types.DRAW_TWO:
+                for (let i = 0; i < 2; i++) this.players[this.activePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                break;
+
+            case this.playedCards.Types.WILD_DRAW_FOUR:
+                socket.emit("challenge_wild_draw_four_request");
+                break;
+        }
 
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
         return true;
     }
 
+    /**
+     * Renew the class Attribute playerDecksLength from every Player
+     */
     renewPlayerDecksLength() {
-        this.players.forEach((player) => {
+        this.players.map((player) => {
             player.renewDeckLength();
         });
     }
 
+    /**
+     * Add one Player to the Lobby
+     * @param player {}
+     */
     addPlayer(player) {
         this.players.push(player);
     }
@@ -81,30 +118,28 @@ export default class Lobby {
         if (i === -1) return false;
 
         // move the element to the last index
-        this.#swap(this.players, i, this.players.length - 1);
+        [this.players[i], this.players[this.players.length - 1]] = [this.players[this.players.length - 1], this.players[i]];
         // removes the last element
-        this.players.pop();
+        return this.players.pop();
     }
 
     /**
      * Searches the player-object with the same Username
-     * @param username
-     * @returns {number} -1 if username not found else the index
+     * @param socketID of the Player
+     * @returns {number} The index of the first element in the array that passes the test. Otherwise, -1.
      */
     getPlayerIndexBySocketID(socketID) {
-        let i = -1;
-        this.players.forEach((player, index) => {
-            if (player.socketID === socketID) i = index;
-        });
-        return i;
+        return this.players.findIndex(player => player.socketID === socketID);
     }
 
-    #swap(arr, i, j) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
+    /**
+     * Increases or decreases the aktivePlayerIndex dependent on the private class Attribute gameDirection
+     * @returns {number}
+     */
+    nextActivePlayerIndex() {
+        this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
+        return this.activePlayerIndex;
     }
-
 
     get deck() {
         return this.#deck;
@@ -112,5 +147,18 @@ export default class Lobby {
 
     set deck(value) {
         this.#deck = value;
+    }
+
+    get gameDirection() {
+        return this.#gameDirection;
+    }
+
+    /**
+     * Changes the private Game Direction attribute to other site
+     * @returns {number} 1 if clockwise game direction else -1 for counterclockwise
+     */
+    changeGameDirection() {
+        this.#gameDirection *= -1;
+        return this.#gameDirection;
     }
 }
