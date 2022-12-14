@@ -36,15 +36,15 @@ export default class Lobby {
      * Put the player's card on the main deck if the move is allowed.
      * @param {Player} player who try to move the Card
      * @param card that will be placed
+     * @param {Socket} socket
      * @returns {boolean} false if move is not allowed else true
      */
-    playCard(player, card, challengeWild = false) {
+    playCard(player, card, socket) {
         // Find Card index
         let index = player.deck.getCardIndex(card);
         if (index == -1)
             // Card not found
             return false;
-
 
         /* Check if move is valid */
         if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
@@ -79,7 +79,7 @@ export default class Lobby {
                 break;
 
             case this.playedCards.Types.WILD_DRAW_FOUR:
-                for (let i = 0; i < 4; i++) this.players[this.activePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                socket.emit("challenge_wild_draw_four_request");
                 break;
         }
 
@@ -88,12 +88,19 @@ export default class Lobby {
         return true;
     }
 
+    /**
+     * Renew the class Attribute playerDecksLength from every Player
+     */
     renewPlayerDecksLength() {
-        this.players.forEach((player) => {
+        this.players.map((player) => {
             player.renewDeckLength();
         });
     }
 
+    /**
+     * Add one Player to the Lobby
+     * @param player {}
+     */
     addPlayer(player) {
         this.players.push(player);
     }
@@ -111,32 +118,26 @@ export default class Lobby {
         if (i === -1) return false;
 
         // move the element to the last index
-        this.#swap(this.players, i, this.players.length - 1);
+        [this.players[i], this.players[this.players.length - 1]] = [this.players[this.players.length - 1], this.players[i]];
         // removes the last element
-        this.players.pop();
+        return this.players.pop();
     }
 
     /**
      * Searches the player-object with the same Username
-     * @param username
-     * @returns {number} -1 if username not found else the index
+     * @param socketID of the Player
+     * @returns {number} The index of the first element in the array that passes the test. Otherwise, -1.
      */
     getPlayerIndexBySocketID(socketID) {
-        let i = -1;
-        this.players.forEach((player, index) => {
-            if (player.socketID === socketID) i = index;
-        });
-        return i;
+        return this.players.findIndex(player => player.socketID === socketID);
     }
 
-    #swap(arr, i, j) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-
+    /**
+     * Increases or decreases the aktivePlayerIndex dependent on the private class Attribute gameDirection
+     * @returns {number}
+     */
     nextActivePlayerIndex() {
-        this.activePlayerIndex = (this.activePlayerIndex + 1) % this.players.length;
+        this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
         return this.activePlayerIndex;
     }
 
@@ -152,6 +153,10 @@ export default class Lobby {
         return this.#gameDirection;
     }
 
+    /**
+     * Changes the private Game Direction attribute to other site
+     * @returns {number} 1 if clockwise game direction else -1 for counterclockwise
+     */
     changeGameDirection() {
         this.#gameDirection *= -1;
         return this.#gameDirection;

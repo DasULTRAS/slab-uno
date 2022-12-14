@@ -67,6 +67,7 @@ export default function Deck({socket, cards, cardSize, playCard}) {
     function placeCard(_, color, type) {
         console.log({card: {color: color, type: type}});
         socket.emit('place_card', {card: {color: color, type: type}});
+        // socket.emit('place_card', {card: {color: color, type: type, declared_color:"COLOR"}});
     }
 
     let coords = calculateCoords(cards.length, 400, 160, 236, 0.2);

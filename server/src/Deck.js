@@ -46,41 +46,79 @@ export default class Deck {
         }
     }
 
+    /**
+     * Fisher-Yates shuffle algorithm
+     */
     #mixDeck() {
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < this.cards.length; j++) {
-                this.#swap(j, Math.trunc(Math.random() * this.cards.length), this.cards);
-            }
+        for (let i = this.cards.length - 1; i > 0; i--) {
+            // Generate a random index between 0 and i
+            let j = Math.floor(Math.random() * (i + 1));
+
+            // Swap the cards at indices i and j
+            [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
         }
     }
 
+    /**
+     * Removes and returns a Card by Index
+     * @param index of the Card Array
+     * @returns {{Card}|null} a Card if index is in range else null
+     */
     removeCardByIndex(index) {
-        if (this.cards.length <= 0 && this.cards.length <= index)
-            return null;
-        this.#swap(index, this.cards.length - 1, this.cards);
-        return this.cards.pop();
+        if (index >= 0 && this.cards.length > index) {
+            [this.cards[this.cards.length - 1], this.cards[index]] = [this.cards[index], this.cards[this.cards.length - 1]];
+            return this.cards.pop();
+        }
+        return null;
     }
 
-    #swap(i, j, arr) {
-        const temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-    }
-
+    /**
+     * Find the index of the card object and returns. If not found returns -1.
+     * @param card {Card}
+     * @returns {number} The index of the first element in the array that passes the test. Otherwise, -1
+     */
     getCardIndex(card) {
         let i = -1;
         this.cards.forEach((playerCard, index) => {
-            if (playerCard.equals(card))
-                i = index;
+            if (playerCard.equals(card)) i = index;
         });
         return i;
     }
 
+    /**
+     * Gives all unused cards for the live game
+     * @returns {Card[]}
+     */
+    getUnusedCards() {
+        // How many indexes are special cards and must stay for streaks
+        let i = 1;
+        while (i < this.cards.length && Object.values(this.Types).slice(10, 15).includes(this.cards[this.cards.length - 1 - i].type)) {
+            i++;
+        }
+        // Store the removed array in temp constant
+        const unusedCards = this.cards.slice(0, this.cards.length - i);
+        // Remove the removed cards from the array
+        this.cards = this.cards.splice(this.cards.length - i, i);
+        // return the removed array
+        return unusedCards;
+    }
+
+    /**
+     * Adds a Array of Cards to the cards and shuffle the deck
+     * @param unusedCards {Card[]}
+     */
+    addCards(unusedCards) {
+        this.cards.push(unusedCards);
+        this.#mixDeck();
+    }
+
+    /**
+     * Draws one Card from the end of Cards
+     * @returns {{Card}|null} Card if the Deck isn't empty else null
+     */
     drawCard() {
-        if (this.cards.length === 0 && this.#isMainDeck) {
-            this.#initDeck();
-            this.#mixDeck();
-            console.log("NEW Cards.");
+        if (this.cards.length === 0) {
+            return null;
         }
         return this.cards.pop();
     }
@@ -94,8 +132,7 @@ export default class Deck {
     }
 
     get last() {
-        if (this.cards.length == 0)
-            return null;
+        if (this.cards.length == 0) return null;
         return this.cards[this.cards.length - 1];
     }
 }
