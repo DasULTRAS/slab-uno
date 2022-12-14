@@ -1,5 +1,6 @@
 import React from "react";
 import { specialCard, getColorId, cardMap } from "./cards";
+import "./card.css";
 
 export default function Card({
     color = 'red',
@@ -7,13 +8,21 @@ export default function Card({
     cardWidth, 
     clickEvent = () => {}, 
     enableHover = false,
-    style = {}
+    style = {},
+    disable = true
 }) {
+    let className = 'card';
+    if(enableHover){
+        className += ' card-hover';
+        
+    }
     const isSpecialCard = specialCard.includes(cardType);
+
+    
 
     return(
         <img
-            className="card"
+            className={className}
             src={cardMap.get(cardType)[isSpecialCard ? 0 : getColorId(color)]}
             alt={isSpecialCard ? cardType : color + " " + cardType} 
             style={{width: cardWidth, ...style}}

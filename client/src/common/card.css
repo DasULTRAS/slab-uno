@@ -1,0 +1,8 @@
+.card-hover {
+    cursor: pointer;
+    transition: .5s;
+}
+
+.card-hover:hover {
+    transform: translateY(-13px);
+}

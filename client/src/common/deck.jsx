@@ -30,8 +30,8 @@ function calculateCoords (cardsLength, circleRadius, cardWidth, cardHeight, card
         let degress = startAngle + anglePerCard * i;
 
         let radians = degreesToRadians(degress);
-        x = Math.cos(radians) * circleRadius; 
-        y = Math.sin(radians) * circleRadius; 
+        x = cardWidth / 2 + Math.cos(radians) * circleRadius; 
+        y = cardHeight / 2 + Math.sin(radians) * circleRadius; 
 
         coords.push({ x: x, y: y, angle: degress + 90 });
     }
@@ -70,7 +70,7 @@ export default function Deck({socket, cards, cardSize, playCard}) {
         // socket.emit('place_card', {card: {color: color, type: type, declared_color:"COLOR"}});
     }
 
-    let coords = calculateCoords(cards.length, 400, 160, 236, 0.2);
+    let coords = calculateCoords(cards.length, 800, 160, 236, .3);
 
     return(
         <div className="deck">
