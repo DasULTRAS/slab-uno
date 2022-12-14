@@ -2,7 +2,7 @@ import React from "react";
 import "./deck.css";
 import Card from "./card";
 import { specialCard } from "./cards";
-import { degreesToRadians, getRotatedDimensions, radiansToDegress } from "./mathFunctions";
+import { degreesToRadians, getRotatedDimensions, radiansToDegress } from "./utils/mathFunctions";
 
 function disableCard(card, playCard){
     if(card.color === playCard.color){
@@ -59,18 +59,12 @@ function coordsToStyleSheet(i, x, y, angle) {
     };
 }
 
-export default function Deck({socket, cards, cardSize, playCard}) {
+export default function Deck({cards, cardSize, placeCard}) {
     if(cards.length === 0) {
         return;
     }
 
-    function placeCard(_, color, type) {
-        console.log({card: {color: color, type: type}});
-        socket.emit('place_card', {card: {color: color, type: type}});
-        // socket.emit('place_card', {card: {color: color, type: type, declared_color:"COLOR"}});
-    }
-
-    let coords = calculateCoords(cards.length, 800, 160, 236, .3);
+    let coords = calculateCoords(cards.length, 800, 160, 236, .2);
 
     return(
         <div className="deck">
@@ -79,6 +73,7 @@ export default function Deck({socket, cards, cardSize, playCard}) {
             return (<Card 
                 color={card.color}
                 key={index}
+                index={index}
                 cardType={card.type} 
                 cardWidth={cardSize}
                 enableHover={true}

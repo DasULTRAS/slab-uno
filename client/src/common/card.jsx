@@ -9,7 +9,8 @@ export default function Card({
     clickEvent = () => {}, 
     enableHover = false,
     style = {},
-    disable = true
+    disable = true,
+    index
 }) {
     let className = 'card';
     if(enableHover){
@@ -26,6 +27,6 @@ export default function Card({
             src={cardMap.get(cardType)[isSpecialCard ? 0 : getColorId(color)]}
             alt={isSpecialCard ? cardType : color + " " + cardType} 
             style={{width: cardWidth, ...style}}
-            onClick={(event) => clickEvent(event, color, cardType)}/>
+            onClick={(event) => clickEvent(event, color, cardType, index)}/>
     );
 }

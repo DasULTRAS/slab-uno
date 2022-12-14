@@ -88,6 +88,8 @@ export function getColorId(color){
             return 2;
         case 'green':
             return 3;
+        case 'black':
+            return -1;
         default:
             return 0;
     }
