@@ -48,6 +48,8 @@ export default class Lobby {
 
         /* Check if move is valid */
         if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
+            if (Object.hasOwn(card, 'declared_color'))
+                player.deck.cards[index].declared_color = card.declared_color;
             /* WILD CARD RULES */
             if (card.type !== this.playedCards.Types.WILD && card.type !== this.playedCards.Types.WILD_DRAW_FOUR && card.color !== this.playedCards.last.declared_color) {
                 // declared color is not equal played card

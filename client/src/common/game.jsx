@@ -55,7 +55,9 @@ function Game({socket, lobby}) {
     }
 
     function chooseColor(color){
-        socket.emit('place_card', {card: {color: {color}, type: playCard.type, declared_color: {color}}});
+        const wildCard =  {color: "black", type: playCard.type, declared_color: color};
+        console.log(wildCard);
+        socket.emit('place_card', {card: wildCard});
         setIsChooseColor(false);
     }
 
