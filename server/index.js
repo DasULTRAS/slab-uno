@@ -114,12 +114,6 @@ io.on("connection", (socket) => {
             console.log(`${socket.id} - Player not found.`)
             return;
         }
-        // Player is not active Player
-        if (lobby.players[lobby.activePlayerIndex].socketID !== socket.id) {
-            socket.emit("message", {message: "Wait for your turn."});
-            return;
-        }
-        lobby.nextActivePlayerIndex();
 
         try {
             // Check if Move is valid and make the move and Send infos

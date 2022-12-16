@@ -40,6 +40,12 @@ export default class Lobby {
      * @returns {boolean} false if move is not allowed else true
      */
     playCard(player, card, socket) {
+        // Player is not active Player
+        if (this.players[this.activePlayerIndex].socketID !== socket.id) {
+            socket.emit("message", {message: "Wait for your turn."});
+            return false;
+        }
+
         // Find Card index
         let index = player.deck.getCardIndex(card);
         if (index == -1)
@@ -69,7 +75,7 @@ export default class Lobby {
         /* Check special Card effects */
         switch (card.type) {
             case this.playedCards.Types.SKIP:
-                this.nextActivePlayerIndex();
+                this.nextPlayer();
                 break;
 
             case this.playedCards.Types.REVERSE:
@@ -77,16 +83,20 @@ export default class Lobby {
                 break;
 
             case this.playedCards.Types.DRAW_TWO:
-                for (let i = 0; i < 2; i++) this.players[this.activePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                for (let i = 0; i < 2; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                // TODO: Deck von dem Spieler der Karten bekommt muss aktualisiert werden
                 break;
 
             case this.playedCards.Types.WILD_DRAW_FOUR:
                 socket.emit("challenge_wild_draw_four_request");
+                for (let i = 0; i < 4; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                // TODO: Implement the Challenging of WILD DRAW FOUR CARDS
                 break;
         }
 
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
+        this.nextPlayer();
         return true;
     }
 
@@ -138,9 +148,17 @@ export default class Lobby {
      * Increases or decreases the aktivePlayerIndex dependent on the private class Attribute gameDirection
      * @returns {number}
      */
-    nextActivePlayerIndex() {
+    nextPlayer() {
         this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
         return this.activePlayerIndex;
+    }
+
+    /**
+     * Getter for the next Active Player index in Player Array
+     * @returns {number} of the next Active Player in Array
+     */
+    get nextActivePlayerIndex() {
+        return (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
     }
 
     get deck() {
