@@ -37,6 +37,10 @@ edit in `server/index.js` the *origin* to the UNO Server.
     - Wild Shuffle Hands Card
     - Wild Customizable card
 - Maxim
+  - [ ] Chat design
+    - [ ] begin from bottom
+    - [ ] each text get a bg
+    - [ ] scroll
   - [ ] Abfragen bei Karten wahl
     - [ ] Challenge Wild DRAW FOUR FOR NEXT PLAYER (challenge_wild_draw_four_request), wenn ja mitte einfach zurück senden
     - [ ] WILD CARDS welche Farbe
