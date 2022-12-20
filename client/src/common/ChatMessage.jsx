@@ -1,4 +1,5 @@
 import React from 'react';
+import './ChatMessage.css'
 
 export default function ChatMessage(props) {
     const {username, message, timestamp} = props;
