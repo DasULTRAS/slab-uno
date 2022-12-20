@@ -19,23 +19,22 @@ export default function Chat(socket) {
 
     return (
         <div className="chat">
-            <button className="button-open"
-                    onClick={() => setChatVisible(!chatVisible)}>{chatVisible ? "Schließen" : "Öffnen"}</button>
-            {
+             {
                 chatVisible && (
                     <div className="chat-window">
                         <h1>Chat</h1>
                         <div>
                             {messages.map(message => chatMessage(message))}
                         </div>
-                        <div>
-                            <textarea className="textArea" placeholder="Message..."></textarea>
+                        <div className='sendMesssageArea'>
+                            <textarea className="textArea chat-textArea" placeholder="Message..."></textarea>
                             <button>Send Message</button>
                         </div>
-                        <div className="chat-background"/>
                     </div>
                 )
             }
+            <button className="button-open"
+                    onClick={() => setChatVisible(!chatVisible)}>{chatVisible ? "Schließen" : "Öffnen"}</button>
 
         </div>
     );

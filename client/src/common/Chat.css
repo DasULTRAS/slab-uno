@@ -1,20 +1,16 @@
 .chat {
     /* set the position of the container to be absolute */
     position: absolute;
-    /* set the right property to 20% to take up 20% of the screen */
-    right: 10%;
-    width: 10%;
+    /* set the width property to 20% to take up 20% of the screen */
+    right: 0%;
+    width: 30%;
     /* set the height of the container */
     height: 100%;
+    display: flex;
+    flex-flow: row-reverse;
 }
 
 .chat button {
-    /* position the button absolutely */
-    position: absolute;
-    /* position the button vertically in the middle */
-    top: 50%;
-    /* rotate the button so that it appears as an arrow */
-    transform: rotate(270deg);
     /* remove default styling */
     appearance: none;
     border: none;
@@ -23,24 +19,25 @@
 }
 
 .button-open {
-    /* position the button at the right edge */
-    right: 0;
+    height: 25px;
+    /* position the button to the center */
+    align-self: center;
+    rotate: -90deg;
+    transform: translateX(65%);
+    transform-origin: right bottom;
 }
 
 
 .chat-window {
-    width: 100cm;
-    height: 100%;
+    background: rgba(50,50,50,0.5);
+    padding: 5px;
 }
 
-.chat-background{
-    background: rgba(127,127,127,0.3);
-    /* Position */
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    /* Background */
-    z-index: -1;
+.chat-textArea {
+    width: auto; /* overriddes the css from the textArea so it is not overflows */
+}
+
+.sendMesssageArea {
+    display: flex;
+    justify-content: space-between;
 }
