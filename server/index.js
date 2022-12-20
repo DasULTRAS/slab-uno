@@ -59,7 +59,10 @@ io.on("connection", (socket) => {
     socket.on("join_lobby", (data) => {
         try {
             const lobby = lobbyManagement.joinLobby(data, socket);
-            if (lobby !== undefined) io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
+            if (lobby !== undefined) {
+                io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
+                socket.emit("gameSettings", lobby.gameSettings);
+            }
         } catch (e) {
             console.error(e);
         }
@@ -73,6 +76,15 @@ io.on("connection", (socket) => {
             io.to(player.lobbyID).emit("player_change", {lobby: lobbyManagement.getLobbyByID(player.lobbyID)});
         }
     });
+
+    socket.on("gameSettings", (data) =>{
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        if (data !== undefined && lobby !== undefined){
+            lobby.gameSettings = data.game_settings;
+        }
+        io.to(lobby.lobbyID).emit("gameSettings", {game_settings: lobby.gameSettings});
+    });
+
     // Start and init the new Game
     socket.on("start_game", () => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
