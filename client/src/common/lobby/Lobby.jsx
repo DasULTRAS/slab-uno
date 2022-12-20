@@ -2,6 +2,7 @@ import "./Lobby.css";
 import {useState, useEffect} from 'react';
 import {Button, ListGroup, Form} from 'react-bootstrap'
 import logo from "../../assets/UNO_Button.png";
+import GameSettings from "./GameSettings";
 
 function Lobby({socket}) {
     const [isLobbyJoined, setLobbyJoined] = useState(false);
@@ -39,6 +40,10 @@ function Lobby({socket}) {
     }
 
     return (<>
+        {isLobbyJoined &&
+            <GameSettings socket={socket}/>
+        }
+
         <div className="content">
             <img className="logo" src={logo} alt="Logo"/>
             <div className="lobbyJoin">
@@ -82,8 +87,8 @@ function Lobby({socket}) {
                     }} disabled={!isLobbyReady()}>Start Game</Button>
                 </div>
                 <ListGroup className="playerboard" as="ol" numbered>
-                    {lobby.players.map((player) => <ListGroup.Item
-                        as="li" key={player.username}>{`${player.username} - ${player.readyToPlay}`}</ListGroup.Item>)}
+                    {lobby.players.map((player) => <ListGroup.Item as="li"
+                                                                   key={player.username}>{`${player.username} - ${player.readyToPlay}`}</ListGroup.Item>)}
                 </ListGroup>
             </div>}
         </div>

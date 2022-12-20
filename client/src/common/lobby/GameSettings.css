@@ -1,0 +1,40 @@
+.gameSettings h1 {
+    text-align: center;
+}
+
+.gameSettings {
+    background: #343434;
+    /* Position */
+    width: 80%;
+    height: 90%;
+    top: 5%;
+    bottom: 5%;
+    left: 10%;
+    right: 10%;
+    position: absolute;
+    /* Background */
+    z-index: 1;
+}
+
+.openGameSettingsButtons {
+    position: absolute;
+    /* Position on the Bottom */
+    bottom: 0;
+    /* in the middle of the Bottom */
+    left: 50%;
+    /* Button in half size of it self  */
+    transform: translate(-50%, 0);
+}
+
+.gameSettingsBackground {
+    background-size: 100% 100%;
+    filter: blur(4px) brightness(50%);
+    /* Position */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Background */
+    z-index: 0;
+}
