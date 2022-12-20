@@ -1,5 +1,5 @@
 import React from "react";
-import "./enemyPlayer.css";
+import "./EnemyPlayer.css";
 
 export default function EnemyPlayer({cardCount, playerName}) {
     return(

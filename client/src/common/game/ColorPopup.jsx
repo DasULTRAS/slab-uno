@@ -1,4 +1,4 @@
-import "./colorPopup.css";
+import "./ColorPopup.css";
 
 function Popup({
     click = () => {}

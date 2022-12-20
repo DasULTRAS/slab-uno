@@ -1,9 +1,9 @@
 import './App.css';
-import Game from "./common/game";
-import Lobby from "./common/lobby";
+import Game from "./common/game/Game";
+import Lobby from "./common/lobby/Lobby";
 import {useState, useEffect} from "react";
 import io from "socket.io-client";
-import Chat from "./common/chat";
+import Chat from "./common/Chat";
 
 // const socket = io.connect("https://uno-api.dasultras.de/");
 const socket = io.connect("http://localhost:8080/");

@@ -1,6 +1,6 @@
 import React from "react";
 import { specialCard, getColorId, cardMap } from "./cards";
-import "./card.css";
+import "./Card.css";
 
 export default function Card({
     color = 'red',

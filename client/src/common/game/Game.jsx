@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import Card from "./card";
-import Deck from "./deck";
-import "./game.css";
-import UnoButtonAsset from "../assets/UNO_Button.png";
-import EnemyPlayer from "./enemyPlayer";
+import Card from "./Card";
+import Deck from "./Deck";
+import "./Game.css";
+import UnoButtonAsset from "../../assets/UNO_Button.png";
+import EnemyPlayer from "./EnemyPlayer";
 import { useEffect } from "react";
-import Popup from "./colorPopup";
+import Popup from "./ColorPopup";
 
 const cardSize = "10em";
 

@@ -25,7 +25,7 @@ docker-compose down
 ```
 
 ## Hosting
-To host productive edit in `client/src/common/lobby.jsx` the Socket.io Server URL and
+To host productive edit in `client/src/common/Lobby.jsx` the Socket.io Server URL and
 edit in `server/index.js` the *origin* to the UNO Server.
 **Important:** Enable Websockets support in nginx.
 

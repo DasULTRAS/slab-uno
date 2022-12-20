@@ -1,8 +1,8 @@
 import React from "react";
-import "./deck.css";
-import Card from "./card";
+import "./Deck.css";
+import Card from "./Card";
 import { specialCard } from "./cards";
-import { degreesToRadians, getRotatedDimensions, radiansToDegress } from "./utils/mathFunctions";
+import { degreesToRadians, getRotatedDimensions, radiansToDegress } from "../utils/mathFunctions";
 
 function disableCard(card, playCard){
     if(card.color === playCard.color){

@@ -1,7 +1,7 @@
-import "./lobby.css";
+import "./Lobby.css";
 import {useState, useEffect} from 'react';
 import {Button, ListGroup, Form} from 'react-bootstrap'
-import logo from "../assets/UNO_Button.png";
+import logo from "../../assets/UNO_Button.png";
 
 function Lobby({socket}) {
     const [isLobbyJoined, setLobbyJoined] = useState(false);
