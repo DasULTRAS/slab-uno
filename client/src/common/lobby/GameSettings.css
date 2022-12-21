@@ -22,11 +22,11 @@
 }
 
 .gameSettings li {
-    /* Kanten glättung */
+    /* Better Borders */
     border-radius: 15px;
     /* White with 30% transparency */
     background-color: rgba(15, 15, 15, 60%);
-    /* */
+    /* Better Edges */
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
     /* Remove bullets */
     list-style-type: none;

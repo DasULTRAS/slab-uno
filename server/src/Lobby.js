@@ -84,6 +84,7 @@ export default class Lobby {
 
             case this.playedCards.Types.REVERSE:
                 this.changeGameDirection();
+                // TODO: if two players left skip the next
                 break;
 
             case this.playedCards.Types.DRAW_TWO:
