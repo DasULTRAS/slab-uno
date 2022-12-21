@@ -162,6 +162,19 @@ io.on("connection", (socket) => {
         }
     });
 
+    // Player sends a message
+    socket.on("chat_message", (data) =>{
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+
+        if (player !== undefined && lobby !== undefined && data !== undefined && data.hasOwnProperty("chat_message")){
+            lobby.addNewMessage(player.username, data.chat_message.message, data.chat_message.timestamp);
+            io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
+        } else {
+            console.error("Invalid Chat Message.");
+        }
+    });
+
     socket.on("ping", (data) => {
         try {
             socket.emit("pong", data);

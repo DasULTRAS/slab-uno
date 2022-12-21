@@ -49,7 +49,7 @@ function App() {
                 <li className="message">{message}</li>
             </div>
 
-            <Chat socket={socket}/>
+            {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
 
             {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket}/>}
             <div className="gameBackground"/>

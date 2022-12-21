@@ -2,40 +2,42 @@ import React, {useState} from 'react';
 import chatMessage from './ChatMessage';
 import "./Chat.css";
 
-export default function Chat(socket) {
+export default function Chat({socket, messages}) {
     const [chatVisible, setChatVisible] = useState(false);
-
-    const messages = [{
-        username: "DasULTRAS",
-        message: "Hallo ich bin der Christian und schreibe eine Test Nachricht.",
-        timestamp: Date.now()
-    }];
-    messages.push(messages[0]);
-    messages.push(messages[0]);
-    messages.push(messages[0]);
-    messages.push(messages[0]);
-    messages.push(messages[0]);
+    const [chatTextArea, setChatTextArea] = useState("");
 
 
     return (
         <div className="chat">
-             {
+            {
                 chatVisible && (
                     <div className="chat-window">
                         <h1>Chat</h1>
                         <div>
                             {messages.map(message => chatMessage(message))}
                         </div>
-                        <div className='sendMesssageArea'>
-                            <textarea className="textArea chat-textArea" placeholder="Message..."></textarea>
-                            <button>Send Message</button>
+                        <div className='sendMessageArea'>
+                            <textarea className="textArea chat-textArea" placeholder="Message..." value={chatTextArea}
+                                      onChange={(event) => {
+                                          setChatTextArea(event.target.value);
+                                      }}/>
+                            <button onClick={() => {
+                                socket.emit("chat_message", {
+                                    chat_message: {
+                                        username: "DasULTRAS",
+                                        message: chatTextArea,
+                                        timestamp: Date.now()
+                                    }
+                                });
+                                setChatTextArea("");
+                            }}>Send Message
+                            </button>
                         </div>
                     </div>
                 )
             }
             <button className="button-open"
                     onClick={() => setChatVisible(!chatVisible)}>{chatVisible ? "Schließen" : "Öffnen"}</button>
-
         </div>
     );
 }

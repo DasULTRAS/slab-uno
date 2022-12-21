@@ -37,7 +37,7 @@
     width: auto; /* overriddes the css from the textArea so it is not overflows */
 }
 
-.sendMesssageArea {
+.sendMessageArea {
     display: flex;
     justify-content: space-between;
 }
