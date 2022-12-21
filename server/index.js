@@ -130,13 +130,11 @@ io.on("connection", (socket) => {
         try {
             // Check if Move is valid and make the move and Send infos
             if (lobby.playCard(player, data.card, socket)) {
-                lobby.renewPlayerDecksLength();
                 socket.emit("message", {message: "Move was valid."});
-                socket.emit("get_card", {player_deck: player.deck});
-                io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
             } else {
                 socket.emit("message", {message: "Move is not valid."});
             }
+            lobby.renewAllPlayers(io);
         } catch
             (error) {
             console.error(error);
@@ -155,10 +153,8 @@ io.on("connection", (socket) => {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
 
-            lobby.renewPlayerDecksLength();
             io.emit("message", {message: `${player.username} gets a new Card.`});
-            socket.emit("get_card", {player_deck: player.deck});
-            io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
+            lobby.renewAllPlayers(io);
         }
     });
 
