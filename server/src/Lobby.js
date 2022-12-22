@@ -91,7 +91,7 @@ export default class Lobby {
 
             case this.playedCards.Types.REVERSE:
                 // RULE: if two players left skip reverse skips the next player
-                if (this.activePlayersCount == 2) for (let i = 0; i < 2; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                if (this.activePlayersCount == 2) this.nextPlayer();
 
                 this.changeGameDirection();
                 break;
@@ -110,8 +110,7 @@ export default class Lobby {
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
         // check if it was the penalty card (than the Player needs to press UNO
-        if (player.deck.length == 1)
-            this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
+        if (player.deck.length == 1) this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
         this.nextPlayer();
         return true;
     }
@@ -176,7 +175,12 @@ export default class Lobby {
      * @returns {number}
      */
     nextPlayer() {
-        this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
+        const oldActivePlayerIndex = this.activePlayerIndex;
+
+        do {
+            this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length
+        } while (this.players[this.activePlayerIndex].deck.length == 0 && this.activePlayerIndex != oldActivePlayerIndex);
+
         return this.activePlayerIndex;
     }
 
