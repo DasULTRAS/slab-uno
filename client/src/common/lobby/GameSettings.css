@@ -3,7 +3,7 @@
 }
 
 .gameSettings {
-    /* Kanten glättung */
+    /* better edge */
     border-radius: 15px;
     /* White with 30% transparency */
     background-color: rgba(0, 0, 0, 40%);

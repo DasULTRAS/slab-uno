@@ -5,13 +5,12 @@ export default class Card {
     }
 
     equals(card) {
-        if (this.color === card.color && this.type === card.type)
-            return true;
+        if (this.color === card.color && this.type === card.type) return true;
         return false;
     }
 }
 
-export class WildCard extends Card{
+export class WildCard extends Card {
     constructor(color, type) {
         super(color, type);
         this.declared_color = null;

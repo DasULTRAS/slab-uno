@@ -8,7 +8,7 @@ import Chat from "./common/Chat";
 // const socket = io.connect("https://uno-api.dasultras.de/");
 const socket = io.connect("http://localhost:8080/");
 
-function App() {
+export default function App() {
     const [gameStarted, setGameStarted] = useState(false);
     const [latency, setLatency] = useState(0);
     const [message, setMessage] = useState("");
@@ -42,8 +42,7 @@ function App() {
         return () => clearInterval(interval);
     });
 
-    return (
-        <div className="App">
+    return (<div className="App">
             <div className="debug">
                 <li className="latency">{`${latency}ms`}</li>
                 <li className="message">{message}</li>
@@ -53,8 +52,5 @@ function App() {
 
             {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket}/>}
             <div className="gameBackground"/>
-        </div>
-    );
+        </div>);
 }
-
-export default App;

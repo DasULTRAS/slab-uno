@@ -29,8 +29,7 @@ io.on("connection", (socket) => {
     socket.on("reconnect", (attempt) => {
         // never triggered
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player === undefined)
-            io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
+        if (player === undefined) io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
     });
 
     socket.on("disconnect", () => {
@@ -77,9 +76,9 @@ io.on("connection", (socket) => {
         }
     });
 
-    socket.on("gameSettings", (data) =>{
+    socket.on("gameSettings", (data) => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
-        if (data !== undefined && lobby !== undefined){
+        if (data !== undefined && lobby !== undefined) {
             lobby.gameSettings = data.game_settings;
         }
         io.to(lobby.lobbyID).emit("gameSettings", {game_settings: lobby.gameSettings});
@@ -135,8 +134,7 @@ io.on("connection", (socket) => {
                 socket.emit("message", {message: "Move is not valid."});
             }
             lobby.renewAllPlayers(io);
-        } catch
-            (error) {
+        } catch (error) {
             console.error(error);
         }
     });
@@ -159,11 +157,11 @@ io.on("connection", (socket) => {
     });
 
     // Player sends a message
-    socket.on("chat_message", (data) =>{
+    socket.on("chat_message", (data) => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
 
-        if (player !== undefined && lobby !== undefined && data !== undefined && data.hasOwnProperty("chat_message")){
+        if (player !== undefined && lobby !== undefined && data !== undefined && data.hasOwnProperty("chat_message")) {
             lobby.addNewMessage(player.username, data.chat_message.message, data.chat_message.timestamp);
             io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
         } else {

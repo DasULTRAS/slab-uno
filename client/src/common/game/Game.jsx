@@ -61,29 +61,31 @@ export default function Game({socket, lobby}) {
         setIsChooseColor(false);
     }
 
-    return (<div className="gameContent">
-        {isChooseColor ? <Popup click={chooseColor}/> : <></>}
-        <div className="enemyPlayers">
-            {enemyPlayers.map((player, index) => <EnemyPlayer key={index} cardCount={player.deckLength}
-                                                              playerName={player.username}
-                                                              isActive={lobby.activePlayerIndex === index}/>)}
-        </div>
-        <div className="gameField">
-            <Card color={playCard.color} cardType={playCard.type} cardWidth={cardSize}/>
-        </div>
-        <div className="bar">
-            <div className="drawCard">
-                <Card
-                    color={'red'}
-                    cardType={'back'}
-                    cardWidth={cardSize}
-                    clickEvent={getOneCardFromStack}
-                    enableHover={true}/>
+    return (<>
+        <div className="gameContent">
+            {isChooseColor ? <Popup click={chooseColor}/> : <></>}
+            <div className="enemyPlayers">
+                {enemyPlayers.map((player, index) => <EnemyPlayer key={index} cardCount={player.deckLength}
+                                                                  playerName={player.username}
+                                                                  isActive={lobby.activePlayerIndex === index}/>)}
             </div>
-            <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
-            <div className="unoButton" onClick={unoButtonClick}>
-                <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
+            <div className="gameField">
+                <Card color={playCard.color} cardType={playCard.type} cardWidth={cardSize}/>
+            </div>
+            <div className="bar">
+                <div className="drawCard">
+                    <Card
+                        color={'red'}
+                        cardType={'back'}
+                        cardWidth={cardSize}
+                        clickEvent={getOneCardFromStack}
+                        enableHover={true}/>
+                </div>
+                <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
+                <div className="unoButton" onClick={unoButtonClick}>
+                    <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
+                </div>
             </div>
         </div>
-    </div>);
+    </>);
 }

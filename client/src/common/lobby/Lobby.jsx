@@ -4,7 +4,7 @@ import {Button, ListGroup, Form} from 'react-bootstrap'
 import logo from "../../assets/UNO_Button.png";
 import GameSettings from "./GameSettings";
 
-function Lobby({socket}) {
+export default function Lobby({socket}) {
     const [isLobbyJoined, setLobbyJoined] = useState(false);
     const [lobbyID, setLobbyID] = useState("");
     const [username, setUsername] = useState("");
@@ -40,9 +40,7 @@ function Lobby({socket}) {
     }
 
     return (<>
-        {isLobbyJoined &&
-            <GameSettings socket={socket}/>
-        }
+        {isLobbyJoined && <GameSettings socket={socket}/>}
 
         <div className="content">
             <img className="logo" src={logo} alt="Logo"/>
@@ -94,5 +92,3 @@ function Lobby({socket}) {
         </div>
     </>);
 }
-
-export default Lobby;

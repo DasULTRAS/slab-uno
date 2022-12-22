@@ -11,10 +11,7 @@ export default class Player {
     }
 
     renewDeckLength() {
-        if (this.#deck == null)
-            this.deckLength = 0;
-        else
-            this.deckLength = this.#deck.length;
+        if (this.#deck == null) this.deckLength = 0; else this.deckLength = this.#deck.length;
     }
 
     get deck() {

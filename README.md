@@ -46,10 +46,7 @@ edit in `server/index.js` the *origin* to the UNO Server.
 
 ## Milestones
 
-- [ ] abfrage, wenn hochformat bitte Handy drehen
-- [x] Karten einbinden (SVG)
-- [x] Karten in Stack speichern (Verteilstapel), verteilen (an Spieler) und ablegen (auf den Ablegstapel)
-- [x] Multiplayer (netzwerk basiert)
+- [ ] UNO Button
 
 ## UNO RULES
 
