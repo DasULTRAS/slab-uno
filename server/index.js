@@ -156,6 +156,16 @@ io.on("connection", (socket) => {
         }
     });
 
+    // Player press UNO
+    socket.on("UNO", () => {
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        if (lobby !== undefined) {
+            const playerIndex = lobby.getPlayerIndexBySocketID(socket.id);
+            if (playerIndex != -1 && playerIndex == lobby.needsToPressUnoIndex)
+                lobby.needsToPressUnoIndex = -1;
+        }
+    });
+
     // Player sends a message
     socket.on("chat_message", (data) => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);

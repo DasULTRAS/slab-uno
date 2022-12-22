@@ -11,6 +11,8 @@ export default class Lobby {
         this.#gameDirection = 1;
         // Index of the activePlayer
         this.activePlayerIndex = 0;
+        // Index of the Player that needs to Press UNO to remove his index or he will get 2 Cards on next played Card
+        this.needsToPressUnoIndex = -1;
         this.#deck = null;
         this.playedCards = null;
         this.messages = [];
@@ -75,6 +77,12 @@ export default class Lobby {
             return false;
         }
 
+        /* Check for UNO Last Card */
+        if (this.needsToPressUnoIndex >= 0 && this.needsToPressUnoIndex < this.players.length)
+            // if index is set Player gets 2 Cards for not pressing UNO
+            for (let i = 0; i < 2; i++) this.players[this.needsToPressUnoIndex].deck.placeCard(this.#deck.drawCard());
+        this.needsToPressUnoIndex = -1;
+
         /* Check special Card effects */
         switch (card.type) {
             case this.playedCards.Types.SKIP:
@@ -82,13 +90,14 @@ export default class Lobby {
                 break;
 
             case this.playedCards.Types.REVERSE:
+                // RULE: if two players left skip reverse skips the next player
+                if (this.activePlayersCount == 2) for (let i = 0; i < 2; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+
                 this.changeGameDirection();
-                // TODO: if two players left skip the next
                 break;
 
             case this.playedCards.Types.DRAW_TWO:
                 for (let i = 0; i < 2; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
-                // TODO: Deck von dem Spieler der Karten bekommt muss aktualisiert werden
                 break;
 
             case this.playedCards.Types.WILD_DRAW_FOUR:
@@ -100,6 +109,9 @@ export default class Lobby {
 
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
+        // check if it was the penalty card (than the Player needs to press UNO
+        if (player.deck.length == 1)
+            this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
         this.nextPlayer();
         return true;
     }
@@ -178,6 +190,18 @@ export default class Lobby {
 
     get deck() {
         return this.#deck;
+    }
+
+    /**
+     * Get the Count of the Players that have not finished the current Game
+     * @returns {number} count of active Players in current game
+     */
+    get activePlayersCount() {
+        let count = 0;
+        this.players.map((player) => {
+            if (player.deck.length > 0) count++;
+        })
+        return count;
     }
 
     set deck(value) {

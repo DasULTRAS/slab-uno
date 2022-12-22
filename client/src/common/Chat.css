@@ -3,11 +3,17 @@
     position: absolute;
     /* set the width property to 20% to take up 20% of the screen */
     right: 0%;
-    width: 30%;
     /* set the height of the container */
     height: 100%;
     display: flex;
     flex-flow: row-reverse;
+}
+
+.visible{
+    width: 30%;
+}
+.invisible{
+    width: 0%;
 }
 
 .chat button {

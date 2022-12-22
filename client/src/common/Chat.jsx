@@ -6,6 +6,12 @@ export default function Chat({socket, messages}) {
     const [chatVisible, setChatVisible] = useState(false);
     const [chatTextArea, setChatTextArea] = useState("");
 
+    var chatClasses = "chat";
+    if (chatVisible)
+        chatClasses += " visible";
+    else
+        chatClasses += " invisible";
+
     return (<>
         <div className="chat">
             {chatVisible && (<div className="chat-window">

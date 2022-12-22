@@ -35,10 +35,6 @@ export default function Game({socket, lobby}) {
         setPlayCard(lobby.playedCards.cards.at(-1));
     }, [lobby]);
 
-    function unoButtonClick() {
-        console.log('uno');
-    }
-
     function getOneCardFromStack() {
         socket.emit('get_card');
     }
@@ -82,7 +78,8 @@ export default function Game({socket, lobby}) {
                         enableHover={true}/>
                 </div>
                 <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
-                <div className="unoButton" onClick={unoButtonClick}>
+                <div className="unoButton" onClick={()=>{console.log("UNO!"); socket.emit("UNO");}
+                }>
                     <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
                 </div>
             </div>
