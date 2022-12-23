@@ -175,11 +175,7 @@ export default class Lobby {
      * @returns {number}
      */
     nextPlayer() {
-        const oldActivePlayerIndex = this.activePlayerIndex;
-
-        do {
-            this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length
-        } while (this.players[this.activePlayerIndex].deck.length == 0 && this.activePlayerIndex != oldActivePlayerIndex);
+        this.activePlayerIndex = this.nextActivePlayerIndex;
 
         return this.activePlayerIndex;
     }
@@ -189,7 +185,13 @@ export default class Lobby {
      * @returns {number} of the next Active Player in Array
      */
     get nextActivePlayerIndex() {
-        return (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
+        var oldActivePlayerIndex = this.activePlayerIndex;
+
+        do {
+            oldActivePlayerIndex = (oldActivePlayerIndex + this.#gameDirection + this.players.length) % this.players.length
+        } while (this.players[oldActivePlayerIndex].deck.length == 0 && this.activePlayerIndex != oldActivePlayerIndex);
+
+        return this.activePlayerIndex;
     }
 
     get deck() {
