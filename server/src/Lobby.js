@@ -11,7 +11,7 @@ export default class Lobby {
         this.#gameDirection = 1;
         // Index of the activePlayer
         this.activePlayerIndex = 0;
-        // Index of the Player that needs to Press UNO to remove his index or he will get 2 Cards on next played Card
+        // Index of the Player that needs to Press UNO to remove his index else he will get 2 Cards on next played Card
         this.needsToPressUnoIndex = -1;
         this.#deck = null;
         this.playedCards = null;
@@ -54,7 +54,7 @@ export default class Lobby {
 
         // Find Card index
         let index = player.deck.getCardIndex(card);
-        if (index == -1)
+        if (index === -1)
             // Card not found
             return false;
 
@@ -91,7 +91,7 @@ export default class Lobby {
 
             case this.playedCards.Types.REVERSE:
                 // RULE: if two players left skip reverse skips the next player
-                if (this.activePlayersCount == 2) this.nextPlayer();
+                if (this.activePlayersCount === 2) this.nextPlayer();
 
                 this.changeGameDirection();
                 break;
@@ -110,7 +110,7 @@ export default class Lobby {
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
         // check if it was the penalty card (than the Player needs to press UNO
-        if (player.deck.length == 1) this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
+        if (player.deck.length === 1) this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
         this.nextPlayer();
         return true;
     }
@@ -137,7 +137,7 @@ export default class Lobby {
 
     /**
      * Add one Player to the Lobby
-     * @param player {}
+     * @param player {Player}
      */
     addPlayer(player) {
         this.players.push(player);
@@ -176,7 +176,6 @@ export default class Lobby {
      */
     nextPlayer() {
         this.activePlayerIndex = this.nextActivePlayerIndex;
-
         return this.activePlayerIndex;
     }
 
@@ -185,12 +184,13 @@ export default class Lobby {
      * @returns {number} of the next Active Player in Array
      */
     get nextActivePlayerIndex() {
-        var oldActivePlayerIndex = this.activePlayerIndex;
+        let oldActivePlayerIndex = this.activePlayerIndex;
 
         do {
             oldActivePlayerIndex = (oldActivePlayerIndex + this.#gameDirection + this.players.length) % this.players.length
-        } while (this.players[oldActivePlayerIndex].deck.length == 0 && this.activePlayerIndex != oldActivePlayerIndex);
+        } while (this.players[oldActivePlayerIndex].deck.length === 0 && this.activePlayerIndex !== oldActivePlayerIndex);
 
+        this.activePlayerIndex = oldActivePlayerIndex;
         return this.activePlayerIndex;
     }
 
