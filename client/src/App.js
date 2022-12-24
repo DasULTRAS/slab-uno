@@ -24,13 +24,10 @@ export default function App() {
             setMessage(data.message);
         });
 
-        socket.on("player_change", (data) => {
-            setLobby(data.lobby);
-        });
-
-        socket.on("renew_lobby", (data) => {
-            setLobby(data.lobby);
-        });
+        socket.on("player_change", (data) => setLobby(data.lobby));
+        socket.on("create_lobby", (data) => setLobby(data.lobby));
+        socket.on("join_lobby", (data) => setLobby(data.lobby));
+        socket.on("renew_lobby", (data) => setLobby(data.lobby));
 
         socket.on("pong", (data) => {
             setLatency(Date.now() - data.timestamp);
@@ -43,14 +40,14 @@ export default function App() {
     });
 
     return (<div className="App">
-            <div className="debug">
-                <li className="latency">{`${latency}ms`}</li>
-                <li className="message">{message}</li>
-            </div>
+        <div className="debug">
+            <li className="latency">{`${latency}ms`}</li>
+            <li className="message">{message}</li>
+        </div>
 
-            {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
+        {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
 
-            {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket}/>}
-            <div className="gameBackground"/>
-        </div>);
+        {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket} lobby={lobby}/>}
+        <div className="gameBackground"/>
+    </div>);
 }

@@ -27,7 +27,7 @@ io.on("connection", (socket) => {
     socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
 
     socket.on("reconnect", (attempt) => {
-        // never triggered
+        // TODO - never triggered
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         if (player === undefined) io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
     });

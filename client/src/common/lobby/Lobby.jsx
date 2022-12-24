@@ -4,32 +4,32 @@ import {Button, ListGroup, Form} from 'react-bootstrap'
 import logo from "../../assets/UNO_Button.png";
 import GameSettings from "./GameSettings";
 
-export default function Lobby({socket}) {
-    const [isLobbyJoined, setLobbyJoined] = useState(false);
+export default function Lobby({socket, lobby}) {
+    // TEXT FIELDS
     const [lobbyID, setLobbyID] = useState("");
     const [username, setUsername] = useState("");
-    const [lobby, setLobby] = useState(null);
+    // STATUS
+    const [isLobbyJoined, setLobbyJoined] = useState(false);
 
     useEffect(() => {
-        socket.on("create_lobby", (data) => {
-            // input get static
-            setLobby(data.lobby);
-            setLobbyJoined(true);
-            setLobbyID(data.lobbyID);
-            setUsername(data.username)
-        });
         socket.on("join_lobby", (data) => {
-            // input get static
-            setLobby(data.lobby);
             setLobbyJoined(true);
-            setLobbyID(data.lobby.lobbyID);
             setUsername(data.username)
+            setLobbyID(data.lobby.lobbyID);
 
-        });
-        socket.on("player_change", (data) => {
-            setLobby(data.lobby);
+            console.log("LOBBY SECOND TIME");
+            console.log(lobby);
+            console.log("isLobbyJoined SECOND TIME");
+            console.log(isLobbyJoined);
         });
     });
+
+    useEffect(() => {
+        console.log("LOBBY ONE TIME");
+        console.log(lobby);
+        console.log("isLobbyJoined ONE TIME");
+        console.log(isLobbyJoined);
+    }, []);
 
     const isLobbyReady = () => {
         let ready = true;

@@ -98,7 +98,6 @@ export default class Lobby {
 
             case this.playedCards.Types.DRAW_TWO:
                 for (let i = 0; i < 2; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
-                // TODO: BUG - If only one Player left also non active Player get Cards
                 break;
 
             case this.playedCards.Types.WILD_DRAW_FOUR:
