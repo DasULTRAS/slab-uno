@@ -7,10 +7,13 @@ export default class Lobby {
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
+        // List of the IDs of the Winner
+        this.winners = [];
         // If 1 clockwise else if -1 counterclockwise
         this.#gameDirection = 1;
         // Index of the activePlayer
         this.activePlayerIndex = 0;
+        this.gameFinished = false;
         // Index of the Player that needs to Press UNO to remove his index else he will get 2 Cards on next played Card
         this.needsToPressUnoIndex = -1;
         this.#deck = null;
@@ -22,7 +25,7 @@ export default class Lobby {
     }
 
     dealCards() {
-        if (this.playedCards !== null) return;
+        if (this.playedCards !== null || this.gameFinished) return;
 
         // init decks
         this.playedCards = new Deck(false);
@@ -51,6 +54,8 @@ export default class Lobby {
             socket.emit("message", {message: "Wait for your turn."});
             return false;
         }
+        if (this.gameFinished)
+            return false;
 
         // Find Card index
         let index = player.deck.getCardIndex(card);
@@ -109,10 +114,30 @@ export default class Lobby {
 
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
-        // check if it was the penalty card (than the Player needs to press UNO
-        if (player.deck.length === 1) this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
+
+        if (player.deck.length === 1) {
+            // check if it was the penalty card (than the Player needs to press UNO
+            this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
+        } else if (player.deck.length === 0) {
+            // Check if it was last Card
+            this.addWinner(this.getPlayerIndexBySocketID(player.socketID));
+            socket.emit("message", {message: `${player.socketID} finished the Game.`});
+        }
         this.nextPlayer();
         return true;
+    }
+
+    /**
+     * Add a finished Player to the Winner by PlayerIndex
+     * @param userIndex
+     */
+    addWinner(userIndex) {
+        if (this.winners.findIndex(userIndex) != -1) {
+            this.winners.push(userIndex);
+            if (this.winners.length === this.players.length - 1) {
+                this.gameFinished = true;
+            }
+        } else console.error("Winner " + userIndex + " allready exists.");
     }
 
     /**
