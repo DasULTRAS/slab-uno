@@ -81,7 +81,7 @@ io.on("connection", (socket) => {
         if (data !== undefined && lobby !== undefined) {
             lobby.gameSettings = data.game_settings;
         }
-        io.to(lobby.lobbyID).emit("gameSettings", {game_settings: lobby.gameSettings});
+        io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
     });
 
     // Start and init the new Game

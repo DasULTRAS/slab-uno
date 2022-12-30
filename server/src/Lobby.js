@@ -22,6 +22,7 @@ export default class Lobby {
         this.gameSettings = [];
         this.gameSettings.push(new Settings("wild_on_wild", "Wild on Wild", "Is it allow to place a black/wild Card on another black/wild Card?", true));
         this.gameSettings.push(new Settings("challenge_wild_draw_four", "Challenge Wild Draw Four Card", "If a Wild Draw Four card is laid, it can be challenged. This checks whether the card was the only option. If it was the only possibility, the challenger must draw 6 cards, otherwise the dealer of the Wild Draw Four must draw 4.", false));
+        this.gameSettings.push(new Settings("play_alone", "Play alone", "You can start the Game alone.", true));
     }
 
     dealCards() {

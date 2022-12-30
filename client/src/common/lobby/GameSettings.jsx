@@ -2,30 +2,20 @@ import './GameSettings.css';
 import {Button} from "react-bootstrap";
 import {useEffect, useState} from "react";
 
-export default function GameSettings({socket}) {
+export default function GameSettings({socket, gameSettings}) {
     const [showGameSettings, setShowGameSettings] = useState(false);
-    const [gameSettings, setGameSettings] = useState(null);
-
-    useEffect(() => {
-        // Run ONCE on render
-        socket.emit('gameSettings');
-    }, []);
-
-    useEffect(() => {
-        // Get current GameSettings
-        socket.on("gameSettings", (data) => {
-            setGameSettings(data.game_settings);
-        });
-    });
 
     return (<>
         {showGameSettings ? <>
             <div className="gameSettings">
                 <h1>Game settings</h1>
                 <ul>
-                    {gameSettings.map((setting) => <li key={setting.title}>
+                    {gameSettings.map((setting, index) => <li key={setting.title}>
                         <input type="checkbox" checked={setting.enabled}
-                               onChange={() => setting.enabled = !setting.enabled}/>
+                               onChange={() => {
+                                   gameSettings[index].enabled = !setting.enabled;
+                                   socket.emit("gameSettings", {game_settings: gameSettings});
+                               }}/>
                         <h2>{setting.name}</h2>
                         <p>{setting.description}</p>
                     </li>)}

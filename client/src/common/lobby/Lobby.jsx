@@ -31,16 +31,40 @@ export default function Lobby({socket, lobby}) {
         console.log(isLobbyJoined);
     }, []);
 
+    /**
+     *
+     * @param title {String}
+     */
+    const findSettingByTitle = (title) => {
+        return lobby.gameSettings[lobby.gameSettings.findIndex(setting => setting.title === title)];
+    }
+
     const isLobbyReady = () => {
         let ready = true;
+        // Check if Players are Ready
         lobby.players.forEach((player) => {
             if (player.readyToPlay === false) ready = false;
         });
+        // Check if min. amount of Player are joined
+        try {
+            console.log("Lobby:");
+            console.log(lobby);
+            const setting = findSettingByTitle("play_alone");
+            console.log("Setting:");
+            console.log(setting);
+            if (!setting.enabled)
+                if (lobby.players.length < 2)
+                    ready = false;
+        } catch (e) {
+            console.error(e);
+        }
+        console.log("Ready:");
+        console.log(ready);
         return ready;
     }
 
     return (<>
-        {isLobbyJoined && <GameSettings socket={socket}/>}
+        {isLobbyJoined && <GameSettings socket={socket} gameSettings={lobby.gameSettings}/>}
 
         <div className="content">
             <img className="logo" src={logo} alt="Logo"/>
