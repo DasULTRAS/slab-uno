@@ -10,7 +10,7 @@ export default function Chat({socket, messages}) {
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth'});
-    }, [messages]);
+    }, [messages, chatVisible]);
 
     return (
         <div className="chat">
@@ -40,7 +40,9 @@ export default function Chat({socket, messages}) {
                 )
             }
             <button className="button-open"
-                    onClick={() => setChatVisible(!chatVisible)}>{chatVisible ? "Schließen" : "Öffnen"}</button>
+                    onClick={() => {
+                        setChatVisible(!chatVisible);
+                    }}>{chatVisible ? "Schließen" : "Öffnen"}</button>
         </div>
     );
 }
