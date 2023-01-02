@@ -78,8 +78,8 @@ cardMap.set('back', [back]);
 
 export const specialCard = ['wild', 'wild_draw_four', 'back'];
 
-export function getColorId(color){
-    switch(color) {
+export function getColorId(color) {
+    switch (color) {
         case 'red':
             return 0;
         case 'yellow':

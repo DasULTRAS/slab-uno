@@ -4,45 +4,67 @@ import {Button, ListGroup, Form} from 'react-bootstrap'
 import logo from "../../assets/UNO_Button.png";
 import GameSettings from "./GameSettings";
 
-function Lobby({socket}) {
-    const [isLobbyJoined, setLobbyJoined] = useState(false);
+export default function Lobby({socket, lobby}) {
+    // TEXT FIELDS
     const [lobbyID, setLobbyID] = useState("");
     const [username, setUsername] = useState("");
-    const [lobby, setLobby] = useState(null);
+    // STATUS
+    const [isLobbyJoined, setLobbyJoined] = useState(false);
 
     useEffect(() => {
-        socket.on("create_lobby", (data) => {
-            // input get static
-            setLobby(data.lobby);
-            setLobbyJoined(true);
-            setLobbyID(data.lobbyID);
-            setUsername(data.username)
-        });
         socket.on("join_lobby", (data) => {
-            // input get static
-            setLobby(data.lobby);
             setLobbyJoined(true);
-            setLobbyID(data.lobby.lobbyID);
             setUsername(data.username)
+            setLobbyID(data.lobby.lobbyID);
 
-        });
-        socket.on("player_change", (data) => {
-            setLobby(data.lobby);
+            console.log("LOBBY SECOND TIME");
+            console.log(lobby);
+            console.log("isLobbyJoined SECOND TIME");
+            console.log(isLobbyJoined);
         });
     });
 
+    useEffect(() => {
+        console.log("LOBBY ONE TIME");
+        console.log(lobby);
+        console.log("isLobbyJoined ONE TIME");
+        console.log(isLobbyJoined);
+    }, []);
+
+    /**
+     *
+     * @param title {String}
+     */
+    const findSettingByTitle = (title) => {
+        return lobby.gameSettings[lobby.gameSettings.findIndex(setting => setting.title === title)];
+    }
+
     const isLobbyReady = () => {
         let ready = true;
+        // Check if Players are Ready
         lobby.players.forEach((player) => {
             if (player.readyToPlay === false) ready = false;
         });
+        // Check if min. amount of Player are joined
+        try {
+            console.log("Lobby:");
+            console.log(lobby);
+            const setting = findSettingByTitle("play_alone");
+            console.log("Setting:");
+            console.log(setting);
+            if (!setting.enabled)
+                if (lobby.players.length < 2)
+                    ready = false;
+        } catch (e) {
+            console.error(e);
+        }
+        console.log("Ready:");
+        console.log(ready);
         return ready;
     }
 
     return (<>
-        {isLobbyJoined &&
-            <GameSettings socket={socket}/>
-        }
+        {isLobbyJoined && <GameSettings socket={socket} gameSettings={lobby.gameSettings}/>}
 
         <div className="content">
             <img className="logo" src={logo} alt="Logo"/>
@@ -94,5 +116,3 @@ function Lobby({socket}) {
         </div>
     </>);
 }
-
-export default Lobby;

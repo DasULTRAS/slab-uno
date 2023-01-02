@@ -3,7 +3,7 @@ import chatMessage from './ChatMessage';
 import "./Chat.css";
 import { useEffect } from 'react';
 
-export default function Chat(socket) {
+export default function Chat({socket, messages}) {
     const [chatVisible, setChatVisible] = useState(false);
     const bottomRef = useRef(null);
     const sampleMessage = 
@@ -51,7 +51,6 @@ export default function Chat(socket) {
             }
             <button className="button-open"
                     onClick={() => setChatVisible(!chatVisible)}>{chatVisible ? "Schließen" : "Öffnen"}</button>
-
         </div>
-    );
+    </>);
 }

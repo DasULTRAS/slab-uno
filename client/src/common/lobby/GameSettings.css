@@ -3,10 +3,11 @@
 }
 
 .gameSettings {
-    background: #343434;
+    /* better edge */
+    border-radius: 15px;
+    /* White with 30% transparency */
+    background-color: rgba(0, 0, 0, 40%);
     /* Position */
-    width: 80%;
-    height: 90%;
     top: 5%;
     bottom: 5%;
     left: 10%;
@@ -14,6 +15,37 @@
     position: absolute;
     /* Background */
     z-index: 1;
+}
+
+.gameSettings input {
+    margin-right: auto;
+}
+
+.gameSettings li {
+    /* Better Borders */
+    border-radius: 15px;
+    /* White with 30% transparency */
+    background-color: rgba(15, 15, 15, 60%);
+    /* Better Edges */
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+    /* Remove bullets */
+    list-style-type: none;
+    /* To make the messages show up in ROWS */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.gameSettings h2 {
+    width: 25%;
+}
+
+.gameSettings p {
+    width: 60%;
+}
+
+.gameSettings * {
+    margin: 2%;
 }
 
 .openGameSettingsButtons {

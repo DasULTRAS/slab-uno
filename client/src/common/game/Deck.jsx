@@ -2,7 +2,7 @@ import React from "react";
 import "./Deck.css";
 import Card from "./Card";
 import { specialCard } from "./cards";
-import { degreesToRadians, getRotatedDimensions, radiansToDegress } from "../utils/mathFunctions";
+import { degreesToRadians, getRotatedDimensions, radiansToDegrees } from "../utils/mathFunctions";
 
 function disableCard(card, playCard){
     if(card.color === playCard.color){
@@ -18,7 +18,7 @@ function disableCard(card, playCard){
 }
 
 function calculateCoords (cardsLength, circleRadius, cardWidth, cardHeight, cardSpacing) {
-    let anglePerCard = radiansToDegress(Math.atan((cardWidth * cardSpacing) / circleRadius));
+    let anglePerCard = radiansToDegrees(Math.atan((cardWidth * cardSpacing) / circleRadius));
     let startAngle = 270 - 0.5 * anglePerCard * (cardsLength - 1);
 
     let x = 0;

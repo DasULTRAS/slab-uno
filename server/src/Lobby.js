@@ -7,16 +7,26 @@ export default class Lobby {
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
         this.players = [];
+        // List of the IDs of the Winner
+        this.winners = [];
         // If 1 clockwise else if -1 counterclockwise
         this.#gameDirection = 1;
         // Index of the activePlayer
         this.activePlayerIndex = 0;
+        this.gameFinished = false;
+        // Index of the Player that needs to Press UNO to remove his index else he will get 2 Cards on next played Card
+        this.needsToPressUnoIndex = -1;
         this.#deck = null;
         this.playedCards = null;
+        this.messages = [];
+        this.gameSettings = [];
+        this.gameSettings.push(new Settings("wild_on_wild", "Wild on Wild", "Is it allow to place a black/wild Card on another black/wild Card?", true));
+        this.gameSettings.push(new Settings("challenge_wild_draw_four", "Challenge Wild Draw Four Card", "If a Wild Draw Four card is laid, it can be challenged. This checks whether the card was the only option. If it was the only possibility, the challenger must draw 6 cards, otherwise the dealer of the Wild Draw Four must draw 4.", false));
+        this.gameSettings.push(new Settings("play_alone", "Play alone", "You can start the Game alone.", true));
     }
 
     dealCards() {
-        if (this.playedCards !== null) return;
+        if (this.playedCards !== null || this.gameFinished) return;
 
         // init decks
         this.playedCards = new Deck(false);
@@ -45,17 +55,18 @@ export default class Lobby {
             socket.emit("message", {message: "Wait for your turn."});
             return false;
         }
+        if (this.gameFinished)
+            return false;
 
         // Find Card index
         let index = player.deck.getCardIndex(card);
-        if (index == -1)
+        if (index === -1)
             // Card not found
             return false;
 
         /* Check if move is valid */
         if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
-            if (Object.hasOwn(card, 'declared_color'))
-                player.deck.cards[index].declared_color = card.declared_color;
+            if (Object.hasOwn(card, 'declared_color')) player.deck.cards[index].declared_color = card.declared_color;
             /* WILD CARD RULES */
             if (card.type !== this.playedCards.Types.WILD && card.type !== this.playedCards.Types.WILD_DRAW_FOUR && card.color !== this.playedCards.last.declared_color) {
                 // declared color is not equal played card
@@ -72,6 +83,12 @@ export default class Lobby {
             return false;
         }
 
+        /* Check for UNO Last Card */
+        if (this.needsToPressUnoIndex >= 0 && this.needsToPressUnoIndex < this.players.length)
+            // if index is set Player gets 2 Cards for not pressing UNO
+            for (let i = 0; i < 2; i++) this.players[this.needsToPressUnoIndex].deck.placeCard(this.#deck.drawCard());
+        this.needsToPressUnoIndex = -1;
+
         /* Check special Card effects */
         switch (card.type) {
             case this.playedCards.Types.SKIP:
@@ -79,12 +96,14 @@ export default class Lobby {
                 break;
 
             case this.playedCards.Types.REVERSE:
+                // RULE: if two players left skip reverse skips the next player
+                if (this.activePlayersCount === 2) this.nextPlayer();
+
                 this.changeGameDirection();
                 break;
 
             case this.playedCards.Types.DRAW_TWO:
                 for (let i = 0; i < 2; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
-                // TODO: Deck von dem Spieler der Karten bekommt muss aktualisiert werden
                 break;
 
             case this.playedCards.Types.WILD_DRAW_FOUR:
@@ -96,8 +115,41 @@ export default class Lobby {
 
         // Move card from Player Cards to Played Cards
         this.playedCards.placeCard(player.deck.removeCardByIndex(index));
+
+        if (player.deck.length === 1) {
+            // check if it was the penalty card (than the Player needs to press UNO
+            this.needsToPressUnoIndex = this.getPlayerIndexBySocketID(player.socketID);
+        } else if (player.deck.length === 0) {
+            // Check if it was last Card
+            this.addWinner(this.getPlayerIndexBySocketID(player.socketID));
+            socket.emit("message", {message: `${player.socketID} finished the Game.`});
+        }
         this.nextPlayer();
         return true;
+    }
+
+    /**
+     * Add a finished Player to the Winner by PlayerIndex
+     * @param userIndex
+     */
+    addWinner(userIndex) {
+        if (this.winners.findIndex(userIndex) != -1) {
+            this.winners.push(userIndex);
+            if (this.winners.length === this.players.length - 1) {
+                this.gameFinished = true;
+            }
+        } else console.error("Winner " + userIndex + " allready exists.");
+    }
+
+    /**
+     * Adds a new Message to Messages of Array
+     * @param username {String}
+     * @param message {String}
+     * @param timestamp {number}
+     * @returns {*}
+     */
+    addNewMessage(username, message, timestamp = Date.now()) {
+        this.messages.push(new Message(username, message, timestamp));
     }
 
     /**
@@ -111,7 +163,7 @@ export default class Lobby {
 
     /**
      * Add one Player to the Lobby
-     * @param player {}
+     * @param player {Player}
      */
     addPlayer(player) {
         this.players.push(player);
@@ -149,7 +201,7 @@ export default class Lobby {
      * @returns {number}
      */
     nextPlayer() {
-        this.activePlayerIndex = (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
+        this.activePlayerIndex = this.nextActivePlayerIndex;
         return this.activePlayerIndex;
     }
 
@@ -158,19 +210,34 @@ export default class Lobby {
      * @returns {number} of the next Active Player in Array
      */
     get nextActivePlayerIndex() {
-        return (this.activePlayerIndex + this.#gameDirection + this.players.length) % this.players.length;
+        let oldActivePlayerIndex = this.activePlayerIndex;
+
+        do {
+            oldActivePlayerIndex = (oldActivePlayerIndex + this.#gameDirection + this.players.length) % this.players.length
+        } while (this.players[oldActivePlayerIndex].deck.length === 0 && this.activePlayerIndex !== oldActivePlayerIndex);
+
+        this.activePlayerIndex = oldActivePlayerIndex;
+        return this.activePlayerIndex;
     }
 
     get deck() {
         return this.#deck;
     }
 
-    set deck(value) {
-        this.#deck = value;
+    /**
+     * Get the Count of the Players that have not finished the current Game
+     * @returns {number} count of active Players in current game
+     */
+    get activePlayersCount() {
+        let count = 0;
+        this.players.map((player) => {
+            if (player.deck.length > 0) count++;
+        })
+        return count;
     }
 
-    get gameDirection() {
-        return this.#gameDirection;
+    set deck(value) {
+        this.#deck = value;
     }
 
     /**
@@ -180,5 +247,31 @@ export default class Lobby {
     changeGameDirection() {
         this.#gameDirection *= -1;
         return this.#gameDirection;
+    }
+
+    renewAllPlayers(io) {
+        this.renewPlayerDecksLength();
+
+        this.players.map((player) => {
+            io.to(player.socketID).emit("get_card", {player_deck: player.deck});
+            io.to(player.socketID).emit("renew_lobby", {lobby: this});
+        });
+    }
+}
+
+class Message {
+    constructor(username, message, timestamp) {
+        this.username = username;
+        this.message = message;
+        this.timestamp = timestamp;
+    }
+}
+
+class Settings {
+    constructor(title, name, description, enabled) {
+        this.title = title;
+        this.name = name;
+        this.description = description;
+        this.enabled = enabled;
     }
 }

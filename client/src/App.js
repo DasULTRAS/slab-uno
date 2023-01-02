@@ -8,11 +8,16 @@ import Chat from "./common/Chat";
 // const socket = io.connect("https://uno-api.dasultras.de/");
 const socket = io.connect("http://localhost:8080/");
 
-function App() {
+export default function App() {
     const [gameStarted, setGameStarted] = useState(false);
     const [latency, setLatency] = useState(0);
     const [message, setMessage] = useState("");
     const [lobby, setLobby] = useState(null);
+
+    // Event-Handler
+    const handleLobbyUpdate = (data) => {
+        setLobby(data.lobby);
+    }
 
     useEffect(() => {
         socket.on("start_game", (data) => {
@@ -24,13 +29,10 @@ function App() {
             setMessage(data.message);
         });
 
-        socket.on("player_change", (data) => {
-            setLobby(data.lobby);
-        });
-
-        socket.on("renew_lobby", (data) => {
-            setLobby(data.lobby);
-        });
+        socket.on("player_change", handleLobbyUpdate);
+        socket.on("create_lobby", handleLobbyUpdate);
+        socket.on("join_lobby", handleLobbyUpdate);
+        socket.on("renew_lobby", handleLobbyUpdate);
 
         socket.on("pong", (data) => {
             setLatency(Date.now() - data.timestamp);
@@ -42,19 +44,15 @@ function App() {
         return () => clearInterval(interval);
     });
 
-    return (
-        <div className="App">
-            <div className="debug">
-                <li className="latency">{`${latency}ms`}</li>
-                <li className="message">{message}</li>
-            </div>
-
-            <Chat socket={socket}/>
-
-            {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket}/>}
-            <div className="gameBackground"/>
+    return (<div className="App">
+        <div className="debug">
+            <li className="latency">{`${latency}ms`}</li>
+            <li className="message">{message}</li>
         </div>
-    );
-}
 
-export default App;
+        {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
+
+        {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket} lobby={lobby}/>}
+        <div className="gameBackground"/>
+    </div>);
+}

@@ -44,7 +44,6 @@
     left: 52% !important;
 }
 
-
 .green {
     background-color: #55aa55;
     rotate: 45deg;
@@ -54,7 +53,6 @@
 .green:hover {
     top: 52% !important;
 }
-
 
 .yellow {
     background-color: #ffaa00;

@@ -27,10 +27,9 @@ io.on("connection", (socket) => {
     socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
 
     socket.on("reconnect", (attempt) => {
-        // never triggered
+        // TODO - never triggered
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player === undefined)
-            io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
+        if (player === undefined) io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
     });
 
     socket.on("disconnect", () => {
@@ -59,7 +58,10 @@ io.on("connection", (socket) => {
     socket.on("join_lobby", (data) => {
         try {
             const lobby = lobbyManagement.joinLobby(data, socket);
-            if (lobby !== undefined) io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
+            if (lobby !== undefined) {
+                io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
+                socket.emit("gameSettings", lobby.gameSettings);
+            }
         } catch (e) {
             console.error(e);
         }
@@ -73,6 +75,15 @@ io.on("connection", (socket) => {
             io.to(player.lobbyID).emit("player_change", {lobby: lobbyManagement.getLobbyByID(player.lobbyID)});
         }
     });
+
+    socket.on("gameSettings", (data) => {
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        if (data !== undefined && lobby !== undefined) {
+            lobby.gameSettings = data.game_settings;
+        }
+        io.to(lobby.lobbyID).emit("player_change", {lobby: lobby});
+    });
+
     // Start and init the new Game
     socket.on("start_game", () => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
@@ -118,15 +129,12 @@ io.on("connection", (socket) => {
         try {
             // Check if Move is valid and make the move and Send infos
             if (lobby.playCard(player, data.card, socket)) {
-                lobby.renewPlayerDecksLength();
                 socket.emit("message", {message: "Move was valid."});
-                socket.emit("get_card", {player_deck: player.deck});
-                io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
             } else {
                 socket.emit("message", {message: "Move is not valid."});
             }
-        } catch
-            (error) {
+            lobby.renewAllPlayers(io);
+        } catch (error) {
             console.error(error);
         }
     });
@@ -143,10 +151,31 @@ io.on("connection", (socket) => {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
 
-            lobby.renewPlayerDecksLength();
             io.emit("message", {message: `${player.username} gets a new Card.`});
-            socket.emit("get_card", {player_deck: player.deck});
+            lobby.renewAllPlayers(io);
+        }
+    });
+
+    // Player press UNO
+    socket.on("UNO", () => {
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        if (lobby !== undefined) {
+            const playerIndex = lobby.getPlayerIndexBySocketID(socket.id);
+            if (playerIndex != -1 && playerIndex == lobby.needsToPressUnoIndex)
+                lobby.needsToPressUnoIndex = -1;
+        }
+    });
+
+    // Player sends a message
+    socket.on("chat_message", (data) => {
+        const player = lobbyManagement.getPlayerBySocketID(socket.id);
+        const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+
+        if (player !== undefined && lobby !== undefined && data !== undefined && data.hasOwnProperty("chat_message")) {
+            lobby.addNewMessage(player.username, data.chat_message.message, data.chat_message.timestamp);
             io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
+        } else {
+            console.error("Invalid Chat Message.");
         }
     });
 
