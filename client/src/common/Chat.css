@@ -31,6 +31,8 @@
 .chat-window {
     background: rgba(50,50,50,0.5);
     padding: 5px;
+    display: flex;
+    flex-flow: column;
 }
 
 .chat-textArea {
@@ -40,4 +42,9 @@
 .sendMesssageArea {
     display: flex;
     justify-content: space-between;
+}
+
+.messages {
+    margin-top: auto;
+    overflow: scroll;
 }

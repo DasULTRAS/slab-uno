@@ -1,21 +1,36 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import chatMessage from './ChatMessage';
 import "./Chat.css";
+import { useEffect } from 'react';
 
 export default function Chat(socket) {
     const [chatVisible, setChatVisible] = useState(false);
-
-    const messages = [{
+    const bottomRef = useRef(null);
+    const sampleMessage = 
+    {
         username: "DasULTRAS",
         message: "Hallo ich bin der Christian und schreibe eine Test Nachricht.",
         timestamp: Date.now()
-    }];
-    messages.push(messages[0]);
-    messages.push(messages[0]);
-    messages.push(messages[0]);
-    messages.push(messages[0]);
-    messages.push(messages[0]);
+    }
+    const [messages, setMessages] = useState([
+    sampleMessage,
+    sampleMessage,
+    sampleMessage,
+    sampleMessage,
+    sampleMessage,
+    sampleMessage,
+    sampleMessage,
+    sampleMessage,
+    sampleMessage,
+    {
+        username: "RussiaPlayer",
+        message: "dfskfj",
+        timestamp: Date.now()
+    }]);
 
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth'});
+    }, [messages]);
 
     return (
         <div className="chat">
@@ -23,8 +38,9 @@ export default function Chat(socket) {
                 chatVisible && (
                     <div className="chat-window">
                         <h1>Chat</h1>
-                        <div>
-                            {messages.map(message => chatMessage(message))}
+                        <div className='messages'>
+                            {messages.map((message, index) => chatMessage({...message, index}))}
+                            <dev ref={bottomRef}/>
                         </div>
                         <div className='sendMesssageArea'>
                             <textarea className="textArea chat-textArea" placeholder="Message..."></textarea>
