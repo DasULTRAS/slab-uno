@@ -5,28 +5,8 @@ import { useEffect } from 'react';
 
 export default function Chat({socket, messages}) {
     const [chatVisible, setChatVisible] = useState(false);
+    const [chatTextArea, setChatTextArea] = useState("");
     const bottomRef = useRef(null);
-    const sampleMessage = 
-    {
-        username: "DasULTRAS",
-        message: "Hallo ich bin der Christian und schreibe eine Test Nachricht.",
-        timestamp: Date.now()
-    }
-    const [messages, setMessages] = useState([
-    sampleMessage,
-    sampleMessage,
-    sampleMessage,
-    sampleMessage,
-    sampleMessage,
-    sampleMessage,
-    sampleMessage,
-    sampleMessage,
-    sampleMessage,
-    {
-        username: "RussiaPlayer",
-        message: "dfskfj",
-        timestamp: Date.now()
-    }]);
 
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth'});
@@ -43,8 +23,18 @@ export default function Chat({socket, messages}) {
                             <dev ref={bottomRef}/>
                         </div>
                         <div className='sendMesssageArea'>
-                            <textarea className="textArea chat-textArea" placeholder="Message..."></textarea>
-                            <button>Send Message</button>
+                        <textarea className="textArea chat-textArea" placeholder="Message..." value={chatTextArea}
+                                      onChange={(event) => {
+                                          setChatTextArea(event.target.value);
+                                      }}/>
+                            <button onClick={() => {
+                                socket.emit("chat_message", {
+                                    chat_message: {
+                                        username: "DasULTRAS", message: chatTextArea, timestamp: Date.now()
+                                    }
+                                });
+                                setChatTextArea("");
+                            }}>Send Message</button>
                         </div>
                     </div>
                 )
@@ -52,5 +42,5 @@ export default function Chat({socket, messages}) {
             <button className="button-open"
                     onClick={() => setChatVisible(!chatVisible)}>{chatVisible ? "Schließen" : "Öffnen"}</button>
         </div>
-    </>);
+    );
 }
