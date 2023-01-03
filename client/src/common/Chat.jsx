@@ -39,7 +39,7 @@ export default function Chat({socket, messages}) {
                                             sendMessage();
                                           } else setChatTextArea(event.target.value);
                                       }}/>
-                            <button onClick={sendMessage}>send</button>
+                            <button onClick={sendMessage}>➥</button>
                         </div>
                     </div>
                 )
