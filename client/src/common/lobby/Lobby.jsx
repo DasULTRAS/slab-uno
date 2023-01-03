@@ -1,4 +1,5 @@
 import "./Lobby.css";
+import "../style/Buttons.css";
 import {useState, useEffect} from 'react';
 import {Button, ListGroup, Form} from 'react-bootstrap'
 import logo from "../../assets/UNO_Button.png";
@@ -71,7 +72,7 @@ export default function Lobby({socket, lobby}) {
                 {!isLobbyJoined && <div className="buttons">
                     <Button onClick={() => {
                         socket.emit("create_lobby", {lobbyID: lobbyID, username: username});
-                    }}>create new Lobby</Button>
+                    }}>create Lobby</Button>
                     <Button onClick={() => {
                         socket.emit("join_lobby", {lobbyID: lobbyID, username: username});
                     }}>join Lobby</Button>

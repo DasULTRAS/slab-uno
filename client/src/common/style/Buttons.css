@@ -1,0 +1,36 @@
+Button {
+    /* Better Borders */
+    border-radius: 15px;
+    /* Color */
+    background-color: rgb(255, 255, 255);
+    color: #000000;
+    border: 1px solid #1a202c;
+    /* Better Edges */
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+
+    transition: all 0.1s ease-in;
+
+    /* remove default styling */
+    appearance: none;
+    border: none;
+    margin: auto;
+    cursor: pointer;
+}
+
+.translate:hover {
+    transform: translate(50%, 0);
+    cursor: pointer;
+}
+
+.translate:active {
+    transform: translate(50%, 0);
+}
+
+Button:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+Button:active {
+    transform: scale(0.9);
+}

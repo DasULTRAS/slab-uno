@@ -44,7 +44,7 @@ export default function Chat({socket, messages}) {
                     </div>
                 )
             }
-            <button className="button-open"
+            <button className="button-open translate"
                     onClick={() => {
                         setChatVisible(!chatVisible);
                     }}>{chatVisible ? "Schließen" : "Öffnen"}</button>
