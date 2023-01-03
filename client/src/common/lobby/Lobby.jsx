@@ -16,20 +16,8 @@ export default function Lobby({socket, lobby}) {
             setLobbyJoined(true);
             setUsername(data.username)
             setLobbyID(data.lobby.lobbyID);
-
-            console.log("LOBBY SECOND TIME");
-            console.log(lobby);
-            console.log("isLobbyJoined SECOND TIME");
-            console.log(isLobbyJoined);
         });
     });
-
-    useEffect(() => {
-        console.log("LOBBY ONE TIME");
-        console.log(lobby);
-        console.log("isLobbyJoined ONE TIME");
-        console.log(isLobbyJoined);
-    }, []);
 
     /**
      *
@@ -47,19 +35,11 @@ export default function Lobby({socket, lobby}) {
         });
         // Check if min. amount of Player are joined
         try {
-            console.log("Lobby:");
-            console.log(lobby);
             const setting = findSettingByTitle("play_alone");
-            console.log("Setting:");
-            console.log(setting);
-            if (!setting.enabled)
-                if (lobby.players.length < 2)
-                    ready = false;
+            if (!setting.enabled) if (lobby.players.length < 2) ready = false;
         } catch (e) {
             console.error(e);
         }
-        console.log("Ready:");
-        console.log(ready);
         return ready;
     }
 
