@@ -16,13 +16,13 @@ function calculateCoords (cardsLength, circleRadius, cardWidth, cardHeight, card
         let degress = startAngle + anglePerCard * i;
 
         let radians = degreesToRadians(degress);
-        x = cardWidth / 2 + Math.cos(radians) * circleRadius; 
-        y = cardHeight / 2 + Math.sin(radians) * circleRadius; 
+        x = Math.cos(radians) * circleRadius - cardWidth / 2; 
+        y = Math.sin(radians) * circleRadius - cardHeight / 2; 
 
         coords.push({ x: x, y: y, angle: degress + 90 });
     }
 
-    let offsetX = -x + ((getRotatedDimensions(coords[0].angle, cardWidth, cardHeight)[0] - cardWidth) / 2);
+    let offsetX = 0;//-x + ((getRotatedDimensions(coords[0].angle, cardWidth, cardHeight)[0] - cardWidth) / 2);
     let offsetY = -y;
 
     coords.forEach(coord => {
@@ -50,7 +50,7 @@ export default function Deck({cards, cardSize, placeCard}) {
         return;
     }
 
-    let coords = calculateCoords(cards.length, 800, 160, 236, .2);
+    let coords = calculateCoords(cards.length, 400, 160, 236, .3);
 
     return(
         <div className="deck">
