@@ -44,17 +44,6 @@ export default function App() {
         return () => clearInterval(interval);
     });
 
-    const renderScreen = (screen) => {
-        switch(screen){
-            case 'winner':
-                return <WinnerScreen winners={['DasUltras', 'BigM']} />;
-            case 'game':
-                return <Game socket={socket} lobby={lobby}/>;
-            default:
-                return <Lobby socket={socket} lobby={lobby}/>;
-        }
-    }
-
     return (<div className="App">
         <div className="debug">
             <li className="latency">{`${latency}ms`}</li>
@@ -63,7 +52,9 @@ export default function App() {
 
         {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
 
-        {renderScreen('winner')}
+        {lobby !== null && gameStarted ? (lobby.gameFinished ? <WinnerScreen winners={['DasUltras', 'BigM']}/> :
+            <Game socket={socket} lobby={lobby}/>) : <Lobby socket={socket} lobby={lobby}/>}
+
         <div className="gameBackground"/>
     </div>);
 }
