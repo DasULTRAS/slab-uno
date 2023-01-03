@@ -23,13 +23,13 @@
 }
 
 .button-open {
-    height: 25px;
-    /* position the button to the center */
+    height: 100px;
     align-self: center;
-    rotate: -90deg;
-    /* Button in half size of it self  */
-    transform: translate(50%, 0);
-    transform-origin: right bottom;
+    flex: 0 0 15px;
+    min-width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .chat-window {
@@ -37,6 +37,7 @@
     padding: 5px;
     display: flex;
     flex-flow: column;
+    width: 100%;
 }
 
 .chat-textArea {
@@ -52,4 +53,8 @@
 .messages {
     margin-top: auto;
     overflow: auto;
+}
+
+.button-open span{
+    transform: rotate(-90deg);
 }

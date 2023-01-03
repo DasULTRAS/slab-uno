@@ -47,7 +47,7 @@ export default function App() {
     const renderScreen = (screen) => {
         switch(screen){
             case 'winner':
-                return <WinnerScreen winners={['DasUltras', 'BigM']} />;
+                return <WinnerScreen winners={['DasUltras', 'BigM', 'dritter', 'vier', 'fünf', 'sechs', 'sieben', 'acht']} lobbyName={'LKDFJLKSDJFLKFDSJ'} />;
             case 'game':
                 return <Game socket={socket} lobby={lobby}/>;
             default:
@@ -63,7 +63,7 @@ export default function App() {
 
         {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
 
-        {renderScreen('winner')}
+        {renderScreen('lobby')}
         <div className="gameBackground"/>
     </div>);
 }
