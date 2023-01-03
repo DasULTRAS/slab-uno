@@ -22,7 +22,7 @@ export default function Chat({socket, messages}) {
                             {messages.map((message, index) => chatMessage({...message, index}))}
                             <dev ref={bottomRef}/>
                         </div>
-                        <div className='sendMesssageArea'>
+                        <div className='sendMessageArea'>
                         <textarea className="textArea chat-textArea" placeholder="Message..." value={chatTextArea}
                                       onChange={(event) => {
                                           setChatTextArea(event.target.value);
@@ -34,7 +34,7 @@ export default function Chat({socket, messages}) {
                                     }
                                 });
                                 setChatTextArea("");
-                            }}>Send Message</button>
+                            }}>send</button>
                         </div>
                     </div>
                 )
