@@ -1,7 +1,7 @@
 import React from "react";
 import './WinnerScreen.css';
 
-export default function WinnerScreen({winners}) {
+export default function WinnerScreen({winners, lobbyName}) {
     const winner = (name, index) => {
         return(
             <div className="winner" key={name + ' ' + index}>
@@ -12,6 +12,7 @@ export default function WinnerScreen({winners}) {
 
     return(
         <div className="winnerScreen">
+            <div className="lobbyName">{lobbyName}</div>
             <div className="title">WINNERS</div>
             {winners.map((name, index) => winner(name, index))}
         </div>

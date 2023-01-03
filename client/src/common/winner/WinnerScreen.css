@@ -19,3 +19,12 @@
     padding-bottom: 5px;
     text-shadow: 2px 2px 0 black;
 }
+
+.lobbyName {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    text-shadow: 2px 2px 0 black;
+}
