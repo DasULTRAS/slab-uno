@@ -52,7 +52,7 @@ export default function App() {
 
         {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
 
-        {lobby !== null && gameStarted ? (lobby.gameFinished ? <WinnerScreen winners={['DasUltras', 'BigM']}/> :
+        {lobby !== null && gameStarted ? (lobby.gameFinished ? <WinnerScreen lobby={lobby}/> :
             <Game socket={socket} lobby={lobby}/>) : <Lobby socket={socket} lobby={lobby}/>}
 
         <div className="gameBackground"/>
