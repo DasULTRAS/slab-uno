@@ -217,8 +217,7 @@ export default class Lobby {
             oldActivePlayerIndex = (oldActivePlayerIndex + this.#gameDirection + this.players.length) % this.players.length
         } while (this.players[oldActivePlayerIndex].deck.length === 0 && this.activePlayerIndex !== oldActivePlayerIndex);
 
-        this.activePlayerIndex = oldActivePlayerIndex;
-        return this.activePlayerIndex;
+        return oldActivePlayerIndex;
     }
 
     get deck() {

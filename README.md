@@ -36,7 +36,6 @@ edit in `server/index.js` the *origin* to the UNO Server.
   - [ ] Implement the new UNO Cards:
     - Wild Shuffle Hands Card
     - Wild Customizable card
-  - [ ] Bug: Man bekommt bei +4 und +2 Karten Karten obwohl man keine bekommen soll
 - Maxim
   - [x] Chat design
     - [x] begin from bottom
