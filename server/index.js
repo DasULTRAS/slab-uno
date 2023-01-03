@@ -94,6 +94,9 @@ io.on("connection", (socket) => {
             lobby.players.forEach((player) => {
                 if (!player.readyToPlay) ready = false;
             })
+            if (lobby.players.length === 1 && !lobby.getSettingByTitle("play_alone").enabled) {
+                ready = false;
+            }
 
             if (ready) {
                 // init Deck   // Math.trunc returns the number of an float

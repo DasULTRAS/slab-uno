@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './WinnerScreen.css';
 
-export default function WinnerScreen({winners, lobbyName}) {
+export default function WinnerScreen({lobby}) {
     const winner = (name, index) => {
         return(
             <div className="winner" key={name + ' ' + index}>
@@ -12,9 +12,9 @@ export default function WinnerScreen({winners, lobbyName}) {
 
     return(
         <div className="winnerScreen">
-            <div className="lobbyName">{lobbyName}</div>
+            <div className="lobbyName">Lobby - {lobby.lobbyID}</div>
             <div className="title">WINNERS</div>
-            {winners.map((name, index) => winner(name, index))}
+            {lobby.winners.map((name, index) => winner(name, index))}
         </div>
     );
 }
