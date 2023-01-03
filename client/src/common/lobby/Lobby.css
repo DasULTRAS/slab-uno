@@ -36,8 +36,4 @@
 
     min-height: 30px;
     font-size: large;
-    margin: auto;
-    cursor: pointer;
-    border: 1px solid #1a202c;
-    transition: all 0.1s ease-in;
 }

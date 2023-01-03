@@ -10,19 +10,16 @@
     z-index: 101;
 }
 
-.visible{
+.visible {
     width: 30%;
 }
-.invisible{
+
+.invisible {
     width: 0%;
 }
 
 .chat button {
-    /* remove default styling */
-    appearance: none;
-    border: none;
     font-size: medium;
-    background: white;
 }
 
 .button-open {
@@ -30,7 +27,8 @@
     /* position the button to the center */
     align-self: center;
     rotate: -90deg;
-    transform: translateX(65%);
+    /* Button in half size of it self  */
+    transform: translate(50%, 0);
     transform-origin: right bottom;
 }
 

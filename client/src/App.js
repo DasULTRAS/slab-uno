@@ -7,7 +7,9 @@ import Chat from "./common/Chat";
 import WinnerScreen from './common/winner/WinnerScreen';
 
 // const socket = io.connect("https://uno-api.dasultras.de/");
-const socket = io.connect("http://localhost:8080/");
+const socket = io.connect("http://localhost:8080/", {
+    reconnection: true, reconnectionDelay: 1000, reconnectionDelayMax: 5000, reconnectionAttempts: Infinity
+});
 
 export default function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -26,21 +28,18 @@ export default function App() {
             setLobby(data.lobby);
         });
 
-        socket.on("message", (data) => {
-            setMessage(data.message);
-        });
+        socket.on("message", (data) => setMessage(data.message));
 
         socket.on("player_change", handleLobbyUpdate);
         socket.on("create_lobby", handleLobbyUpdate);
         socket.on("join_lobby", handleLobbyUpdate);
         socket.on("renew_lobby", handleLobbyUpdate);
 
-        socket.on("pong", (data) => {
-            setLatency(Date.now() - data.timestamp);
-        });
-        const interval = setInterval(() => {
-            socket.emit("ping", {timestamp: Date.now()});
-        }, 1000);
+        socket.on("pong", (data) => setLatency(Date.now() - data.timestamp));
+        const interval = setInterval(() => socket.emit("ping", {timestamp: Date.now()}), 1000);
+
+        socket.on('connect', () => console.log('connected to server'));
+        socket.on('disconnect', () => console.log('disconnected to server'));
 
         return () => clearInterval(interval);
     });

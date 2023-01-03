@@ -1,4 +1,5 @@
 import './GameSettings.css';
+import '../style/Buttons.css';
 import {Button} from "react-bootstrap";
 import {useEffect, useState} from "react";
 
@@ -24,7 +25,7 @@ export default function GameSettings({socket, gameSettings}) {
             <div className="gameSettingsBackground" onClick={() => {
                 setShowGameSettings(!showGameSettings);
             }}/>
-        </> : (<Button className="openGameSettingsButtons" onClick={() => {
+        </> : (<Button className="openGameSettingsButtons translate" onClick={() => {
             setShowGameSettings(!showGameSettings);
         }}>Game Settings</Button>)}
     </>);
