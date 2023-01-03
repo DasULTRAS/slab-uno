@@ -2,6 +2,7 @@
     /* set the position of the container to be absolute */
     position: absolute;
     /* set the width property to 20% to take up 20% of the screen */
+    width: 30%;
     right: 0%;
     /* set the height of the container */
     height: 100%;
