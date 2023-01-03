@@ -149,7 +149,8 @@ export default class Lobby {
      * @returns {*}
      */
     addNewMessage(username, message, timestamp = Date.now()) {
-        this.messages.push(new Message(username, message, timestamp));
+        if (message !== undefined && message !== null && message !== '')
+            this.messages.push(new Message(username, message, timestamp));
     }
 
     /**
