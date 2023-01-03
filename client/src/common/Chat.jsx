@@ -36,7 +36,7 @@ export default function Chat({socket, messages}) {
                                               sendMessage();
                                           } else setChatTextArea(event.target.value);
                                       }}/>
-                <button onClick={sendMessage}>➥</button>
+                <button className="sendButton" onClick={sendMessage}>➥</button>
             </div>
         </div>)}
         <button className="button-open"

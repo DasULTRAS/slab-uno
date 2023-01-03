@@ -1,27 +1,24 @@
 .chat {
     /* set the position of the container to be absolute */
     position: absolute;
-    /* set the width property to 20% to take up 20% of the screen */
-    width: 30%;
     right: 0%;
     /* set the height of the container */
     height: 100%;
     display: flex;
     flex-flow: row-reverse;
-    z-index: 101;
+    z-index: 6;
     overflow: hidden;
 }
 
-.visible {
-    width: 30%;
+.chat Button {
+    font-size: large;
 }
 
-.invisible {
-    width: 0%;
-}
-
-.chat button {
-    font-size: medium;
+.sendButton {
+    font-size: 25px;
+    margin: 0;
+    background: rgba(255, 255, 255, 0);
+    color: white;
 }
 
 .button-open {
@@ -41,10 +38,11 @@
     display: flex;
     flex-flow: column;
     width: 100%;
+    z-index: 101;
 }
 
 .chat-textArea {
-    width: auto; /* overriddes the css from the textArea so it is not overflows */
+    width: 90%; /* overriddes the css from the textArea so it is not overflows */
     resize: none;
 }
 
