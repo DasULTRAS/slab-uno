@@ -58,6 +58,6 @@
     overflow: auto;
 }
 
-.button-open span{
+.button-open span {
     transform: rotate(-90deg);
 }

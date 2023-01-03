@@ -77,8 +77,10 @@ export default function Game({socket, lobby}) {
                         enableHover={true}/>
                 </div>
                 <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
-                <div className="unoButton" onClick={()=>{console.log("UNO!"); socket.emit("UNO");}
-                }>
+                <div className="unoButton" onClick={() => {
+                    console.log("UNO!");
+                    socket.emit("UNO");
+                }}>
                     <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
                 </div>
             </div>

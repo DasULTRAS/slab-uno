@@ -55,8 +55,7 @@ export default class Lobby {
             socket.emit("message", {message: "Wait for your turn."});
             return false;
         }
-        if (this.gameFinished)
-            return false;
+        if (this.gameFinished) return false;
 
         // Find Card index
         let index = player.deck.getCardIndex(card);
@@ -149,8 +148,7 @@ export default class Lobby {
      * @returns {*}
      */
     addNewMessage(username, message, timestamp = Date.now()) {
-        if (message !== undefined && message !== null && message !== '')
-            this.messages.push(new Message(username, message, timestamp));
+        if (message !== undefined && message !== null && message !== '') this.messages.push(new Message(username, message, timestamp));
     }
 
     /**

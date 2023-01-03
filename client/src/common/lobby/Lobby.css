@@ -16,8 +16,8 @@
     height: 125pt;
 }
 
-.form-items input, textarea{
-    width:98%;
+.form-items input, textarea {
+    width: 98%;
 
     background: transparent;
     color: white;
@@ -29,9 +29,9 @@
 
 .form-items {
     padding-bottom: 10pt;
- }
+}
 
-.buttons button{
+.buttons button {
     width: 50%;
 
     min-height: 30px;

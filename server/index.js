@@ -164,8 +164,7 @@ io.on("connection", (socket) => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
         if (lobby !== undefined) {
             const playerIndex = lobby.getPlayerIndexBySocketID(socket.id);
-            if (playerIndex != -1 && playerIndex == lobby.needsToPressUnoIndex)
-                lobby.needsToPressUnoIndex = -1;
+            if (playerIndex != -1 && playerIndex == lobby.needsToPressUnoIndex) lobby.needsToPressUnoIndex = -1;
         }
     });
 

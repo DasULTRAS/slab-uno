@@ -52,6 +52,7 @@
     /* Button in half size of it self  */
     transform: translate(-50%, 0);
 }
+
 .openGameSettingsButtons {
     position: absolute;
     /* Position on the Bottom */

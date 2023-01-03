@@ -1,5 +1,5 @@
 import "./Lobby.css";
-import "../style/Buttons.css";
+import "../styles/Buttons.css";
 import {useState, useEffect} from 'react';
 import {Button, ListGroup, Form} from 'react-bootstrap'
 import logo from "../../assets/UNO_Button.png";

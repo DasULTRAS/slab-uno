@@ -9,4 +9,4 @@ services:
     restart: unless-stopped
     container_name: slab-uno-backend
     ports:
-      - 8081:8080
+      - "8081:8080"

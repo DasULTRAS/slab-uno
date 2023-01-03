@@ -1,5 +1,5 @@
 import './GameSettings.css';
-import '../style/Buttons.css';
+import '../styles/Buttons.css';
 import {Button} from "react-bootstrap";
 import {useEffect, useState} from "react";
 

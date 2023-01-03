@@ -64,7 +64,6 @@ export default class LobbyManagement {
         }
     }
 
-
     createLobby(data, socket) {
         // not empty inputs
         if (data.lobbyID === "" || data.username === "") {
