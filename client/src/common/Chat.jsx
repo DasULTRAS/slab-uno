@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import chatMessage from './ChatMessage';
 import "./Chat.css";
 import { useEffect } from 'react';
+import { useCallback } from 'react';
 
 export default function Chat({socket, messages}) {
     const [chatVisible, setChatVisible] = useState(false);
@@ -11,6 +12,15 @@ export default function Chat({socket, messages}) {
     useEffect(() => {
         bottomRef.current?.scrollIntoView({ behavior: 'smooth'});
     }, [messages, chatVisible]);
+
+    const sendMessage = () => {
+        socket.emit("chat_message", {
+            chat_message: {
+                message: chatTextArea, timestamp: Date.now()
+            }
+        });
+        setChatTextArea("");
+    };
 
     return (
         <div className="chat">
@@ -23,18 +33,13 @@ export default function Chat({socket, messages}) {
                             <dev ref={bottomRef}/>
                         </div>
                         <div className='sendMessageArea'>
-                        <textarea className="textArea chat-textArea" placeholder="Message..." value={chatTextArea}
+                            <textarea className="textArea chat-textArea" placeholder="Message..." value={chatTextArea}
                                       onChange={(event) => {
-                                          setChatTextArea(event.target.value);
+                                          if (event.target.value.includes('\n') || event.target.value.includes('\r')){
+                                            sendMessage();
+                                          } else setChatTextArea(event.target.value);
                                       }}/>
-                            <button onClick={() => {
-                                socket.emit("chat_message", {
-                                    chat_message: {
-                                        message: chatTextArea, timestamp: Date.now()
-                                    }
-                                });
-                                setChatTextArea("");
-                            }}>send</button>
+                            <button onClick={sendMessage}>send</button>
                         </div>
                     </div>
                 )
