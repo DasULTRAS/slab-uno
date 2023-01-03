@@ -4,6 +4,7 @@ import Lobby from "./common/lobby/Lobby";
 import {useState, useEffect} from "react";
 import io from "socket.io-client";
 import Chat from "./common/Chat";
+import WinnerScreen from './common/winner/WinnerScreen';
 
 // const socket = io.connect("https://uno-api.dasultras.de/");
 const socket = io.connect("http://localhost:8080/");
@@ -44,6 +45,17 @@ export default function App() {
         return () => clearInterval(interval);
     });
 
+    const renderScreen = (screen) => {
+        switch(screen){
+            case 'winner':
+                return <WinnerScreen winners={['DasUltras', 'BigM']} />;
+            case 'game':
+                return <Game socket={socket} lobby={lobby}/>;
+            default:
+                return <Lobby socket={socket} lobby={lobby}/>;
+        }
+    }
+
     return (<div className="App">
         <div className="debug">
             <li className="latency">{`${latency}ms`}</li>
@@ -52,7 +64,7 @@ export default function App() {
 
         {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
 
-        {gameStarted ? <Game socket={socket} lobby={lobby}/> : <Lobby socket={socket} lobby={lobby}/>}
+        {renderScreen('winner')}
         <div className="gameBackground"/>
     </div>);
 }
