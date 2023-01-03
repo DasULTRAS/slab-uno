@@ -30,7 +30,7 @@ export default function Chat({socket, messages}) {
                             <button onClick={() => {
                                 socket.emit("chat_message", {
                                     chat_message: {
-                                        username: "DasULTRAS", message: chatTextArea, timestamp: Date.now()
+                                        message: chatTextArea, timestamp: Date.now()
                                     }
                                 });
                                 setChatTextArea("");
