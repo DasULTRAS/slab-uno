@@ -140,7 +140,7 @@ export default class Lobby {
     addWinner(username) {
         if (this.winners.findIndex(winner => winner === username) === -1) {
             this.winners.push(username);
-            if (this.winners.length === this.players.length - 1) {
+            if (this.winners.length >= this.players.length - 1) {
                 this.gameFinished = true;
             }
         } else console.error("Winner " + username + " allready exists.");
