@@ -146,8 +146,12 @@ io.on("connection", (socket) => {
     socket.on("get_card", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
+        const infinityDrawSetting = lobby.getSettingByTitle("infinity_draw");
 
         if (player !== undefined && lobby !== undefined) {
+            if (!infinityDrawSetting.enabled && lobby.players[lobby.activePlayerIndex].socketID != socket.id)
+                return false;
+
             // Get new Card
             player.deck.placeCard(lobby.deck.drawCard());
             if (lobby.deck.length == 0) {
@@ -156,6 +160,8 @@ io.on("connection", (socket) => {
 
             io.emit("message", {message: `${player.username} gets a new Card.`});
             lobby.renewAllPlayers(io);
+
+            // TODO : if no possible play is valid you next player is active
         }
     });
 

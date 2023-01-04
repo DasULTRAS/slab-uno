@@ -23,6 +23,7 @@ export default class Lobby {
         this.gameSettings.push(new Settings("wild_on_wild", "Wild on Wild", "Is it allow to place a black/wild Card on another black/wild Card?", true));
         this.gameSettings.push(new Settings("challenge_wild_draw_four", "Challenge Wild Draw Four Card (not implemented)", "If a Wild Draw Four card is laid, it can be challenged. This checks whether the card was the only option. If it was the only possibility, the challenger must draw 6 cards, otherwise the dealer of the Wild Draw Four must draw 4.", false));
         this.gameSettings.push(new Settings("play_alone", "Play alone", "You can start the Game alone.", false));
+        this.gameSettings.push(new Settings("infinity_draw", "Infinity draw", "You can draw infinite cards when it is not your turn and you have to draw until it is your turn.", true));
     }
 
     dealCards() {
@@ -63,30 +64,11 @@ export default class Lobby {
             // Card not found
             return false;
 
-        /* Check if move is valid */
-        if ((this.playedCards.last.color === this.playedCards.Colors.BLACK) || (card.color === this.playedCards.Colors.BLACK)) {
-            if (Object.hasOwn(card, 'declared_color')) player.deck.cards[index].declared_color = card.declared_color;
-            /* WILD CARD RULES */
-            if (card.type !== this.playedCards.Types.WILD && card.type !== this.playedCards.Types.WILD_DRAW_FOUR && card.color !== this.playedCards.last.declared_color) {
-                // declared color is not equal played card
-                console.log(this.playedCards.last);
-                console.log(card);
-                console.log("WRONG CARD: declared color is not equal played card");
-                return false;
-            } else if (this.playedCards.last.color === card.color){
-                // Wild on Wild
-                if (!this.getSettingByTitle("wild_on_wild").enabled) {
-                    console.log("WRONG CARD: Wild on Wild");
-                    return false;
-                }
-            }
-        } else if (this.playedCards.last.color !== card.color && this.playedCards.last.type !== card.type) {
-            // Colored Card have no matching attribute
-            console.log(this.playedCards.last);
-            console.log(card);
-            console.log("WRONG CARD: Colored Card have no matching attribute");
+        // Save declared Color if is WildCard
+        if (Object.hasOwn(card, 'declared_color')) player.deck.cards[index].declared_color = card.declared_color;
+
+        if (!this.checkMove(player.deck.cards[index], this.playedCards.last))
             return false;
-        }
 
         /* Check for UNO Last Card */
         if (this.needsToPressUnoIndex >= 0 && this.needsToPressUnoIndex < this.players.length)
@@ -130,6 +112,38 @@ export default class Lobby {
             socket.emit("message", {message: `${player.socketID} finished the Game.`});
         }
         this.nextPlayer();
+        return true;
+    }
+
+    /**
+     * Check if a Card Place from playedCard on cardOnTop is valid
+     * @param playedCard {Card | WildCard}
+     * @param cardOnTop {Card | WildCard}
+     * @returns {boolean} true if is valid else false
+     */
+    checkMove(playedCard, cardOnTop) {
+        if ((cardOnTop.color === this.playedCards.Colors.BLACK) || (playedCard.color === this.playedCards.Colors.BLACK)) {
+            /* WILD CARD RULES */
+            if (playedCard.type !== this.playedCards.Types.WILD && playedCard.type !== this.playedCards.Types.WILD_DRAW_FOUR && playedCard.color !== cardOnTop.declared_color) {
+                // declared color is not equal played card
+                console.log(cardOnTop);
+                console.log(playedCard);
+                console.log("WRONG CARD: declared color is not equal played card");
+                return false;
+            } else if (cardOnTop.color === playedCard.color) {
+                // Wild on Wild
+                if (!this.getSettingByTitle("wild_on_wild").enabled) {
+                    console.log("WRONG CARD: Wild on Wild");
+                    return false;
+                }
+            }
+        } else if (cardOnTop.color !== playedCard.color && cardOnTop.type !== playedCard.type) {
+            // Colored Card have no matching attribute
+            console.log(cardOnTop);
+            console.log(playedCard);
+            console.log("WRONG CARD: Colored Card have no matching attribute");
+            return false;
+        }
         return true;
     }
 
