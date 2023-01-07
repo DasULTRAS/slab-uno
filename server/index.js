@@ -149,8 +149,11 @@ io.on("connection", (socket) => {
         const infinityDrawSetting = lobby.getSettingByTitle("infinity_draw");
 
         if (player !== undefined && lobby !== undefined) {
-            if (!infinityDrawSetting.enabled && lobby.players[lobby.activePlayerIndex].socketID != socket.id)
+            // Cannot get a card unless its your turn
+            if (lobby.players[lobby.activePlayerIndex].socketID != socket.id) {
+                socket.emit("message", {message: `It is not your turn.`});
                 return false;
+            }
 
             // Get new Card
             player.deck.placeCard(lobby.deck.drawCard());
@@ -158,10 +161,11 @@ io.on("connection", (socket) => {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
 
-            io.emit("message", {message: `${player.username} gets a new Card.`});
+            if (!infinityDrawSetting.enabled && !lobby.canPlaceAnyCard(player)) {
+                lobby.nextPlayer();
+                io.emit("message", {message: `${player.username} gets a new Card and cant place any Card.`});
+            } else io.emit("message", {message: `${player.username} gets a new Card.`});
             lobby.renewAllPlayers(io);
-
-            // TODO : if no possible play is valid you next player is active
         }
     });
 
@@ -181,7 +185,7 @@ io.on("connection", (socket) => {
 
         if (player !== undefined && lobby !== undefined && data !== undefined && data.hasOwnProperty("chat_message")) {
             lobby.addNewMessage(player.username, data.chat_message.message, data.chat_message.timestamp);
-            io.to(lobby.lobbyID).emit("renew_lobby", {lobby: lobby});
+            lobby.renewAllPlayers();
         } else {
             console.error("Invalid Chat Message.");
         }

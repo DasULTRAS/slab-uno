@@ -23,7 +23,7 @@ export default class Lobby {
         this.gameSettings.push(new Settings("wild_on_wild", "Wild on Wild", "Is it allow to place a black/wild Card on another black/wild Card?", true));
         this.gameSettings.push(new Settings("challenge_wild_draw_four", "Challenge Wild Draw Four Card (not implemented)", "If a Wild Draw Four card is laid, it can be challenged. This checks whether the card was the only option. If it was the only possibility, the challenger must draw 6 cards, otherwise the dealer of the Wild Draw Four must draw 4.", false));
         this.gameSettings.push(new Settings("play_alone", "Play alone", "You can start the Game alone.", false));
-        this.gameSettings.push(new Settings("infinity_draw", "Infinity draw", "You can draw infinite cards when it is not your turn and you have to draw until it is your turn.", true));
+        this.gameSettings.push(new Settings("infinity_draw", "Infinity draw", "You can draw infinite cards when it is not your turn and you have to draw until it is your turn.", false));
     }
 
     dealCards() {
@@ -67,8 +67,7 @@ export default class Lobby {
         // Save declared Color if is WildCard
         if (Object.hasOwn(card, 'declared_color')) player.deck.cards[index].declared_color = card.declared_color;
 
-        if (!this.checkMove(player.deck.cards[index], this.playedCards.last))
-            return false;
+        if (!this.checkMove(player.deck.cards[index], this.playedCards.last)) return false;
 
         /* Check for UNO Last Card */
         if (this.needsToPressUnoIndex >= 0 && this.needsToPressUnoIndex < this.players.length)
@@ -113,6 +112,24 @@ export default class Lobby {
         }
         this.nextPlayer();
         return true;
+    }
+
+    /**
+     * Test if player can Play any Card
+     * @param player{Player}
+     * @returns {boolean} true if player can place any Card else false
+     */
+    canPlaceAnyCard(player) {
+        return this.getPlaceableCardIndex(player) !== -1;
+    }
+
+    /**
+     * get the index of the first playable Card
+     * @param player {Player}
+     * @returns {number} first index of an Playable Card else -1 if no Card is Playable
+     */
+    getPlaceableCardIndex(player) {
+        return player.deck.cards.findIndex(card => this.checkMove(card, this.playedCards.last));
     }
 
     /**
@@ -277,12 +294,17 @@ export default class Lobby {
     }
 
     /**
-     * Return the setting wich title is like the title
+     * Return the setting where title is equal
      * @param title {String}
      * @returns {Settings}
      */
     getSettingByTitle(title) {
-        return this.gameSettings[this.gameSettings.findIndex(setting => setting.title === title)];
+        const index = this.gameSettings.findIndex(setting => setting.title === title);
+        if (index === -1) {
+            return undefined;
+        } else {
+            return this.gameSettings[index];
+        }
     }
 }
 
