@@ -3,6 +3,7 @@ import Deck from "./Deck.js";
 export default class Lobby {
     #deck;
     #gameDirection;
+    #playerHasDrawnCard;
 
     constructor(lobbyID) {
         this.lobbyID = lobbyID;
@@ -11,6 +12,7 @@ export default class Lobby {
         this.winners = [];
         // If 1 clockwise else if -1 counterclockwise
         this.#gameDirection = 1;
+        this.#playerHasDrawnCard = false;
         // Index of the activePlayer
         this.activePlayerIndex = 0;
         this.gameFinished = false;
@@ -60,9 +62,15 @@ export default class Lobby {
 
         // Find Card index
         let index = player.deck.getCardIndex(card);
-        if (index === -1)
+        if (index === -1) {
             // Card not found
+            console.log(`${player} played a Card (${card}) that doesnt exists.`);
             return false;
+        } else if (this.#playerHasDrawnCard && index !== player.deck.length - 1) {
+            // Player can Play only the Drawn Card
+            // TODO - If new Card is not at end (Hand sorted)
+            socket.emit("message", {message: "You can only Play the Drawn Card."});
+        }
 
         // Save declared Color if is WildCard
         if (Object.hasOwn(card, 'declared_color')) player.deck.cards[index].declared_color = card.declared_color;
@@ -237,6 +245,8 @@ export default class Lobby {
      * @returns {number}
      */
     nextPlayer() {
+        this.#playerHasDrawnCard = false;
+
         this.activePlayerIndex = this.nextActivePlayerIndex;
         return this.activePlayerIndex;
     }
@@ -305,6 +315,14 @@ export default class Lobby {
         } else {
             return this.gameSettings[index];
         }
+    }
+
+    get playerHasDrawnCard() {
+        return this.#playerHasDrawnCard;
+    }
+
+    playerDrawsCard() {
+        this.#playerHasDrawnCard = true;
     }
 }
 

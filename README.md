@@ -61,7 +61,7 @@ edit in `server/index.js` the *origin* to the UNO Server.
 
 ## Milestones
 
-- [ ] UNO Button
+- [x] UNO Button
 
 ## UNO RULES
 
@@ -77,13 +77,13 @@ edit in `server/index.js` the *origin* to the UNO Server.
 
 ### Special Cards
 
-- [ ] **SKIP**
+- [x] **SKIP**
     - Next player in sequence misses a turn
-- [ ] **REVERSE**
+- [x] **REVERSE**
     - Order of play switches directions (clockwise to counterclockwise, or vice versa)
 - [ ] **DRAW TWO**
     - Next player in sequence draws two cards and misses a turn
-- [ ] **WILD**
+- [x] **WILD**
     - Player declares the next color to be matched
       (may be used on any turn even if the player has matching color)
 - [ ] **WILD DRAW FOUR**

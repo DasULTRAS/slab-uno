@@ -146,12 +146,17 @@ io.on("connection", (socket) => {
     socket.on("get_card", () => {
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
-        const infinityDrawSetting = lobby.getSettingByTitle("infinity_draw");
 
         if (player !== undefined && lobby !== undefined) {
+            const infinityDrawSetting = lobby.getSettingByTitle("infinity_draw");
             // Cannot get a card unless its your turn
             if (lobby.players[lobby.activePlayerIndex].socketID != socket.id) {
                 socket.emit("message", {message: `It is not your turn.`});
+                return false;
+            }
+            // Check if he has already Drawn a Card
+            if (lobby.playerHasDrawnCard){
+                socket.emit("message", {message: `Already got a Card.`});
                 return false;
             }
 
@@ -160,6 +165,8 @@ io.on("connection", (socket) => {
             if (lobby.deck.length == 0) {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
+            // Save that Player become Card
+            lobby.playerDrawsCard();
 
             if (!infinityDrawSetting.enabled && !lobby.canPlaceAnyCard(player)) {
                 lobby.nextPlayer();
