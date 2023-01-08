@@ -10,7 +10,7 @@
     display: table-row; /* display list vertical */
     list-style-type: none; /* Remove bullets */
     position: absolute;
-    right: 0;
+    right: 1%;
 }
 
 .gameBackground {

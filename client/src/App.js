@@ -45,10 +45,10 @@ export default function App() {
     });
 
     return (<div className="App">
-        <div className="debug">
+        <ol className="debug">
             <li className="latency">{`${latency}ms`}</li>
             <li className="message">{message}</li>
-        </div>
+        </ol>
 
         {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
 

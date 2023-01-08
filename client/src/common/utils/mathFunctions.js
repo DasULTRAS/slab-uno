@@ -15,4 +15,4 @@ export function getRotatedDimensions(angle_in_degrees, width, height) {
         maxY = Math.max(0, y1, y2, y3);
 
     return [Math.floor((maxX - minX)), Math.floor((maxY - minY))];
-};
+}

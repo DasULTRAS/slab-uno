@@ -98,9 +98,9 @@ export default class Lobby {
                 break;
 
             case this.playedCards.Types.DRAW_TWO:
-                // TODO: Skip only if he cannot play a DRAW_TWO Card
+                // Skip only if he cannot play a DRAW_TWO Card
                 this.drawCards += 2;
-                if (this.players[this.nextActivePlayerIndex].deck.cards.findIndex(card => card.type === this.playedCards.Types.DRAW_TWO) === -1) {
+                if (this.players[this.nextActivePlayerIndex].deck.cards.findIndex(card => card.type === this.playedCards.Types.DRAW_TWO) === -1 || this.players.length == 1) {
                     for (let i = 0; i < this.drawCards; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
                     this.drawCards = 0;
                     this.nextPlayer();
@@ -202,7 +202,9 @@ export default class Lobby {
      * @returns {*}
      */
     addNewMessage(username, message, timestamp = Date.now()) {
-        if (message !== undefined && message !== null && message !== '') this.messages.push(new Message(username, message, timestamp));
+        if (message !== undefined && message !== '') {
+            this.messages.push(new Message(username, message, timestamp));
+        }
     }
 
     /**
@@ -274,6 +276,10 @@ export default class Lobby {
         return oldActivePlayerIndex;
     }
 
+    /**
+     * Getter for Deck of Lobby
+     * @returns {Deck}
+     */
     get deck() {
         return this.#deck;
     }

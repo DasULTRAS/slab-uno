@@ -37,7 +37,7 @@ export default class Deck {
     #initDeck() {
         // init normal and special cards
         for (let i = 0; i < 8; i++) for (let j = 0; j < 13; j++) {
-            if (!(i >= 4 && j == 0)) this.cards.push(new Card(Object.values(this.Colors)[i % 4], Object.values(this.Types)[j]));
+            if (!(i >= 4 && j === 0)) this.cards.push(new Card(Object.values(this.Colors)[i % 4], Object.values(this.Types)[j]));
         }
 
         // init WILD Cards
@@ -104,7 +104,7 @@ export default class Deck {
     }
 
     /**
-     * Adds a Array of Cards to the cards and shuffle the deck
+     * Adds an Array of Cards to the cards and shuffle the deck
      * @param unusedCards {Card[]}
      */
     addCards(unusedCards) {
@@ -132,7 +132,7 @@ export default class Deck {
     }
 
     get last() {
-        if (this.cards.length == 0) return null;
+        if (this.cards.length === 0) return null;
         return this.cards[this.cards.length - 1];
     }
 }
