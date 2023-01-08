@@ -192,7 +192,7 @@ io.on("connection", (socket) => {
 
         if (player !== undefined && lobby !== undefined && data !== undefined && data.hasOwnProperty("chat_message")) {
             lobby.addNewMessage(player.username, data.chat_message.message, data.chat_message.timestamp);
-            lobby.renewAllPlayers();
+            lobby.renewAllPlayers(io);
         } else {
             console.error("Invalid Chat Message.");
         }

@@ -26,7 +26,7 @@ export default function Chat({socket, messages}) {
             <h1>Chat</h1>
             <div className='messages'>
                 {messages.map((message, index) => chatMessage({...message, index}))}
-                <dev ref={bottomRef}/>
+                <div ref={bottomRef}/>
             </div>
             <div className='sendMessageArea'>
                             <textarea className="textArea chat-textArea" placeholder="Message..." value={chatTextArea}
