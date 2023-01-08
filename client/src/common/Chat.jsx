@@ -2,7 +2,6 @@ import React, {useState, useRef} from 'react';
 import chatMessage from './ChatMessage';
 import "./Chat.css";
 import {useEffect} from 'react';
-import {useCallback} from 'react';
 
 export default function Chat({socket, messages}) {
     const [chatVisible, setChatVisible] = useState(false);

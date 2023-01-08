@@ -26,10 +26,10 @@ io.on("connection", (socket) => {
     console.log(`User Connected: ${socket.id}`);
     socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
 
-    socket.on("reconnect", (attempt) => {
+    socket.on("reconnect", () => {
         // TODO - never triggered
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player === undefined) io.broadcast.emit("message", {message: `${socket.id} hat die Verbindung wiederhergestellt.`});
+        if (player === undefined) io.broadcast.emit("message", {message: `${socket.id} has reconnected.`});
     });
 
     socket.on("disconnect", () => {
@@ -99,7 +99,7 @@ io.on("connection", (socket) => {
             }
 
             if (ready) {
-                // init Deck   // Math.trunc returns the number of an float
+                // init Deck   // Math.trunc returns the number of a float
                 lobby.deck = new Deck(true);
                 lobby.dealCards();
                 // Start the game
@@ -149,8 +149,8 @@ io.on("connection", (socket) => {
 
         if (player !== undefined && lobby !== undefined) {
             const infinityDrawSetting = lobby.getSettingByTitle("infinity_draw");
-            // Cannot get a card unless its your turn
-            if (lobby.players[lobby.activePlayerIndex].socketID != socket.id) {
+            // Cannot get a card unless it's your turn
+            if (lobby.players[lobby.activePlayerIndex].socketID !== socket.id) {
                 socket.emit("message", {message: `It is not your turn.`});
                 return false;
             }
@@ -162,7 +162,7 @@ io.on("connection", (socket) => {
 
             // Get new Card
             player.deck.placeCard(lobby.deck.drawCard());
-            if (lobby.deck.length == 0) {
+            if (lobby.deck.length === 0) {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
             // Save that Player become Card
@@ -181,7 +181,7 @@ io.on("connection", (socket) => {
         const lobby = lobbyManagement.getLobbyBySocketID(socket.id);
         if (lobby !== undefined) {
             const playerIndex = lobby.getPlayerIndexBySocketID(socket.id);
-            if (playerIndex != -1 && playerIndex == lobby.needsToPressUnoIndex) lobby.needsToPressUnoIndex = -1;
+            if (playerIndex !== -1 && playerIndex === lobby.needsToPressUnoIndex) lobby.needsToPressUnoIndex = -1;
         }
     });
 

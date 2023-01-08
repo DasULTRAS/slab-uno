@@ -1,7 +1,7 @@
 .chat {
     /* set the position of the container to be absolute */
     position: absolute;
-    right: 0%;
+    right: 0;
     /* set the height of the container */
     height: 100%;
     display: flex;
@@ -42,7 +42,7 @@
 }
 
 .chat-textArea {
-    width: 90%; /* overriddes the css from the textArea so it is not overflows */
+    width: 90%; /* overwrites the css from the textArea so it is not overflows */
     resize: none;
 }
 

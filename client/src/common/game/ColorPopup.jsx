@@ -1,7 +1,7 @@
 import "./ColorPopup.css";
 
 export default function Popup({
-                                  click = () => {
+                                  click = (color) => {
                                   }
                               }) {
     return (<div className="popupBackground">

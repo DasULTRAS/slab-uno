@@ -59,7 +59,7 @@ export default class LobbyManagement {
      */
     getPlayerBySocketID(socketID) {
         for (let lobby of this.lobbys) {
-            let playerFind = lobby.players.find((player) => player.socketID == socketID);
+            let playerFind = lobby.players.find((player) => player.socketID === socketID);
             if (playerFind !== undefined) return playerFind;
         }
     }
@@ -106,7 +106,7 @@ export default class LobbyManagement {
 
         let i = this.getLobbyIndexByID(data.lobbyID);
 
-        if (i == -1) {
+        if (i === -1) {
             console.log(`lobby doesnt exists: ${data.lobbyID}`);
             socket.emit("message", {message: "Lobby doesnt exists."});
         } else if (this.lobbys[i].deck !== null) {

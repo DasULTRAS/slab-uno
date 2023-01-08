@@ -5,8 +5,7 @@ export default class Card {
     }
 
     equals(card) {
-        if (this.color === card.color && this.type === card.type) return true;
-        return false;
+        return this.color === card.color && this.type === card.type;
     }
 }
 

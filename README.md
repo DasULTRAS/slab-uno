@@ -8,31 +8,25 @@ Written with [React](http://reactjs.org/) an [Socket.io](http://socket.io/) .
 ### With Node.js local installed
 
 1. Install node modules
-
-```bash
-npm install
-```
-
+    ```bash
+    npm install
+    ```
 2. Start the project
-
-```bash
-npm start 
-```
+    ```bash
+    npm start 
+    ```
 
 ### With Docker-Compose
 
 1. build image and start docker (detached)
-
-```bash
-docker-compose up -d --build
-```
-
+    ```bash
+    docker-compose up -d --build
+    ```
 2. stop container
    If you started detached stop with `STRG/CNTRL + C`
-
-```bash
-docker-compose down
-```
+    ```bash
+    docker-compose down
+    ```
 
 ## Hosting
 
@@ -103,5 +97,5 @@ edit in `server/index.js` the *origin* to the UNO Server.
   and before the next Player in row starts to take a turn.
 - [ ] If a player plays a **WILD_DRAW_FOUR** card, the next player can challenge him.
     - If he could only play the WILD_DRAW_FOUR card the next player must draw 6 Cards
-    - If he have other options to play, he must draw the 4 cards
+    - If he has other options to play, he must draw the 4 cards
  

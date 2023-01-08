@@ -274,6 +274,10 @@ export default class Lobby {
         return oldActivePlayerIndex;
     }
 
+    /**
+     * Getter for Deck of Lobby
+     * @returns {Deck}
+     */
     get deck() {
         return this.#deck;
     }

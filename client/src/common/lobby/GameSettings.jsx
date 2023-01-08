@@ -1,7 +1,7 @@
 import './GameSettings.css';
 import '../styles/Buttons.css';
 import {Button} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 export default function GameSettings({socket, gameSettings}) {
     const [showGameSettings, setShowGameSettings] = useState(false);
