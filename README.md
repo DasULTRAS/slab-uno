@@ -92,14 +92,14 @@ edit in `server/index.js` the *origin* to the UNO Server.
 
 ### Advanced
 
-- [ ] A player who draws a card can only play this
-- [ ] When a player plays a wild card, he can declare the current color
-- [ ] If the draw deck runs out during play, the top discard is set aside and the rest of the pile is shuffled to create
+- [x] A player who draws a card can only play this
+- [x] When a player plays a wild card, he can declare the current color
+- [x] If the draw deck runs out during play, the top discard is set aside and the rest of the pile is shuffled to create
   a new deck.
 
 ### Penalties
 
-- [ ] If a player doesn't call **UNO** after laying down their penultimate card
+- [x] If a player doesn't call **UNO** after laying down their penultimate card
   and before the next Player in row starts to take a turn.
 - [ ] If a player plays a **WILD_DRAW_FOUR** card, the next player can challenge him.
     - If he could only play the WILD_DRAW_FOUR card the next player must draw 6 Cards

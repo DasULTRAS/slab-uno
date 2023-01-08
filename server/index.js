@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
                 return false;
             }
             // Check if he has already Drawn a Card
-            if (lobby.playerHasDrawnCard){
+            if (lobby.playerHasDrawnCard) {
                 socket.emit("message", {message: `Already got a Card.`});
                 return false;
             }
