@@ -13,6 +13,7 @@ export default class Lobby {
         // If 1 clockwise else if -1 counterclockwise
         this.#gameDirection = 1;
         this.#playerHasDrawnCard = false;
+        this.drawCards = 0;
         // Index of the activePlayer
         this.activePlayerIndex = 0;
         this.gameFinished = false;
@@ -97,12 +98,20 @@ export default class Lobby {
                 break;
 
             case this.playedCards.Types.DRAW_TWO:
-                for (let i = 0; i < 2; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                // TODO: Skip only if he cannot play a DRAW_TWO Card
+                this.drawCards += 2;
+                if (this.players[this.nextActivePlayerIndex].deck.cards.findIndex(card => card.type === this.playedCards.Types.DRAW_TWO) === -1) {
+                    for (let i = 0; i < this.drawCards; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                    this.drawCards = 0;
+                    this.nextPlayer();
+                }
                 break;
 
             case this.playedCards.Types.WILD_DRAW_FOUR:
                 socket.emit("challenge_wild_draw_four_request");
-                for (let i = 0; i < 4; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                this.drawCards += 4;
+                for (let i = 0; i < this.drawCards; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                this.drawCards = 0;
                 // TODO: Implement the Challenging of WILD DRAW FOUR CARDS
                 break;
         }
@@ -134,7 +143,7 @@ export default class Lobby {
     /**
      * get the index of the first playable Card
      * @param player {Player}
-     * @returns {number} first index of an Playable Card else -1 if no Card is Playable
+     * @returns {number} first index of a Playable Card else -1 if no Card is Playable
      */
     getPlaceableCardIndex(player) {
         return player.deck.cards.findIndex(card => this.checkMove(card, this.playedCards.last));
@@ -182,7 +191,7 @@ export default class Lobby {
             if (this.winners.length >= this.players.length - 1) {
                 this.gameFinished = true;
             }
-        } else console.error("Winner " + username + " allready exists.");
+        } else console.error("Winner " + username + " already exists.");
     }
 
     /**
@@ -241,7 +250,7 @@ export default class Lobby {
     }
 
     /**
-     * Increases or decreases the aktivePlayerIndex dependent on the private class Attribute gameDirection
+     * Increases or decreases the activePlayerIndex dependent on the private class Attribute gameDirection
      * @returns {number}
      */
     nextPlayer() {

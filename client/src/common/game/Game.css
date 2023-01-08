@@ -39,3 +39,10 @@
     justify-content: center;
     align-content: center;
 }
+
+.infoArea {
+    position: absolute;
+
+    left: 5%;
+    top: 40%;
+}

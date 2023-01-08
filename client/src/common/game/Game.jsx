@@ -67,6 +67,9 @@ export default function Game({socket, lobby}) {
             <div className="gameField">
                 <Card color={playCard.color} cardType={playCard.type} cardWidth={cardSize}/>
             </div>
+            <div className="infoArea">
+                {lobby.drawCards !== 0 && <label>Cards to Draw: {lobby.drawCards}</label>}
+            </div>
             <div className="bar">
                 <div className="drawCard">
                     <Card
