@@ -11,6 +11,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 239.367px;
 }
 
 .gameField {
@@ -20,7 +21,6 @@
 }
 
 .unoButton {
-    width: 160px;
     transition: .5s;
 }
 

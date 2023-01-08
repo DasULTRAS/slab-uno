@@ -2,8 +2,10 @@ import React from "react";
 import "./Deck.css";
 import Card from "./Card";
 import {degreesToRadians, getRotatedDimensions, radiansToDegrees} from "../utils/mathFunctions";
+import { useRef } from "react";
 
-function calculateCoords(cardsLength, circleRadius, cardWidth, cardHeight, cardSpacing) {
+//need a reworke
+function calculateFanCoords(cardsLength, circleRadius, cardWidth, cardHeight, cardSpacing) {
     let anglePerCard = radiansToDegrees(Math.atan((cardWidth * cardSpacing) / circleRadius));
     let startAngle = 270 - 0.5 * anglePerCard * (cardsLength - 1);
 
@@ -36,6 +38,27 @@ function calculateCoords(cardsLength, circleRadius, cardWidth, cardHeight, cardS
     return coords;
 }
 
+function calculateNormalCoords(cardsLength, cardWidth, startPoint, cardSpacing, deckWidth){
+    let width = cardWidth * cardSpacing * cardsLength - 1 + cardWidth;
+
+    let x = 0;
+    let y = 0;
+
+    let coords = [];
+
+    for(let i = 0; i < cardsLength; i++){
+        if(width >= deckWidth){
+            x = cardWidth * cardSpacing * i;
+        } else {
+            x = cardWidth * cardSpacing * i + (startPoint - width / 2);
+        }
+
+        coords.push({x: x, y: y, angle: 0});
+    }
+    
+    return coords;
+}
+
 function coordsToStyleSheet(i, x, y, angle) {
     return {
         'zIndex': i, transform: `rotate(${angle}deg)`, top: `${y}px`, left: `${x}px`
@@ -46,10 +69,15 @@ export default function Deck({cards, cardSize, placeCard}) {
     if (cards.length === 0) {
         return;
     }
+    let deck = useRef(null);
+    let deckWidth = deck?.current?.offsetWidth;
+    let startingPoint = Math.round(deckWidth / 2);
 
-    let coords = calculateCoords(cards.length, 400, 160, 236, .3);
+    //need a reworke
+    //let coords = calculateFanCoords(cards.length, 400, 160, 236, .3);
+    let coords = calculateNormalCoords(cards.length, 160, startingPoint, 0.3, deckWidth);
 
-    return (<div className="deck">
+    return (<div className="deck" ref={deck}>
         {cards.map((card, index) => {
             let coordinates = coords[index]
             return (<Card

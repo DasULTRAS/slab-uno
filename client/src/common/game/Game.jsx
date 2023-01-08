@@ -7,14 +7,17 @@ import UnoButtonAsset from "../../assets/UNO_Button.png";
 import EnemyPlayer from "./EnemyPlayer";
 import {useEffect} from "react";
 import Popup from "./ColorPopup";
+import useWindowDimensions from "../utils/useWindowDimensions"
 
-const cardSize = "10em";
+const cardSize = "160px";
 
 export default function Game({socket, lobby}) {
     const [playerCards, setPlayerCards] = useState([]);
     const [playCard, setPlayCard] = useState({color: 'red', type: 'back'});
     const [enemyPlayers, setEnemyPlayers] = useState([]);
     const [isChooseColor, setIsChooseColor] = useState(false);
+    const { height, width } = useWindowDimensions();
+    const playBarButtonsWidth = Math.min(width * 0.15, cardSize.replace( /[^0-9\.]/g, ''));
 
     useEffect(() => {
         // Run EVERY render
@@ -71,16 +74,16 @@ export default function Game({socket, lobby}) {
                     color: {lobby.playedCards.cards[lobby.playedCards.cards.length - 1].declared_color}</label>}
             </div>
             <div className="bar">
-                <div className="drawCard">
+                <div className="drawCard" style={{width: playBarButtonsWidth}}>
                     <Card
                         color={'red'}
                         cardType={'back'}
-                        cardWidth={cardSize}
+                        cardWidth={"100%"}
                         clickEvent={getOneCardFromStack}
                         enableHover={true}/>
                 </div>
                 <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
-                <div className="unoButton" onClick={() => {
+                <div className="unoButton" style={{width: playBarButtonsWidth}} onClick={() => {
                     console.log("UNO!");
                     socket.emit("UNO");
                 }}>
