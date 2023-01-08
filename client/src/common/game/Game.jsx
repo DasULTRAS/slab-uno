@@ -21,7 +21,6 @@ export default function Game({socket, lobby}) {
         socket.on('get_card', (data) => {
             setPlayerCards(data.player_deck.cards);
         });
-
     });
 
     useEffect(() => {
@@ -35,11 +34,11 @@ export default function Game({socket, lobby}) {
         setPlayCard(lobby.playedCards.cards.at(-1));
     }, [lobby]);
 
-    function getOneCardFromStack() {
+    const getOneCardFromStack = () => {
         socket.emit('get_card');
     }
 
-    function placeCard(_, color, type, cardPos) {
+    const placeCard = (_, color, type, cardPos) => {
         if (color === 'black') {
             setIsChooseColor(true);
             setPlayCard({color: color, type: type});
@@ -47,10 +46,9 @@ export default function Game({socket, lobby}) {
             return;
         }
         socket.emit('place_card', {card: {color: color, type: type}});
-
     }
 
-    function chooseColor(color) {
+    const chooseColor = (color) => {
         const wildCard = {color: "black", type: playCard.type, declared_color: color};
         socket.emit('place_card', {card: wildCard});
         setIsChooseColor(false);
