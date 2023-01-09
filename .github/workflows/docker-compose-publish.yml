@@ -24,11 +24,6 @@ concurrency:
 
 jobs:
   publish:
-  # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }
-    
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
