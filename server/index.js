@@ -164,21 +164,26 @@ io.on("connection", (socket) => {
             }
 
             // TODO - Player get Card in own function
-            // if main deck is empty
-            if (lobby.deck.length === 0) {
-                lobby.deck.addCards(lobby.playedCards.getUnusedCards());
-            }
             // Get new Card
-            const drawnCard = lobby.deck.drawCard();
+            let drawnCard = lobby.deck.drawCard();
+            if (drawnCard === null) {
+                // If deck is empty
+                lobby.deck.addCards(lobby.playedCards.getUnusedCards());
+                drawnCard = lobby.deck.drawCard();
+            }
             player.deck.placeCard(drawnCard);
-            if (!infinityDrawSetting.enabled)
+
+            if (!infinityDrawSetting.enabled) {
                 // Save that Player become Card
                 lobby.playerDrawsCard(drawnCard);
-
-            if (!infinityDrawSetting.enabled && !lobby.canPlaceAnyCard(player)) {
-                lobby.nextPlayer();
-                io.emit("message", {message: `${player.username} gets a new Card and cant place any Card.`});
-            } else io.emit("message", {message: `${player.username} gets a new Card.`});
+                if (!lobby.canPlaceAnyCard(player)) {
+                    // if next Player cannot Place any Card
+                    lobby.nextPlayer();
+                    io.emit("message", {message: `${player.username} gets a new Card and cant place any Card.`});
+                }
+            } else {
+                io.emit("message", {message: `${player.username} gets a new Card.`});
+            }
             lobby.renewAllPlayers(io);
         }
     });
