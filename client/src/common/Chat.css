@@ -2,12 +2,24 @@
     /* set the position of the container to be absolute */
     position: absolute;
     right: 0;
-    /* set the height of the container */
-    height: 100%;
-    display: flex;
     flex-flow: row-reverse;
     z-index: 6;
     overflow: hidden;
+}
+
+.chat-open {
+    /* set the height of the container */
+    height: 100%;
+    display: flex;
+}
+
+.chat-close {
+    top: 45%;
+}
+
+.chat-close button {
+    position: relative;
+    width: 30px;
 }
 
 .chat Button {

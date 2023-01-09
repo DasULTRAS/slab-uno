@@ -6,8 +6,9 @@ import io from "socket.io-client";
 import Chat from "./common/Chat";
 import WinnerScreen from './common/winner/WinnerScreen';
 
-// const socket = io.connect("https://uno-api.dasultras.de/");
-const socket = io.connect("http://localhost:8080/", {
+// const url = "https://uno-api.dasultras.de/";
+const url = "http://localhost:8080/";
+const socket = io.connect(url, {
     reconnection: true, reconnectionDelay: 1000, reconnectionDelayMax: 5000, reconnectionAttempts: Infinity
 });
 

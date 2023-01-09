@@ -21,7 +21,7 @@ export default function Chat({socket, messages}) {
         setChatTextArea("");
     };
 
-    return (<div className="chat">
+    return (<div className={chatVisible ? "chat chat-open" : "chat chat-close"}>
         {chatVisible && (<div className="chat-window">
             <h1>Chat</h1>
             <div className='messages'>
