@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: DOCKERFILE
-    image: slab-uno-server
+    image: dasultras/slab-uno-backend
     restart: unless-stopped
     container_name: slab-uno-backend
     ports:

@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: client
+      dockerfile: DOCKERFILE.dev
+    image: dasultras/slab-uno-frontend
+    restart: unless-stopped
+    container_name: slab-uno-frontend
+    volumes:
+      - ./client/src:/app/src
+    environment:
+      - WATCHPACK_POLLING=true
+    ports:
+      - "3000:3000"
+  backend:
+    build:
+      context: server
+      dockerfile: DOCKERFILE
+    image: dasultras/slab-uno-backend
+    restart: unless-stopped
+    container_name: slab-uno-backend
+    environment:
+      - WATCHPACK_POLLING=true
+    volumes:
+      - ./server/src:/app/src
+    ports:
+      - "8080:8080"
