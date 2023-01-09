@@ -79,7 +79,6 @@ export default function Deck({cards, placeCard}) {
         return;
     }
     let deck = useRef(null);
-    const [coords, setCoords] = useState([]);
     const deckWidth = deck?.current?.offsetWidth;
     const deckHeight = deck?.current?.offsetHeight;
     const deckDimension = {height: deckHeight, width: deckWidth};
@@ -87,18 +86,23 @@ export default function Deck({cards, placeCard}) {
     const cardWidth = Math.min(Math.max(deckWidth * 0.13, 80), 160);
     const cardHeight = 754 / (504 / cardWidth);
 
+    const [, updateState] = React.useState();
+    const forceUpdate = React.useCallback(() => updateState({}), []);
+
+    useEffect((() => {
+        if(deck?.current === null){
+            console.log('loading Deck...');
+            forceUpdate;
+        }
+    }), [deck]);
+
     //need a reworke
     //let coords = calculateFanCoords(cards.length, 400, 160, 236, .3);
-    useEffect((() => {
-        setCoords(calculateNormalCoords(cards.length, cardWidth, cardHeight, startingPoint, .5, .25, deckDimension));
-    }), [cards.length, cardWidth, cardHeight, startingPoint, deckDimension]);
+    const coords = calculateNormalCoords(cards.length, cardWidth, cardHeight, startingPoint, .5, .25, deckDimension);
 
-    if(coords.length === 0){
-        return;
-    }
     return (<div className="deck" ref={deck}>
-        {cards.map((card, index) => {
-            let coordinates = coords[index]
+        {deck.current && cards.map((card, index) => {
+            let coordinates = coords[index];
             return (<Card
                 color={card.color}
                 key={index}
