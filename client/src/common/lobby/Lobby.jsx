@@ -24,8 +24,13 @@ export default function Lobby({socket, lobby}) {
      *
      * @param title {String}
      */
-    const findSettingByTitle = (title) => {
-        return lobby.gameSettings[lobby.gameSettings.findIndex(setting => setting.title === title)];
+    const getSettingByTitle = (title) => {
+        const index = lobby.gameSettings.findIndex(setting => setting.title === title);
+        if(index === -1) {
+            console.error(`Setting ${title} not found.`)
+            return null;
+        }
+        return lobby.gameSettings[index];
     }
 
     const isLobbyReady = () => {
@@ -36,7 +41,7 @@ export default function Lobby({socket, lobby}) {
         });
         // Check if min. amount of Player are joined
         try {
-            const setting = findSettingByTitle("play_alone");
+            const setting = getSettingByTitle("play_alone");
             if (!setting.enabled) if (lobby.players.length < 2) ready = false;
         } catch (e) {
             console.error(e);

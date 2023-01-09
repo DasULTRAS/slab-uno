@@ -27,6 +27,7 @@ export default class Lobby {
         this.gameSettings.push(new Settings("challenge_wild_draw_four", "Challenge Wild Draw Four Card (not implemented)", "If a Wild Draw Four card is laid, it can be challenged. This checks whether the card was the only option. If it was the only possibility, the challenger must draw 6 cards, otherwise the dealer of the Wild Draw Four must draw 4.", false));
         this.gameSettings.push(new Settings("play_alone", "Play alone", "You can start the Game alone.", false));
         this.gameSettings.push(new Settings("infinity_draw", "Infinity draw", "You can draw infinite cards when it is not your turn and you have to draw until it is your turn.", false));
+        this.gameSettings.push(new Settings("only_play_drawn", "Can only play the drawn Cards", "A player who draws a card can only play this.", true));
     }
 
     dealCards() {
@@ -61,13 +62,14 @@ export default class Lobby {
         }
         if (this.gameFinished) return false;
 
+        const settingOnlyPlayDrawnCard = this.getSettingByTitle("only_play_drawn");
         // Find Card index
         const index = player.deck.getCardIndex(card);
         if (index === -1) {
             // Card not found
             console.log(`${player} played a Card (${card}) that doesnt exists.`);
             return false;
-        } else if (this.#playerHasDrawnCard !== null && index !== player.deck.cards.findIndex(card => card.equals(this.#playerHasDrawnCard))) {
+        } else if (settingOnlyPlayDrawnCard !== null && settingOnlyPlayDrawnCard.enabled && this.#playerHasDrawnCard !== null && index !== player.deck.cards.findIndex(card => card.equals(this.#playerHasDrawnCard))) {
             // Player can Play only the Drawn Card
             // TODO - If new Card is not at end (Hand sorted)
             socket.emit("message", {message: "You can only Play the Drawn Card."});
@@ -322,12 +324,12 @@ export default class Lobby {
     /**
      * Return the setting where title is equal
      * @param title {String}
-     * @returns {Settings}
+     * @returns {Settings | undefined}
      */
     getSettingByTitle(title) {
         const index = this.gameSettings.findIndex(setting => setting.title === title);
         if (index === -1) {
-            return undefined;
+            return null;
         } else {
             return this.gameSettings[index];
         }

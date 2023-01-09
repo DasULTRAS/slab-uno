@@ -23,13 +23,16 @@ const io = new Server(server, {
 const lobbyManagement = new LobbyManagement(io);
 
 io.on("connection", (socket) => {
-    console.log(`User Connected: ${socket.id}`);
-    socket.broadcast.emit('message', {message: `User Connected: ${socket.id}`});
+    console.log(`Session Connected: ${socket.id}`);
+    socket.broadcast.emit('message', {message: `Session Connected: ${socket.id}`});
 
     socket.on("reconnect", () => {
         // TODO - never triggered
         const player = lobbyManagement.getPlayerBySocketID(socket.id);
-        if (player === undefined) io.broadcast.emit("message", {message: `${socket.id} has reconnected.`});
+        if (player === undefined) {
+            io.broadcast.emit("message", {message: `${socket.id} has reconnected.`});
+            console.log(`${socket.id} has reconnected.`);
+        }
     });
 
     socket.on("disconnect", () => {
