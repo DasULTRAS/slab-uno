@@ -155,7 +155,7 @@ io.on("connection", (socket) => {
                 return false;
             }
             // Check if he has already Drawn a Card
-            if (lobby.playerHasDrawnCard) {
+            if (lobby.playerHasDrawnCard !== null) {
                 socket.emit("message", {message: `Already got a Card.`});
                 return false;
             }
@@ -166,10 +166,11 @@ io.on("connection", (socket) => {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
             // Get new Card
-            player.deck.placeCard(lobby.deck.drawCard());
-            if(!infinityDrawSetting.enabled)
-            // Save that Player become Card
-            lobby.playerDrawsCard();
+            const drawnCard = lobby.deck.drawCard();
+            player.deck.placeCard(drawnCard);
+            if (!infinityDrawSetting.enabled)
+                // Save that Player become Card
+                lobby.playerDrawsCard(drawnCard);
 
             if (!infinityDrawSetting.enabled && !lobby.canPlaceAnyCard(player)) {
                 lobby.nextPlayer();

@@ -78,7 +78,11 @@ export default class Deck {
      * @returns {number} The index of the first element in the array that passes the test. Otherwise, -1
      */
     getCardIndex(card) {
-        return this.cards.indexOf(playerCard => playerCard.equals(card));
+        let i = -1;
+        this.cards.forEach((playerCard, index) => {
+            if (playerCard.equals(card)) i = index;
+        });
+        return i;
     }
 
     /**

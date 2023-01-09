@@ -12,7 +12,7 @@ export default class Lobby {
         this.winners = [];
         // If 1 clockwise else if -1 counterclockwise
         this.#gameDirection = 1;
-        this.#playerHasDrawnCard = false;
+        this.#playerHasDrawnCard = null;
         this.drawCards = 0;
         // Index of the activePlayer
         this.activePlayerIndex = 0;

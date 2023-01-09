@@ -18,6 +18,10 @@ export default class Player {
         }
     }
 
+    /**
+     * Getter for deck
+     * @returns {Deck}
+     */
     get deck() {
         return this.#deck;
     }
