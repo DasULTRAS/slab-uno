@@ -1,0 +1,43 @@
+name: Docker-Composes for SLAB-UNO
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  schedule:
+    - cron: '40 10 * * *'
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+  
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Backend
+        run: docker-compose -f "server/docker-compose.yml" up -d --build
+      - name: Stop Backend
+        run: docker-compose -f "server/docker-compose.yml" down
+
+      - name: Start Frontend
+        run: docker-compose -f "client/docker-compose.yml" up -d --build
+      - name: Stop Frontend
+        run: docker-compose -f "client/docker-compose.yml" down
+        
+  publish:
+    runs-on: ubuntu-latest
+    needs: [build]
+    
+    steps:
+      - name: Start Backend
+        run: docker-compose -f "server/docker-compose.yml" up -d
+
+      - name: Start Frontend
+        run: docker-compose -f "client/docker-compose.yml" up -d
