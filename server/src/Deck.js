@@ -123,8 +123,24 @@ export default class Deck {
         return this.cards.pop();
     }
 
-    placeCard(newCard) {
+    placeCard(newCard, sort = false) {
         this.cards.push(newCard);
+
+        if (sort) this.sort();
+    }
+
+    sort() {
+        try {
+            this.cards.sort((a, b) => {
+                const colorDiff = Object.values(this.Colors).indexOf(a.color) - Object.values(this.Colors).indexOf(b.color);
+                if (colorDiff === 0) {
+                    return Object.values(this.Types).indexOf(a.type) - Object.values(this.Types).indexOf(b.type);
+                } else return colorDiff;
+            });
+        } catch (e) {
+            // TODO - Sometimes there are Cards null
+            console.error(e);
+        }
     }
 
     get length() {

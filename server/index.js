@@ -136,8 +136,6 @@ io.on("connection", (socket) => {
             // Check if Move is valid and make the move and Send infos
             if (lobby.playCard(player, data.card, socket)) {
                 socket.emit("message", {message: "Move was valid."});
-            } else {
-                socket.emit("message", {message: "Move is not valid."});
             }
             lobby.renewAllPlayers(io);
         } catch (error) {
@@ -171,7 +169,7 @@ io.on("connection", (socket) => {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
                 drawnCard = lobby.deck.drawCard();
             }
-            player.deck.placeCard(drawnCard);
+            player.deck.placeCard(drawnCard, true);
 
             if (!infinityDrawSetting.enabled) {
                 // Save that Player become Card

@@ -25,7 +25,7 @@ export default class Lobby {
         this.gameSettings = [];
         this.gameSettings.push(new Settings("wild_on_wild", "Wild on Wild", "Is it allow to place a black/wild Card on another black/wild Card?", true));
         this.gameSettings.push(new Settings("challenge_wild_draw_four", "Challenge Wild Draw Four Card (not implemented)", "If a Wild Draw Four card is laid, it can be challenged. This checks whether the card was the only option. If it was the only possibility, the challenger must draw 6 cards, otherwise the dealer of the Wild Draw Four must draw 4.", false));
-        this.gameSettings.push(new Settings("play_alone", "Play alone", "You can start the Game alone.", false));
+        this.gameSettings.push(new Settings("play_alone", "Play alone", "You can start the Game alone.", true));
         this.gameSettings.push(new Settings("infinity_draw", "Infinity draw", "You can draw infinite cards when it is not your turn and you have to draw until it is your turn.", false));
         this.gameSettings.push(new Settings("only_play_drawn", "Can only play the drawn Cards", "A player who draws a card can only play this.", true));
     }
@@ -40,6 +40,7 @@ export default class Lobby {
             player.deck = new Deck(false);
             // deal Cards
             for (let i = 0; i < 7; i++) player.deck.placeCard(this.#deck.drawCard());
+            player.deck.sort();
         });
 
         // deal first card to Played Cards
@@ -69,10 +70,9 @@ export default class Lobby {
             // Card not found
             console.log(`${player} played a Card (${card}) that doesnt exists.`);
             return false;
-        } else if (settingOnlyPlayDrawnCard !== null && settingOnlyPlayDrawnCard.enabled && this.#playerHasDrawnCard !== null && index !== player.deck.cards.findIndex(card => card.equals(this.#playerHasDrawnCard))) {
+        } else if (this.players.length > 1 && settingOnlyPlayDrawnCard !== null && settingOnlyPlayDrawnCard.enabled && this.#playerHasDrawnCard !== null && index !== player.deck.cards.findIndex(card => card.equals(this.#playerHasDrawnCard))) {
             // Player can Play only the Drawn Card
-            // TODO - If new Card is not at end (Hand sorted)
-            socket.emit("message", {message: "You can only Play the Drawn Card."});
+            socket.emit("message", {message: `You can only Play the Drawn Card (${this.#playerHasDrawnCard}).`});
             return false;
         }
 
@@ -84,8 +84,12 @@ export default class Lobby {
         /* Check for UNO Last Card */
         if (this.needsToPressUnoIndex >= 0 && this.needsToPressUnoIndex < this.players.length)
             // if index is set Player gets 2 Cards for not pressing UNO
-            for (let i = 0; i < 2; i++) this.players[this.needsToPressUnoIndex].deck.placeCard(this.#deck.drawCard());
+            for (let i = 0; i < 2; i++) this.players[this.needsToPressUnoIndex].deck.placeCard(this.#deck.drawCard(), true);
         this.needsToPressUnoIndex = -1;
+
+        // Move card from Player Cards to Played Cards
+        this.playedCards.placeCard(player.deck.removeCardByIndex(index));
+        player.deck.sort();
 
         /* Check special Card effects */
         switch (card.type) {
@@ -104,7 +108,7 @@ export default class Lobby {
                 // Skip only if he cannot play a DRAW_TWO Card
                 this.drawCards += 2;
                 if (this.players[this.nextActivePlayerIndex].deck.cards.findIndex(card => card.type === this.playedCards.Types.DRAW_TWO) === -1 || this.players.length === 1) {
-                    for (let i = 0; i < this.drawCards; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                    for (let i = 0; i < this.drawCards; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard(), true);
                     this.drawCards = 0;
                     this.nextPlayer();
                 }
@@ -113,14 +117,11 @@ export default class Lobby {
             case this.playedCards.Types.WILD_DRAW_FOUR:
                 socket.emit("challenge_wild_draw_four_request");
                 this.drawCards += 4;
-                for (let i = 0; i < this.drawCards; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard());
+                for (let i = 0; i < this.drawCards; i++) this.players[this.nextActivePlayerIndex].deck.placeCard(this.#deck.drawCard(), true);
                 this.drawCards = 0;
                 // TODO: Implement the Challenging of WILD DRAW FOUR CARDS
                 break;
         }
-
-        // Move card from Player Cards to Played Cards
-        this.playedCards.placeCard(player.deck.removeCardByIndex(index));
 
         if (player.deck.length === 1) {
             // check if it was the penalty card (than the Player needs to press UNO
@@ -163,9 +164,7 @@ export default class Lobby {
             /* WILD CARD RULES */
             if (playedCard.type !== this.playedCards.Types.WILD && playedCard.type !== this.playedCards.Types.WILD_DRAW_FOUR && playedCard.color !== cardOnTop.declared_color) {
                 // declared color is not equal played card
-                console.log(cardOnTop);
-                console.log(playedCard);
-                console.log("WRONG CARD: declared color is not equal played card");
+                console.log(`WRONG CARD: ${cardOnTop} declared color is not equal played card (${playedCard})`);
                 return false;
             } else if (cardOnTop.color === playedCard.color) {
                 // Wild on Wild
@@ -176,9 +175,7 @@ export default class Lobby {
             }
         } else if (cardOnTop.color !== playedCard.color && cardOnTop.type !== playedCard.type) {
             // Colored Card have no matching attribute
-            console.log(cardOnTop);
-            console.log(playedCard);
-            console.log("WRONG CARD: Colored Card have no matching attribute");
+            console.log(`WRONG CARD: ${cardOnTop} Colored Card have no matching attribute (${playedCard})`);
             return false;
         }
         return true;
