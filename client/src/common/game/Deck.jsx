@@ -77,14 +77,16 @@ export default function Deck({cards, cardSize, placeCard}) {
         return;
     }
     let deck = useRef(null);
-    let deckWidth = deck?.current?.offsetWidth;
-    let deckHeight = deck?.current?.offsetHeight;
-    let deckDimension = {height: deckHeight, width: deckWidth}
-    let startingPoint = {x: deckWidth / 2, y: deckHeight / 2};
+    const deckWidth = deck?.current?.offsetWidth;
+    const deckHeight = deck?.current?.offsetHeight;
+    const deckDimension = {height: deckHeight, width: deckWidth};
+    const startingPoint = {x: deckWidth / 2, y: deckHeight / 2};
+    const cardWidth = Math.min(Math.max(deckWidth * 0.13, 80), 160);
+    const cardHeight = 754 / (504 / cardWidth);
 
     //need a reworke
     //let coords = calculateFanCoords(cards.length, 400, 160, 236, .3);
-    let coords = calculateNormalCoords(cards.length, 160, 239.367, startingPoint, .5, .25, deckDimension);
+    const coords = calculateNormalCoords(cards.length, cardWidth, cardHeight, startingPoint, .5, .25, deckDimension);
 
     return (<div className="deck" ref={deck}>
         {cards.map((card, index) => {
@@ -94,7 +96,7 @@ export default function Deck({cards, cardSize, placeCard}) {
                 key={index}
                 index={index}
                 cardType={card.type}
-                cardWidth={cardSize}
+                cardWidth={cardWidth}
                 enableHover={true}
                 style={coordsToStyleSheet(index, coordinates.x, coordinates.y, coordinates.angle)}
                 clickEvent={placeCard}/>)
