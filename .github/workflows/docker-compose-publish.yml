@@ -15,16 +15,28 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    
+  
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Start Backend
+      - name: Build Backend
         run: docker-compose -f "server/docker-compose.yml" up -d --build
+      - name: Stop Backend
+        run: docker-compose -f "server/docker-compose.yml" down
 
       - name: Start Frontend
         run: docker-compose -f "client/docker-compose.yml" up -d --build
+      - name: Stop Frontend
+        run: docker-compose -f "client/docker-compose.yml" down
         
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Start Backend
+        run: docker-compose -f "server/docker-compose.yml" up -d
+
+      - name: Start Frontend
+        run: docker-compose -f "client/docker-compose.yml" up -d
