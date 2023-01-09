@@ -74,21 +74,45 @@ export default function Game({socket, lobby}) {
                     color: {lobby.playedCards.cards[lobby.playedCards.cards.length - 1].declared_color}</label>}
             </div>
             <div className="bar">
-                <div className="drawCard" style={{width: playBarButtonsWidth}}>
-                    <Card
-                        color={'red'}
-                        cardType={'back'}
-                        cardWidth={"100%"}
-                        clickEvent={getOneCardFromStack}
-                        enableHover={true}/>
+                {height > width ? 
+                <>
+                    <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
+                    <div className="playButtons">
+                        <div className="drawCard" style={{width: playBarButtonsWidth}}>
+                            <Card
+                                color={'red'}
+                                cardType={'back'}
+                                cardWidth={"100%"}
+                                clickEvent={getOneCardFromStack}
+                                enableHover={true}/>
+                        </div>
+                        <div className="unoButton" style={{width: playBarButtonsWidth}} onClick={() => {
+                            console.log("UNO!");
+                            socket.emit("UNO");
+                        }}>
+                            <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
+                        </div>
+                    </div>
+                </>
+                :
+                <div className="landscape">
+                    <div className="drawCard" style={{width: playBarButtonsWidth}}>
+                        <Card
+                            color={'red'}
+                            cardType={'back'}
+                            cardWidth={"100%"}
+                            clickEvent={getOneCardFromStack}
+                            enableHover={true}/>
+                    </div>
+                    <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
+                    <div className="unoButton" style={{width: playBarButtonsWidth}} onClick={() => {
+                        console.log("UNO!");
+                        socket.emit("UNO");
+                    }}>
+                        <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
+                    </div>
                 </div>
-                <Deck cards={playerCards} cardSize={cardSize} playCard={playCard} placeCard={placeCard}/>
-                <div className="unoButton" style={{width: playBarButtonsWidth}} onClick={() => {
-                    console.log("UNO!");
-                    socket.emit("UNO");
-                }}>
-                    <img src={UnoButtonAsset} width="100%" alt="UnoButton"></img>
-                </div>
+                }
             </div>
         </div>
     </>);

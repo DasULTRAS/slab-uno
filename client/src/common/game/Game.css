@@ -9,9 +9,25 @@
 
 .bar {
     display: flex;
+    flex-flow: column;
     justify-content: space-between;
     align-items: center;
     height: 35%;
+}
+
+.landscape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.playButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 .gameField {
@@ -22,6 +38,11 @@
 
 .unoButton {
     transition: .5s;
+    margin-right: 1%;
+}
+
+.drawCard {
+    margin-right: 1%;
 }
 
 .unoButton:hover {
