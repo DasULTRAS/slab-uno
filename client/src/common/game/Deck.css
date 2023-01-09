@@ -5,7 +5,8 @@
     margin-left: 10px;
     margin-right: 10px;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .deck div {
