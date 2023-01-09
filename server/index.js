@@ -160,11 +160,14 @@ io.on("connection", (socket) => {
                 return false;
             }
 
-            // Get new Card
-            player.deck.placeCard(lobby.deck.drawCard());
+            // TODO - Player get Card in own function
+            // if main deck is empty
             if (lobby.deck.length === 0) {
                 lobby.deck.addCards(lobby.playedCards.getUnusedCards());
             }
+            // Get new Card
+            player.deck.placeCard(lobby.deck.drawCard());
+            if(!infinityDrawSetting.enabled)
             // Save that Player become Card
             lobby.playerDrawsCard();
 
