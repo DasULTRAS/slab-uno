@@ -62,15 +62,16 @@ export default class Lobby {
         if (this.gameFinished) return false;
 
         // Find Card index
-        let index = player.deck.getCardIndex(card);
+        const index = player.deck.getCardIndex(card);
         if (index === -1) {
             // Card not found
             console.log(`${player} played a Card (${card}) that doesnt exists.`);
             return false;
-        } else if (this.#playerHasDrawnCard && index !== player.deck.length - 1) {
+        } else if (this.#playerHasDrawnCard !== null && index !== player.deck.cards.findIndex(card => card.equals(this.#playerHasDrawnCard))) {
             // Player can Play only the Drawn Card
             // TODO - If new Card is not at end (Hand sorted)
             socket.emit("message", {message: "You can only Play the Drawn Card."});
+            return false;
         }
 
         // Save declared Color if is WildCard
@@ -256,7 +257,7 @@ export default class Lobby {
      * @returns {number}
      */
     nextPlayer() {
-        this.#playerHasDrawnCard = false;
+        this.#playerHasDrawnCard = null;
 
         this.activePlayerIndex = this.nextActivePlayerIndex;
         return this.activePlayerIndex;
@@ -332,12 +333,23 @@ export default class Lobby {
         }
     }
 
+    /**
+     * Getter for playerHasDrawnCard
+     * @returns {Card | null}
+     */
     get playerHasDrawnCard() {
         return this.#playerHasDrawnCard;
     }
 
-    playerDrawsCard() {
-        this.#playerHasDrawnCard = true;
+    /**
+     * Set the Drawn Card, if it is null
+     * @param card {Card}
+     */
+    playerDrawsCard(card) {
+        if (card !== null)
+            this.#playerHasDrawnCard = card;
+        else
+            console.log("Player has already drawn a Card.")
     }
 }
 
