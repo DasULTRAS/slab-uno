@@ -38,28 +38,25 @@ function calculateFanCoords(cardsLength, circleRadius, cardWidth, cardHeight, ca
     return coords;
 }
 
-function calculateNormalCoords(cardsLength, cardWidth, startPoint, maxCardSpacing, minCardSpacing, deckWidth){
+function calculateNormalCoords(cardsLength, cardWidth, cardHeight, startPoint, maxCardSpacing, minCardSpacing, deckDimension){
     let cardSpacing = maxCardSpacing;
     let width = (cardWidth * cardSpacing * (cardsLength - 1)) + cardWidth;
 
-    if(width > deckWidth){
-        cardSpacing = Math.max((-cardWidth + deckWidth) / (cardWidth * cardsLength - cardWidth), minCardSpacing);
+    if(width > deckDimension.width){
+        cardSpacing = Math.max((-cardWidth + deckDimension.width) / (cardWidth * cardsLength - cardWidth), minCardSpacing);
         width = (cardWidth * cardSpacing * (cardsLength - 1)) + cardWidth;
     }
 
-    console.log(width);
-    console.log(cardSpacing);
-
     let x = 0;
-    let y = 0;
+    let y = deckDimension.height > cardHeight ? startPoint.y - cardHeight / 2 : 0;
 
     let coords = [];
 
     for(let i = 0; i < cardsLength; i++){
-        if(width >= deckWidth){
+        if(width >= deckDimension.width){
             x = cardWidth * cardSpacing * i;
         } else {
-            x = cardWidth * cardSpacing * i + (startPoint - width / 2);
+            x = cardWidth * cardSpacing * i + (startPoint.x - width / 2);
         }
 
         coords.push({x: x, y: y, angle: 0});
@@ -70,7 +67,8 @@ function calculateNormalCoords(cardsLength, cardWidth, startPoint, maxCardSpacin
 
 function coordsToStyleSheet(i, x, y, angle) {
     return {
-        'zIndex': i, transform: `rotate(${angle}deg)`, top: `${y}px`, left: `${x}px`
+        //'zIndex': i, transform: `rotate(${angle}deg)`, top: `${y}px`, left: `${x}px`
+        'zIndex': i, top: `${y}px`, left: `${x}px`
     };
 }
 
@@ -79,12 +77,16 @@ export default function Deck({cards, cardSize, placeCard}) {
         return;
     }
     let deck = useRef(null);
-    let deckWidth = deck?.current?.offsetWidth;
-    let startingPoint = deckWidth / 2;
+    const deckWidth = deck?.current?.offsetWidth;
+    const deckHeight = deck?.current?.offsetHeight;
+    const deckDimension = {height: deckHeight, width: deckWidth};
+    const startingPoint = {x: deckWidth / 2, y: deckHeight / 2};
+    const cardWidth = Math.min(Math.max(deckWidth * 0.13, 80), 160);
+    const cardHeight = 754 / (504 / cardWidth);
 
     //need a reworke
     //let coords = calculateFanCoords(cards.length, 400, 160, 236, .3);
-    let coords = calculateNormalCoords(cards.length, 160, startingPoint, .5, .25, deckWidth);
+    const coords = calculateNormalCoords(cards.length, cardWidth, cardHeight, startingPoint, .5, .25, deckDimension);
 
     return (<div className="deck" ref={deck}>
         {cards.map((card, index) => {
@@ -94,7 +96,7 @@ export default function Deck({cards, cardSize, placeCard}) {
                 key={index}
                 index={index}
                 cardType={card.type}
-                cardWidth={cardSize}
+                cardWidth={cardWidth}
                 enableHover={true}
                 style={coordsToStyleSheet(index, coordinates.x, coordinates.y, coordinates.angle)}
                 clickEvent={placeCard}/>)
