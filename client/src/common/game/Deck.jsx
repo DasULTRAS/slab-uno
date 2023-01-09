@@ -39,7 +39,7 @@ function calculateFanCoords(cardsLength, circleRadius, cardWidth, cardHeight, ca
 }
 
 function calculateNormalCoords(cardsLength, cardWidth, startPoint, cardSpacing, deckWidth){
-    let width = cardWidth * cardSpacing * cardsLength - 1 + cardWidth;
+    let width = cardWidth * cardSpacing * (cardsLength - 1) + cardWidth;
 
     let x = 0;
     let y = 0;
@@ -75,7 +75,7 @@ export default function Deck({cards, cardSize, placeCard}) {
 
     //need a reworke
     //let coords = calculateFanCoords(cards.length, 400, 160, 236, .3);
-    let coords = calculateNormalCoords(cards.length, 160, startingPoint, 0.3, deckWidth);
+    let coords = calculateNormalCoords(cards.length, 160, startingPoint, .5, deckWidth);
 
     return (<div className="deck" ref={deck}>
         {cards.map((card, index) => {
