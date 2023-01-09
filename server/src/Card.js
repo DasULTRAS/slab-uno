@@ -4,6 +4,10 @@ export default class Card {
         this.type = type;
     }
 
+    toString(){
+        return `Card: ${this.color}, ${this.type}`;
+    }
+
     equals(card) {
         return this.color === card.color && this.type === card.type;
     }

@@ -10,6 +10,10 @@ export default class Player {
         this.#deck = null;
     }
 
+    toString(){
+        return `Player: ${this.username} in ${this.lobbyID} with SocketID ${this.socketID}`;
+    }
+
     renewDeckLength() {
         if (this.#deck === null) {
             this.deckLength = 0;
