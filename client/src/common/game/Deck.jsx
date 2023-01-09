@@ -38,8 +38,17 @@ function calculateFanCoords(cardsLength, circleRadius, cardWidth, cardHeight, ca
     return coords;
 }
 
-function calculateNormalCoords(cardsLength, cardWidth, startPoint, cardSpacing, deckWidth){
-    let width = cardWidth * cardSpacing * (cardsLength - 1) + cardWidth;
+function calculateNormalCoords(cardsLength, cardWidth, startPoint, maxCardSpacing, minCardSpacing, deckWidth){
+    let cardSpacing = maxCardSpacing;
+    let width = (cardWidth * cardSpacing * (cardsLength - 1)) + cardWidth;
+
+    if(width > deckWidth){
+        cardSpacing = Math.max((-cardWidth + deckWidth) / (cardWidth * cardsLength - cardWidth), minCardSpacing);
+        width = (cardWidth * cardSpacing * (cardsLength - 1)) + cardWidth;
+    }
+
+    console.log(width);
+    console.log(cardSpacing);
 
     let x = 0;
     let y = 0;
@@ -71,11 +80,11 @@ export default function Deck({cards, cardSize, placeCard}) {
     }
     let deck = useRef(null);
     let deckWidth = deck?.current?.offsetWidth;
-    let startingPoint = Math.round(deckWidth / 2);
+    let startingPoint = deckWidth / 2;
 
     //need a reworke
     //let coords = calculateFanCoords(cards.length, 400, 160, 236, .3);
-    let coords = calculateNormalCoords(cards.length, 160, startingPoint, .5, deckWidth);
+    let coords = calculateNormalCoords(cards.length, 160, startingPoint, .5, .25, deckWidth);
 
     return (<div className="deck" ref={deck}>
         {cards.map((card, index) => {
