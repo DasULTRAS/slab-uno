@@ -3,6 +3,8 @@ import "./Deck.css";
 import Card from "./Card";
 import {degreesToRadians, getRotatedDimensions, radiansToDegrees} from "../utils/mathFunctions";
 import { useRef } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 
 //need a reworke
 function calculateFanCoords(cardsLength, circleRadius, cardWidth, cardHeight, cardSpacing) {
@@ -72,11 +74,12 @@ function coordsToStyleSheet(i, x, y, angle) {
     };
 }
 
-export default function Deck({cards, cardSize, placeCard}) {
+export default function Deck({cards, placeCard}) {  
     if (cards.length === 0) {
         return;
     }
     let deck = useRef(null);
+    const [coords, setCoords] = useState([]);
     const deckWidth = deck?.current?.offsetWidth;
     const deckHeight = deck?.current?.offsetHeight;
     const deckDimension = {height: deckHeight, width: deckWidth};
@@ -86,8 +89,13 @@ export default function Deck({cards, cardSize, placeCard}) {
 
     //need a reworke
     //let coords = calculateFanCoords(cards.length, 400, 160, 236, .3);
-    const coords = calculateNormalCoords(cards.length, cardWidth, cardHeight, startingPoint, .5, .25, deckDimension);
+    useEffect((() => {
+        setCoords(calculateNormalCoords(cards.length, cardWidth, cardHeight, startingPoint, .5, .25, deckDimension));
+    }), [cards.length, cardWidth, cardHeight, startingPoint, deckDimension]);
 
+    if(coords.length === 0){
+        return;
+    }
     return (<div className="deck" ref={deck}>
         {cards.map((card, index) => {
             let coordinates = coords[index]
