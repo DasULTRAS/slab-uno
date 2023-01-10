@@ -70,7 +70,8 @@ export default function Lobby({socket, lobby}) {
                                       disabled={isLobbyJoined} readOnly={isLobbyJoined}
                                       onChange={(event) => {
                                           setUsername(event.target.value)
-                                      }}/>
+                                      }}
+                                      maxLength={20}/>
                     </Form.Group>
                 </Form>
 

@@ -8,7 +8,9 @@ export default function EnemyPlayer({cardCount, playerName, isActive}) {
     return (<>
         <div className={classes}>
             <div className="cardCount">{cardCount ? cardCount : -1}</div>
-            <div className="playerName">{playerName}</div>
+            <div className="playerName">
+                <p>{playerName}</p>
+            </div>
         </div>
     </>);
 };

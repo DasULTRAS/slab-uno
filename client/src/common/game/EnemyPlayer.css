@@ -3,18 +3,26 @@
     flex-direction: column;
     align-items: center;
     margin: .4em;
+    max-width: 8%;
 }
 
 .enemyPlayer * {
     margin: .2em;
-    font-size: 1.3em;
+    font-size: 20.8px;
     font-family: Arial;
 }
 
 .playerName {
     color: white;
-    font-weight: bold;
-    -webkit-text-stroke: .05em black;
+    width: 100%;
+}
+
+.playerName p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .active {

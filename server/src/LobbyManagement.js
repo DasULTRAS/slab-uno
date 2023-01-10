@@ -66,7 +66,7 @@ export default class LobbyManagement {
 
     createLobby(data, socket) {
         // not empty inputs
-        if (data.lobbyID === "" || data.username === "") {
+        if (data.lobbyID === "" || data.username === "" || data.username.length > 20) {
             console.log(`wrong input: ${data.lobbyID}`);
             socket.emit("message", {message: "Wrong input."});
             return;
