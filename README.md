@@ -12,7 +12,7 @@ Written with [React](http://reactjs.org/) an [Socket.io](http://socket.io/) .
 #### Server
  - Every Environment Variables must be defined in the `DOCKERFILE` file
 
-### With Docker-Compose
+### DEV
 
 1. build image and start docker (detached)
     ```bash
@@ -25,9 +25,16 @@ Written with [React](http://reactjs.org/) an [Socket.io](http://socket.io/) .
     docker-compose down
     ```
 
+#### NPM
+The frontend/client can also be started with `NPM start`, the backend only with docker.
+
 ## Hosting
 
-To host productive edit the environment Variables to the public domains.
+To host productive use 
+```bash
+docker-compose -f .\docker-compose-prod.yml up -d --build
+```
+and edit the environment Variables to the public domains.
 
 ## Tasks
 

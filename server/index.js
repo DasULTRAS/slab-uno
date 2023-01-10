@@ -10,7 +10,7 @@ import Deck from "./src/Deck.js";
 const app = express();
 
 app.use(cors());
-app.set('port', 8080);
+app.set('port', 80);
 
 const server = http.createServer(app)
 
