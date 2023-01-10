@@ -32,9 +32,10 @@ The frontend/client can also be started with `NPM start`, the backend only with 
 
 To host productive use 
 ```bash
-docker-compose -f .\docker-compose-prod.yml up -d --build
+docker-compose -f .\docker-compose-prod.yml build
 ```
-and edit the environment Variables to the public domains.
+to build the project and for hosting you can use the `docker/docker-compose.yml`. 
+Edit the environment Variables to the public domains.
 
 ## Tasks
 
