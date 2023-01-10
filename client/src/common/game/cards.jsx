@@ -11,6 +11,8 @@ import redNine from "../../assets/Cards/red-nine.png";
 import redSkip from "../../assets/Cards/red-skip.png";
 import redReverse from "../../assets/Cards/red-reverse.png";
 import redDrawTwo from "../../assets/Cards/red-draw-two.png";
+import redWild from "../../assets/Cards/red-wild.png";
+import redWildDraw from "../../assets/Cards/red-wild-draw.png";
 
 import yellowZero from "../../assets/Cards/yellow-zero.png";
 import yellowOne from "../../assets/Cards/yellow-one.png";
@@ -25,6 +27,8 @@ import yellowNine from "../../assets/Cards/yellow-nine.png";
 import yellowSkip from "../../assets/Cards/yellow-skip.png";
 import yellowReverse from "../../assets/Cards/yellow-reverse.png";
 import yellowDrawTwo from "../../assets/Cards/yellow-draw-two.png";
+import yellowWild from "../../assets/Cards/yellow-wild.png";
+import yellowWildDraw from "../../assets/Cards/yellow-wild-draw.png";
 
 import blueZero from "../../assets/Cards/blue-zero.png";
 import blueOne from "../../assets/Cards/blue-one.png";
@@ -39,6 +43,8 @@ import blueNine from "../../assets/Cards/blue-nine.png";
 import blueSkip from "../../assets/Cards/blue-skip.png";
 import blueReverse from "../../assets/Cards/blue-reverse.png";
 import blueDrawTwo from "../../assets/Cards/blue-draw-two.png";
+import blueWild from "../../assets/Cards/blue-wild.png";
+import blueWildDraw from "../../assets/Cards/blue-wild-draw.png";
 
 import greenZero from "../../assets/Cards/green-zero.png";
 import greenOne from "../../assets/Cards/green-one.png";
@@ -53,6 +59,8 @@ import greenNine from "../../assets/Cards/green-nine.png";
 import greenSkip from "../../assets/Cards/green-skip.png";
 import greenReverse from "../../assets/Cards/green-reverse.png";
 import greenDrawTwo from "../../assets/Cards/green-draw-two.png";
+import greenWild from "../../assets/Cards/green-wild.png";
+import greenWildDraw from "../../assets/Cards/green-wild-draw.png";
 
 import wild from "../../assets/Cards/wild.png";
 import wildDraw from "../../assets/Cards/wild-draw.png";
@@ -72,11 +80,11 @@ cardMap.set(9, [redNine, yellowNine, blueNine, greenNine]);
 cardMap.set('skip', [redSkip, yellowSkip, blueSkip, greenSkip]);
 cardMap.set('reverse', [redReverse, yellowReverse, blueReverse, greenReverse]);
 cardMap.set('draw_two', [redDrawTwo, yellowDrawTwo, blueDrawTwo, greenDrawTwo]);
-cardMap.set('wild', [wild]);
-cardMap.set('wild_draw_four', [wildDraw]);
+cardMap.set('wild', [redWild, yellowWild, blueWild, greenWild ,wild]);
+cardMap.set('wild_draw_four', [redWildDraw, yellowWildDraw, blueWildDraw, greenWildDraw, wildDraw]);
 cardMap.set('back', [back]);
 
-export const specialCard = ['wild', 'wild_draw_four', 'back'];
+export const specialCard = ['back'];
 
 export function getColorId(color) {
     switch (color) {
@@ -89,7 +97,7 @@ export function getColorId(color) {
         case 'green':
             return 3;
         case 'black':
-            return -1;
+            return 4;
         default:
             return 0;
     }
