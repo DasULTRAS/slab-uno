@@ -75,7 +75,7 @@ edit in `server/index.js` the *origin* to the UNO Server.
     - Next player in sequence misses a turn
 - [x] **REVERSE**
     - Order of play switches directions (clockwise to counterclockwise, or vice versa)
-- [ ] **DRAW TWO**
+- [x] **DRAW TWO**
     - Next player in sequence draws two cards and misses a turn
 - [x] **WILD**
     - Player declares the next color to be matched
