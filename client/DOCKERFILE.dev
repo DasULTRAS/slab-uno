@@ -9,8 +9,7 @@ RUN npm ci --silent
 # COPY APP (without .dockerignore)
 COPY . .
 # Environment Variables
-ARG REACT_APP_BACKEND_URL
-ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=http://localhost:8081
 # RUN the App
 EXPOSE 3000
 CMD ["npm", "start"]
