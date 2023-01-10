@@ -88,7 +88,9 @@ export default class Lobby {
         this.needsToPressUnoIndex = -1;
 
         // Move card from Player Cards to Played Cards
-        this.playedCards.placeCard(player.deck.removeCardByIndex(index));
+        let playedCard = player.deck.removeCardByIndex(index);
+        if (Object.hasOwn(card, 'declared_color')) playedCard.color = card.declared_color;
+        this.playedCards.placeCard(playedCard);
         player.deck.sort();
 
         /* Check special Card effects */

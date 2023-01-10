@@ -13,7 +13,6 @@ export default function Card({
     }
     const isSpecialCard = specialCard.includes(cardType);
 
-
     return (<>
         <img
             className={className}
