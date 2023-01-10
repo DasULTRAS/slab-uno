@@ -11,12 +11,13 @@ const app = express();
 
 app.use(cors());
 app.set('port', 80);
+app.set('frontend_url', process.env.FRONTEND_URL);
 
 const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: [process.env.FRONTEND_URL], methods: ["GET", "POST"],
+        origin: [app.get('frontend_url')], methods: ["GET", "POST"],
     },
 });
 
@@ -219,5 +220,5 @@ io.on("connection", (socket) => {
 
 server.listen(app.get('port'), () => {
     console.log(`Server is running on Port ${app.get('port')}.`);
-    console.log(`Cors: Only connection from ${process.env.FRONTEND_URL} allowed.`);
+    console.log(`Cors: Only connection from ${app.get('frontend_url')} allowed.`);
 });

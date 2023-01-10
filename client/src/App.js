@@ -47,7 +47,7 @@ export default function App() {
         <ol className="debug">
             <li className="latency">{`${latency}ms`}</li>
             <li className="message">{message}</li>
-            <li>Backend: {window.__ENV__?.BACKEND_URL}.</li>
+            <li>Backend: {window.__ENV__?.BACKEND_URL}</li>
         </ol>
 
         {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}

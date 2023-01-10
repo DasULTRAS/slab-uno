@@ -9,13 +9,9 @@ RUN npm ci --silent
 # COPY APP (without .dockerignore)
 COPY . .
 
-# Environment Variables
-ENV DOT_ENV_PATH=/app/.env
-ENV ENV_JS_PATH=/app/public/env.js
-
 # Make our shell script executable
-RUN chmod +x env.sh
+RUN chmod +x env-dev.sh
 
 # RUN the App
 EXPOSE 3000
-CMD ["/bin/bash", "-c", "/app/env.sh && npm start"]
+CMD ["/bin/bash", "-c", "/app/env-dev.sh && npm start"]

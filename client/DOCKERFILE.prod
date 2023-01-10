@@ -8,9 +8,6 @@ COPY package-lock.json .
 RUN npm ci --silent
 # COPY APP (without .dockerignore)
 COPY . .
-# Environment Variables
-ENV DOT_ENV_PATH=/usr/share/nginx/html/.env
-ENV ENV_JS_PATH=/usr/share/nginx/html/env.js
 # Build the app
 RUN npm run build
 
@@ -24,8 +21,8 @@ WORKDIR /usr/share/nginx/html
 COPY .env .
 # Copy env shell script into docker-entrypoint.d to run on startup
 WORKDIR /docker-entrypoint.d
-COPY ./env.sh .
+COPY ./env-prod.sh .
 # Make our shell script executable
-RUN chmod +x env.sh
+RUN chmod +x env-prod.sh
 
 CMD ["nginx", "-g", "daemon off;"]

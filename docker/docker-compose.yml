@@ -4,7 +4,7 @@ services:
   frontend:
     image: dasultras/slab-uno:frontend-latest
     environment:
-      - REACT_APP_BACKEND_URL=http://localhost:81
+      - BACKEND_URL=http://localhost:81
     restart: unless-stopped
     ports:
       - "80:80"
@@ -14,4 +14,4 @@ services:
     environment:
       - FRONTEND_URL=http://localhost:80
     ports:
-      - "81:8080"
+      - "81:80"
