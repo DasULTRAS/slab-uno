@@ -4,7 +4,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: DOCKERFILE
+      dockerfile: DOCKERFILE.prod
     image: dasultras/slab-uno-frontend
     restart: unless-stopped
     container_name: slab-uno-frontend

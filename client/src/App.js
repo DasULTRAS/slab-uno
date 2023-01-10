@@ -6,11 +6,10 @@ import io from "socket.io-client";
 import Chat from "./common/Chat";
 import WinnerScreen from './common/winner/WinnerScreen';
 
-// const url = "https://uno-api.dasultras.de/";
-const url = "http://localhost:8080/";
-const socket = io.connect(url, {
+const socket = io.connect(process.env.REACT_APP_BACKEND_URL, {
     reconnection: true, reconnectionDelay: 1000, reconnectionDelayMax: 5000, reconnectionAttempts: Infinity
 });
+console.log(`Connect to backend: ${process.env.REACT_APP_BACKEND_URL}.`);
 
 export default function App() {
     const [gameStarted, setGameStarted] = useState(false);

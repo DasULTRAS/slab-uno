@@ -7,11 +7,13 @@ services:
       dockerfile: DOCKERFILE.dev
     image: dasultras/slab-uno-frontend
     restart: unless-stopped
-    container_name: slab-uno-frontend
     volumes:
       - ./client/src:/app/src
     environment:
       - WATCHPACK_POLLING=true
+      - REACT_APP_BACKEND_URL=http://localhost:8080
+#    env_file:
+#      - ./client/.env
     ports:
       - "3000:3000"
   backend:
@@ -20,9 +22,11 @@ services:
       dockerfile: DOCKERFILE
     image: dasultras/slab-uno-backend
     restart: unless-stopped
-    container_name: slab-uno-backend
     environment:
       - WATCHPACK_POLLING=true
+      - FRONTEND_URL=http://localhost:3000
+#    env_file:
+#      - ./server/.env
     volumes:
       - ./server/src:/app/src
     ports:

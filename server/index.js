@@ -16,7 +16,7 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
     cors: {
-        origin: ["https://uno.dasultras.de", "http://localhost:3000"], methods: ["GET", "POST"],
+        origin: [process.env.FRONTEND_URL], methods: ["GET", "POST"],
     },
 });
 
@@ -219,4 +219,5 @@ io.on("connection", (socket) => {
 
 server.listen(app.get('port'), () => {
     console.log(`Server is running on Port ${app.get('port')}.`);
+    console.log(`Cors: Only connection from ${process.env.FRONTEND_URL} allowed.`);
 });

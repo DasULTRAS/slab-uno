@@ -8,6 +8,8 @@ COPY package-lock.json .
 RUN npm ci --silent
 # COPY APP (without .dockerignore)
 COPY . .
+# Environment Variables
+ENV REACT_APP_BACKEND_URL=http://localhost:8081
 # Build the app
 RUN npm run build
 

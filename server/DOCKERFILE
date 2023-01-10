@@ -8,6 +8,8 @@ COPY package-lock.json .
 RUN npm ci --silent
 # COPY APP (without .dockerignore)
 COPY . .
+# Enviroment Variables
+ENV FRONTEND_URL=http://localhost:3000
 # RUN the App
 EXPOSE 8080
 CMD ["node", "index.js"]
