@@ -5,6 +5,13 @@ Written with [React](http://reactjs.org/) an [Socket.io](http://socket.io/) .
 
 ## Get started
 
+### Environment Variables
+
+#### Client
+ - Every Environment Variables must be defined in the `.env` file
+#### Server
+ - Every Environment Variables must be defined in the `DOCKERFILE` file
+
 ### With Docker-Compose
 
 1. build image and start docker (detached)

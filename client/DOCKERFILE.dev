@@ -8,8 +8,14 @@ COPY package-lock.json .
 RUN npm ci --silent
 # COPY APP (without .dockerignore)
 COPY . .
+
 # Environment Variables
-ENV REACT_APP_BACKEND_URL=http://localhost:8081
+ENV DOT_ENV_PATH=/app/.env
+ENV ENV_JS_PATH=/app/public/env.js
+
+# Make our shell script executable
+RUN chmod +x env.sh
+
 # RUN the App
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["/bin/bash", "-c", "/app/env.sh && npm start"]
