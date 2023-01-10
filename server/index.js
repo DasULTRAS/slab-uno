@@ -220,5 +220,5 @@ io.on("connection", (socket) => {
 
 server.listen(app.get('port'), () => {
     console.log(`Server is running on Port ${app.get('port')}.`);
-    console.log(`Cors: Only connection from ${app.get('frontend_url')} allowed.`);
+    console.log(`Cors: Only connection from ${process.env.FRONTEND_URL} allowed.`);
 });

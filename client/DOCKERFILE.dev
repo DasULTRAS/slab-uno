@@ -10,8 +10,8 @@ RUN npm ci --silent
 COPY . .
 
 # Make our shell script executable
-RUN chmod +x env-dev.sh
+RUN chmod +x env.sh
 
 # RUN the App
 EXPOSE 3000
-CMD ["/bin/bash", "-c", "/app/env-dev.sh && npm start"]
+CMD ["/bin/bash", "-c", "./env.sh && npm start"]

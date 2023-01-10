@@ -1,15 +1,17 @@
-FROM node:19.2
+FROM node:lts-slim AS BUILD_IMAGE
 # SET work dir in container
 WORKDIR /app
 # copy packages files
 COPY package.json .
 COPY package-lock.json .
 # install packages
-RUN npm ci --silent
+RUN npm ci --only=production
 # COPY APP (without .dockerignore)
 COPY . .
+
 # Enviroment Variables
 ENV FRONTEND_URL=http://localhost:3000
+
 # RUN the App
-EXPOSE 8080
+EXPOSE 80
 CMD ["node", "index.js"]

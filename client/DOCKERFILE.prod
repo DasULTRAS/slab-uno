@@ -1,4 +1,4 @@
-FROM node:19.2 as builder
+FROM node:19.2 as BUILD_IMAGE
 # SET work dir in container
 WORKDIR /app
 # copy packages files
@@ -13,16 +13,15 @@ RUN npm run build
 
 # production environment
 FROM nginx:stable-alpine
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=BUILD_IMAGE /app/build /usr/share/nginx/html
 EXPOSE 80
 
 # Copy .env file to container
 WORKDIR /usr/share/nginx/html
 COPY .env .
 # Copy env shell script into docker-entrypoint.d to run on startup
-WORKDIR /docker-entrypoint.d
-COPY ./env-prod.sh .
+COPY ./env.sh .
 # Make our shell script executable
-RUN chmod +x env-prod.sh
+RUN chmod +x env.sh
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "./env.sh && nginx -g \"daemon off;\""]
