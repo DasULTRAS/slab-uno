@@ -6,8 +6,6 @@ name: Docker-Composes for SLAB-UNO
 # documentation.
 
 on:
-  push:
-    branches: [ "main" ]
   release:
     types:
       - released
