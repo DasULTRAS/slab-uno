@@ -8,9 +8,14 @@ export default function WinnerScreen({lobby}) {
         </div>);
     }
 
+    function refreshPage(){
+        window.location.reload();
+    }
+
     return (<div className="winnerScreen">
         <div className="lobbyName">Lobby - {lobby.lobbyID}</div>
         <div className="title">WINNERS</div>
         {lobby.winners.map((name, index) => winner(name, index))}
+        <button className="backButton" onClick={refreshPage}>Back to Lobby</button>
     </div>);
 }
