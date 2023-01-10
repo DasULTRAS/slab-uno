@@ -70,8 +70,6 @@ export default function Game({socket, lobby}) {
             </div>
             <div className="infoArea">
                 {lobby.drawCards !== 0 && <label>Cards to Draw: {lobby.drawCards}</label>}
-                {lobby.playedCards.cards[lobby.playedCards.cards.length - 1].hasOwnProperty("declared_color") && <label>declared
-                    color: {lobby.playedCards.cards[lobby.playedCards.cards.length - 1].declared_color}</label>}
             </div>
             <div className="bar">
                 {height > width ? 
