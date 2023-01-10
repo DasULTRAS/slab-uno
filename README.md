@@ -5,17 +5,6 @@ Written with [React](http://reactjs.org/) an [Socket.io](http://socket.io/) .
 
 ## Get started
 
-### With Node.js local installed
-
-1. Install node modules
-    ```bash
-    npm install
-    ```
-2. Start the project
-    ```bash
-    npm start 
-    ```
-
 ### With Docker-Compose
 
 1. build image and start docker (detached)
@@ -23,16 +12,15 @@ Written with [React](http://reactjs.org/) an [Socket.io](http://socket.io/) .
     docker-compose up -d --build
     ```
 2. stop container
-   If you started detached stop with `STRG/CNTRL + C`
+
+   If you started attached stop with `STRG/CNTRL + C`
     ```bash
     docker-compose down
     ```
 
 ## Hosting
 
-To host productive edit in `client/src/common/Lobby.jsx` the Socket.io Server URL and
-edit in `server/index.js` the *origin* to the UNO Server.
-**Important:** Enable Websockets support in nginx.
+To host productive edit the environment Variables to the public domains.
 
 ## Tasks
 
