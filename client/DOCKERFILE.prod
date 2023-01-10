@@ -9,8 +9,7 @@ RUN npm ci --silent
 # COPY APP (without .dockerignore)
 COPY . .
 # Environment Variables
-ARG REACT_APP_BACKEND_URL
-ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=http://localhost:8081
 # Build the app
 RUN npm run build
 
@@ -18,4 +17,15 @@ RUN npm run build
 FROM nginx:stable-alpine
 COPY --from=builder /app/build /usr/share/nginx/html
 EXPOSE 80
+
+# Copy .env file to container
+WORKDIR /usr/share/nginx/html
+COPY .env .
+# Copy env shell script into docker-entrypoint.d to run on startup
+WORKDIR /docker-entrypoint.d
+COPY ./env.sh .
+# Make our shell script executable
+RUN chmod +x env.sh
+
+#CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
 CMD ["nginx", "-g", "daemon off;"]

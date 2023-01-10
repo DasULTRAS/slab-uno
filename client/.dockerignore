@@ -2,7 +2,6 @@ DOCKERFILE.prod
 .dockerignore
 
 .gitignore
-.env*
 README.md
 node_modules/
 dev/

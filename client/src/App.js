@@ -6,10 +6,9 @@ import io from "socket.io-client";
 import Chat from "./common/Chat";
 import WinnerScreen from './common/winner/WinnerScreen';
 
-const socket = io.connect(process.env.REACT_APP_BACKEND_URL, {
+const socket = io.connect(window.__ENV__?.BACKEND_URL, {
     reconnection: true, reconnectionDelay: 1000, reconnectionDelayMax: 5000, reconnectionAttempts: Infinity
 });
-console.log(`Connect to backend: ${process.env.REACT_APP_BACKEND_URL}.`);
 
 export default function App() {
     const [gameStarted, setGameStarted] = useState(false);
@@ -48,6 +47,7 @@ export default function App() {
         <ol className="debug">
             <li className="latency">{`${latency}ms`}</li>
             <li className="message">{message}</li>
+            <li>Backend: {window.__ENV__?.BACKEND_URL}.</li>
         </ol>
 
         {lobby !== null && <Chat socket={socket} messages={lobby.messages}/>}
